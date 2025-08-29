@@ -1,0 +1,140 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container py-4">
+
+    <!-- Hero -->
+    <section class="position-relative rounded-4 shadow-lg p-4 p-md-5 mb-5 overflow-hidden"
+             style="background: linear-gradient(45deg,#0d6efd,#6f42c1); color: var(--color-on-primary);">
+        <div class="position-absolute top-0 start-0 w-100 h-100 opacity-25"
+             style="background-image:url('https://placehold.co/1920x1080/000000/FFFFFF?text=Abstract+Data+Flow');background-size:cover;background-position:center;"></div>
+        <div class="position-relative text-center">
+            <h1 class="display-4 fw-bold mb-3">Empower Your Business with<br class="d-none d-sm-inline"> Intelligent Operations</h1>
+            <p class="lead mb-4">Seamlessly integrate, analyze, and optimize your ERP and Business Intelligence processes.</p>
+            <a href="#dashboards" class="btn btn-themed-hero btn-lg rounded-pill d-inline-flex align-items-center gap-2 shadow">
+                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                Explore Your Dashboards
+            </a>
+        </div>
+    </section>
+
+    <!-- Core Modules -->
+    <section class="mb-5">
+        <h2 class="h1 fw-bold text-center mb-4 themed-heading">Core Modules &amp; Capabilities</h2>
+
+        <div class="row g-4">
+            <!-- Financial Management -->
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="card glass-effect h-100 text-center border-0">
+                    <div class="card-body p-4">
+                        <div class="mb-3" style="color: var(--color-primary-500);">
+                            <svg width="64" height="64" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                        </div>
+                        <h3 class="h4 fw-bold mb-2" style="color: var(--text-primary);">Financial Management</h3>
+                        <p style="color: var(--text-secondary);">Gain full control over your finances with real-time insights, budgeting, and reporting tools.</p>
+                        <a href="/FinancialSnapshots/ListFinancialSnapshot" class="stretched-link fw-semibold">Learn More →</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Human Resources -->
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="card glass-effect h-100 text-center border-0">
+                    <div class="card-body p-4">
+                        <div class="mb-3" style="color: var(--color-success);">
+                            <svg width="64" height="64" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.653-.146-1.284-.42-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.653.146-1.284.42-1.857m0 0a5.002 5.002 0 019.16 0m0 0C14.686 15.602 14 14.104 14 12.5c0-1.25.32-2.43.88-3.476m-4.045 4.045a5.002 5.002 0 01-9.16 0" /></svg>
+                        </div>
+                        <h3 class="h4 fw-bold mb-2" style="color: var(--text-primary);">Human Resources</h3>
+                        <p style="color: var(--text-secondary);">Streamline HR processes from recruitment to payroll, fostering a productive workforce.</p>
+                        <a href="/Dashboards/HR" class="stretched-link fw-semibold">Learn More →</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Operations & Supply Chain -->
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="card glass-effect h-100 text-center border-0">
+                    <div class="card-body p-4">
+                        <div class="mb-3" style="color: var(--color-info);">
+                            <svg width="64" height="64" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="h4 fw-bold mb-2" style="color: var(--text-primary);">Operations &amp; Supply Chain</h3>
+                        <p style="color: var(--text-secondary);">Optimize workflows, inventory, and supply chain for maximum efficiency.</p>
+                        <a href="/MaterialUsage/ListMaterialUsage" class="stretched-link fw-semibold">Material Usage →</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Business Intelligence -->
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="card glass-effect h-100 text-center border-0">
+                    <div class="card-body p-4">
+                        <div class="mb-3" style="color: var(--color-error);">
+                            <svg width="64" height="64" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z" /></svg>
+                        </div>
+                        <h3 class="h4 fw-bold mb-2" style="color: var(--text-primary);">Business Intelligence</h3>
+                        <p style="color: var(--text-secondary);">Turn raw data into actionable insights with powerful dashboards.</p>
+                        <a href="/KPIs/ListKPIs" class="stretched-link fw-semibold">Learn More →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Access Dashboards -->
+    <section id="dashboards" class="mb-4">
+        <h2 class="h1 fw-bold text-center mb-4 themed-heading">Quick Access Dashboards</h2>
+
+        <div class="row g-4">
+            <div class="col-12 col-sm-6 col-lg-4">
+                <a href="/Materials" class="text-decoration-none">
+                    <div class="card glass-effect h-100 text-center border-0">
+                        <div class="card-body p-4">
+                            <div class="mb-3" style="color: var(--color-warning);">
+                                <svg width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10m-4 0h8a2 2 0 002-2V7a2 2 0 00-2-2H8a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                            </div>
+                            <h3 class="h5 fw-bold mb-1" style="color: var(--text-primary);">Inventory Control</h3>
+                            <p class="mb-0" style="color: var(--text-secondary);">Manage stock, track quantities, and optimize supply.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-4">
+                <a href="/Projects" class="text-decoration-none">
+                    <div class="card glass-effect h-100 text-center border-0">
+                        <div class="card-body p-4">
+                            <div class="mb-3" style="color: var(--color-info);">
+                                <svg width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 17v-2m3 2v-4m3 2v-6m2 8H7m6 1a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            </div>
+                            <h3 class="h5 fw-bold mb-1" style="color: var(--text-primary);">Project Management</h3>
+                            <p class="mb-0" style="color: var(--text-secondary);">Track progress, resources, and financials.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-4">
+                <a href="/Customers" class="text-decoration-none">
+                    <div class="card glass-effect h-100 text-center border-0">
+                        <div class="card-body p-4">
+                            <div class="mb-3" style="color: var(--color-error);">
+                                <svg width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM12 18H9a2 2 0 00-2 2v1h6v-1a2 2 0 00-2-2z" /></svg>
+                            </div>
+                            <h3 class="h5 fw-bold mb-1" style="color: var(--text-primary);">Customer Relations</h3>
+                            <p class="mb-0" style="color: var(--text-secondary);">Manage data, interactions, and history.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+
+
