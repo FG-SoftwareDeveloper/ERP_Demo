@@ -24,92 +24,89 @@
                         <i class="bi bi-speedometer me-2"></i> Dashboard
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="dashboardDropdown">
-                        <li><a class="dropdown-item" asp-page="/Dashboards/Admin">Admin Dashboard</a></li>
-                        <li><a class="dropdown-item" asp-page="/Dashboards/Finance">Finance Dashboard</a></li>
-                        <li><a class="dropdown-item" asp-page="/Dashboards/HR">HR Dashboard</a></li>
-                        <li><a class="dropdown-item" asp-page="/Dashboards/Operations">Operations Dashboard</a></li>
-                        <li><a class="dropdown-item" asp-page="/Dashboards/Projects">Projects Dashboard</a></li>
+                        <li><a class="dropdown-item" asp-controller="/Dashboards/Admin">Admin Dashboard</a></li>
+                        <li><a class="dropdown-item" asp-controller="/Dashboards/Finance">Finance Dashboard</a></li>
+                        <li><a class="dropdown-item" asp-controller="/Dashboards/HR">HR Dashboard</a></li>
+                        <li><a class="dropdown-item" asp-controller="/Dashboards/Operations">Operations Dashboard</a></li>
+                        <li><a class="dropdown-item" asp-controller="/Dashboards/Projects">Projects Dashboard</a></li>
                     </ul>
                 </li>
                 <a asp-controller="Accounts" asp-action="ListAccounts" class="nav-link">
                     <i class="bi bi-cash-coin me-2"></i> Accounts
                 </a>
-                <a asp-page="/APInvoices/ListAPInvoice" class="nav-link">
+                <a asp-controller="APInvoices" asp-action="ListAPInvoice" class="nav-link">
                     <i class="bi bi-file-earmark-spreadsheet me-2"></i> AP Invoices
                 </a>
-                <a asp-page="/ARInvoices/ListARInvoices" class="nav-link">
+                <a asp-controller="ARInvoices" asp-action="ListARInvoices" class="nav-link">
                     <i class="bi bi-receipt me-2"></i> AR Invoices
                 </a>
-                <a asp-page="/BankAccounts/ListBankAccounts" class="nav-link">
+                <a asp-controller="BankAccounts" asp-action="ListBankAccounts" class="nav-link">
                     <i class="bi bi-bank me-2"></i> Bank Accounts
                 </a>
-                <a asp-page="/Companies/ListCompanies" class="nav-link">
+                <a asp-controller="Companies" asp-action="ListCompanies" class="nav-link">
                     <i class="bi bi-building me-2"></i> Companies
                 </a>
-                <a asp-page="/Customers/ListCustomers" class="nav-link">
+                <a asp-controller="Customers" asp-action="ListCustomers" class="nav-link">
                     <i class="bi bi-people me-2"></i> Customers
                 </a>
-                <a asp-page="/Departments/ListDepartments" class="nav-link">
+                <a asp-controller="Departments" asp-action="ListDepartments" class="nav-link">
                     <i class="bi bi-diagram-3 me-2"></i> Departments
                 </a>
-                <a asp-page="/Documents/ListDocuments" class="nav-link">
+                <a asp-controller="Documents" asp-action="ListDocuments" class="nav-link">
                     <i class="bi bi-folder me-2"></i> Documents
                 </a>
-                <a asp-page="/EmployeePayDetails/ListEmployeePay" class="nav-link">
-                    <i class="bi bi-wallet me-2"></i> Employee Pay
-                </a>
-                <a asp-page="/Employees/ListEmployees" class="nav-link">
+                <a asp-controller="Employees" asp-action="ListEmployees" class="nav-link">
                     <i class="bi bi-person-badge me-2"></i> Employees
                 </a>
-                <a asp-page="/Equipment/ListEquipment" class="nav-link">
+                <a asp-controller="Equipment" asp-action="ListEquipment" class="nav-link">
                     <i class="bi bi-tools me-2"></i> Equipment
                 </a>
-                <a asp-page="/FinancialSnapshots/ListFinancialSnapshot" class="nav-link">
+                <a asp-controller="FinancialSnapshots" asp-action="ListFinancialSnapshot" class="nav-link">
                     <i class="bi bi-graph-up me-2"></i> Financial Snapshot
                 </a>
-                <a asp-page="/JournalEntries/ListJournalEntries" class="nav-link">
+                <a asp-controller="JournalEntries" asp-action="ListJournalEntries" class="nav-link">
                     <i class="bi bi-journal-text me-2"></i> Journal
                 </a>
-                <a asp-page="/MaintenanceRecords/ListMaintenanceRecords" class="nav-link">
+                <a asp-controller="MaintenanceRecords" asp-action="ListMaintenanceRecords" class="nav-link">
                     <i class="bi bi-wrench me-2"></i> Maintenance Records
                 </a>
-                <a asp-page="/Materials/ListMaterials" class="nav-link">
+                <a asp-controller="Materials" asp-action="ListMaterials" class="nav-link">
                     <i class="bi bi-box-seam me-2"></i> Materials
                 </a>
-                <a asp-page="/MaterialUsage/ListMaterialUsage" class="nav-link">
+                <a asp-controller="MaterialUsage" asp-action="ListMaterialUsage" class="nav-link">
                     <i class="bi bi-truck me-2"></i> Material Usage
                 </a>
-                <a asp-page="/Payments/ListPayments" class="nav-link">
+                <a asp-controller="Payments" asp-action="ListPayments" class="nav-link">
                     <i class="bi bi-credit-card me-2"></i> Payments
                 </a>
-                <a asp-page="/PayrollRuns/ListPayrollRuns" class="nav-link">
+                <a asp-controller="PayrollRuns" asp-action="ListPayrollRuns" class="nav-link">
                     <i class="bi bi-calculator me-2"></i> Payroll Runs
                 </a>
-                <a asp-page="/ProjectFinancialSummary/ListProjectFinancialSummary" class="nav-link">
+                <a asp-controller="ProjectFinancialSummary" asp-action="ListProjectFinancialSummary" class="nav-link">
                     <i class="bi bi-pie-chart me-2"></i> Project Financial Summary
                 </a>
-                <a asp-page="/Projects/ListProjects" class="nav-link">
+                <a asp-controller="Projects" asp-action="ListProjects" class="nav-link">
                     <i class="bi bi-kanban me-2"></i> Projects
                 </a>
-                <a asp-page="/PurchaseOrderLines/ListPurchaseOrderLines" class="nav-link">
+                <a asp-controller="PurchaseOrderLines" asp-action="ListPurchaseOrderLines" class="nav-link">
                     <i class="bi bi-list-ol me-2"></i> Purchase Order Lines
                 </a>
-                <a asp-page="/PurchaseOrders/ListPurchaseOrders" class="nav-link">
+                <a asp-controller="PurchaseOrders" asp-action="ListPurchaseOrders" class="nav-link">
                     <i class="bi bi-cart-check me-2"></i> Purchase Orders
                 </a>
-                <a asp-page="/Receipts/ListReceipts" class="nav-link">
+                <a asp-controller="Receipts" asp-action="ListReceipts" class="nav-link">
                     <i class="bi bi-clipboard-check me-2"></i> Receipts
                 </a>
-                <a asp-page="/RFIs/ListRFIs" class="nav-link">
+                <a asp-controller="RFIs" asp-action="ListRFIs" class="nav-link">
                     <i class="bi bi-question-circle me-2"></i> RFIs
                 </a>
-                <a asp-page="/Roles/ListRoles" class="nav-link">
+                <a asp-controller="Roles" asp-action="ListRoles" class="nav-link">
                     <i class="bi bi-person-fill-gear me-2"></i> Roles
                 </a>
-                <a asp-page="/ServiceAgreements/ListServiceAgreements" class="nav-link">
+                <a asp-controller="/erviceAgreements" asp-action="ListServiceAgreements" class="nav-link">
                     <i class="bi bi-handshake me-2"></i> Service Agreements
                 </a>
-                <a asp-page="/ServiceOrders/ListServiceOrders" class="nav-link">
+                <a asp-controller="ServiceOrders" asp-action="ListServiceOrders" class="nav-link">
                     <i class="bi bi-clipboard-data me-2"></i> Service Orders
                 </a>
             </nav>
@@ -135,7 +132,7 @@
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" asp-page="/Index">Home</a>
+                                <a class="nav-link active" aria-current="page" asp-controller="/Index">Home</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Features</a>

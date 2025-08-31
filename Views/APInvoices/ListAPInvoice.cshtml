@@ -1,15 +1,75 @@
+@model IEnumerable<ERP_Demo.Models.APInvoiceViewModel>
 
 @{
     Layout = null;
 }
 
-<!DOCTYPE html>
+<h2 class="h1 fw-bold themed-heading mb-4 border-bottom pb-2">AP Invoices</h2>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>ListAPInvoice</title>
-</head>
-<body>
-</body>
-</html>
+<!-- KPIs -->
+<div class="row g-4 mb-4">
+    <div class="col-12 col-md-4">
+        <div class="card glass-effect border-0 shadow-sm h-100">
+            <div class="card-body">
+                <h5 class="card-title mb-1">Total Invoices</h5>
+                <div class="display-6 fw-bold">@Model.Count()</div>
+                <div class="text-body-secondary small">Open: @Model.Count(i => i.Status == "Open") · Paid: @Model.Count(i => i.Status == "Paid")</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-4">
+        <div class="card glass-effect border-0 shadow-sm h-100">
+            <div class="card-body">
+                <h5 class="card-title mb-1">Total Amount</h5>
+                <div class="display-6 fw-bold">@Model.Sum(i => i.Amount).ToString("C")</div>
+                <div class="text-body-secondary small">Overdue: @Model.Where(i => i.Status == "Overdue").Sum(i => i.Amount).ToString("C")</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Table -->
+<div class="card glass-effect border-0 shadow-sm">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>#</th>
+                    <th>Vendor</th>
+                    <th>Invoice #</th>
+                    <th>Date</th>
+                    <th class="text-end">Amount</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var i in Model)
+                {
+                    <tr>
+                        <td>@i.Id</td>
+                        <td class="fw-semibold">@i.Vendor</td>
+                        <td>@i.InvoiceNumber</td>
+                        <td>@i.InvoiceDate.ToString("yyyy-MM-dd")</td>
+                        <td class="text-end">@i.Amount.ToString("C")</td>
+                        <td>
+                            @switch (i.Status)
+                            {
+                                case "Paid":
+                                    <span class="badge bg-success">Paid</span>
+                                    ; break;
+                                case "Overdue":
+
+                                    <span class="badge bg-danger">Overdue</span>
+                                    ; break;
+                                default:
+
+                                    <span class="badge bg-warning text-dark">Open</span>
+                                    ; break;
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
