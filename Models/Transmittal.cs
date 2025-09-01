@@ -21,4 +21,4 @@ public class Transmittal
 
     public virtual Employee SentByNavigation { get; set; } = null!;
 }
-}
+

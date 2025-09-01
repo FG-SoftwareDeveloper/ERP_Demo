@@ -14,9 +14,9 @@ public class ARInvoice
     [ForeignKey("Project")]
     public int? ProjectID { get; set; }
 
-    public DateOnly InvoiceDate { get; set; }
+    public DateTime InvoiceDate { get; set; }
 
-    public DateOnly? DueDate { get; set; }
+    public DateTime? DueDate { get; set; }
 
     public decimal Amount { get; set; }
 
