@@ -1,12 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ERP_Demo;
-
-public class ARInvoice
+namespace ERP_Demo.Models
 {
+    public class APInvoice
+    {
     [Key]
-    public int ARInvoiceID { get; set; }
+    public int APInvoiceID { get; set; }
+
+    public int VendorID { get; set; }
 
     [ForeignKey("Customer")]
     public int CustomerID { get; set; }
@@ -14,9 +16,9 @@ public class ARInvoice
     [ForeignKey("Project")]
     public int? ProjectID { get; set; }
 
-    public DateOnly InvoiceDate { get; set; }
+    public DateTime InvoiceDate { get; set; }
 
-    public DateOnly? DueDate { get; set; }
+    public DateTime DueDate { get; set; }
 
     public decimal Amount { get; set; }
 
@@ -24,9 +26,10 @@ public class ARInvoice
 
     public string? Description { get; set; }
 
-    public virtual Customer Customer { get; set; } = null!;
+    public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
 
     public virtual Project? Project { get; set; }
 
-    public virtual ICollection<Receipt> Receipts { get; set; } = new List<Receipt>();
+    public virtual Vendor Vendor { get; set; } = null!;
+    }
 }
