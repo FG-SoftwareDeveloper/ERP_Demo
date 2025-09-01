@@ -1,15 +1,177 @@
-
 @{
-    Layout = null;
+    Layout = "_Layout";
+    // Example data for static design; replace with your model in production
+    var usageRecords = new[] {
+        new { UsageID = 1, Material = "Concrete", Type = "Bulk", Project = "HQ Expansion", Location = "Site A", Quantity = 40, Unit = "m³", DateUsed = DateTime.Parse("2025-08-28"), Status = "Normal", Cost = 1600m, AIInsights = "Usage within expected range." },
+        new { UsageID = 2, Material = "Steel Rebar", Type = "Structural", Project = "Bridge Build", Location = "Site B", Quantity = 10, Unit = "tons", DateUsed = DateTime.Parse("2025-08-25"), Status = "High", Cost = 6000m, AIInsights = "High usage. Reorder recommended." },
+        new { UsageID = 3, Material = "Insulation", Type = "Finish", Project = "Warehouse Retrofit", Location = "Site C", Quantity = 50, Unit = "sheets", DateUsed = DateTime.Parse("2025-08-20"), Status = "Low", Cost = 800m, AIInsights = "Low usage. Delivery on schedule." }
+    };
 }
 
-<!DOCTYPE html>
+<h2 class="h1 fw-bold themed-heading mb-4 border-bottom pb-2">Materials Usage</h2>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>ListMaterialsUsage</title>
-</head>
-<body>
-</body>
-</html>
+<!-- KPI Cards Row -->
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-2">
+                    <span class="me-2 fs-3 text-primary"><i class="bi bi-box-seam"></i></span>
+                    <h5 class="card-title mb-0">Total Usage Records</h5>
+                </div>
+                <div class="display-5 fw-bold text-primary mb-1">@usageRecords.Length</div>
+                <div class="text-muted">Projects: @usageRecords.Select(u => u.Project).Distinct().Count()</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-2">
+                    <span class="me-2 fs-3 text-success"><i class="bi bi-check2-circle"></i></span>
+                    <h5 class="card-title mb-0">Total Quantity Used</h5>
+                </div>
+                <div class="display-5 fw-bold text-success mb-1">@usageRecords.Sum(u => u.Quantity)</div>
+                <div class="text-muted">Types: @usageRecords.Select(u => u.Type).Distinct().Count()</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-2">
+                    <span class="me-2 fs-3 text-warning"><i class="bi bi-exclamation-triangle"></i></span>
+                    <h5 class="card-title mb-0">High Usage Events</h5>
+                </div>
+                <div class="display-5 fw-bold text-warning mb-1">@usageRecords.Count(u => u.Status == "High")</div>
+                <div class="text-muted">Low Usage: @usageRecords.Count(u => u.Status == "Low")</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-2">
+                    <span class="me-2 fs-3 text-info"><i class="bi bi-currency-dollar"></i></span>
+                    <h5 class="card-title mb-0">Total Cost</h5>
+                </div>
+                <div class="display-5 fw-bold text-info mb-1">@usageRecords.Sum(u => u.Cost).ToString("C")</div>
+                <div class="text-muted">Avg. per Record: @(usageRecords.Sum(u => u.Cost) / usageRecords.Length).ToString("C")</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- AI Forecast Widget (High Contrast) -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card shadow-lg border-0" style="background: linear-gradient(90deg,#e3e6f0 0%,#f8fafc 100%);">
+            <div class="card-body p-4">
+                <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                    <div>
+                        <h5 class="mb-2 text-dark"><i class="bi bi-lightbulb me-2"></i>AI Forecast: Next Month Material Usage</h5>
+                        <div class="fs-2 fw-bold text-dark">Stable</div>
+                        <div class="small text-dark">Predictive analytics show no major spikes. Steel Rebar flagged for potential reorder.</div>
+                    </div>
+                    <div class="mt-3 mt-md-0">
+                        <span class="badge rounded-pill bg-primary bg-opacity-10 text-primary fs-6 px-4 py-2 shadow-sm">Projected High Usage Events: 1</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- BI Chart Placeholder -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">Material Usage Trend (BI Chart)</h5>
+            </div>
+            <div class="card-body text-center">
+                <img src="https://via.placeholder.com/600x200?text=Material+Usage+Trend+Chart" alt="Material Usage Trend Chart" class="img-fluid rounded" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Materials Usage Table -->
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">Materials Usage List</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>#</th>
+                                <th>Material</th>
+                                <th>Type</th>
+                                <th>Project</th>
+                                <th>Location</th>
+                                <th>Quantity</th>
+                                <th>Unit</th>
+                                <th>Date Used</th>
+                                <th>Status</th>
+                                <th>Cost</th>
+                                <th>AI Insights</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var u in usageRecords)
+                            {
+                                <tr>
+                                    <td>@u.UsageID</td>
+                                    <td class="fw-semibold">@u.Material</td>
+                                    <td>@u.Type</td>
+                                    <td>@u.Project</td>
+                                    <td>@u.Location</td>
+                                    <td>@u.Quantity</td>
+                                    <td>@u.Unit</td>
+                                    <td>@u.DateUsed.ToString("yyyy-MM-dd")</td>
+                                    <td>
+                                        @if (u.Status == "Normal")
+                                        {
+                                            <span class="badge bg-success">Normal</span>
+                                        }
+                                        else if (u.Status == "High")
+                                        {
+                                            <span class="badge bg-warning text-dark">High</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-info">Low</span>
+                                        }
+                                    </td>
+                                    <td>@u.Cost.ToString("C")</td>
+                                    <td>
+                                        @if (u.AIInsights.Contains("spike"))
+                                        {
+                                            <span class="text-danger">@u.AIInsights</span>
+                                        }
+                                        else if (u.AIInsights.Contains("reorder"))
+                                        {
+                                            <span class="text-warning">@u.AIInsights</span>
+                                        }
+                                        else if (u.AIInsights.Contains("Delivery"))
+                                        {
+                                            <span class="text-info">@u.AIInsights</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-success">@u.AIInsights</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

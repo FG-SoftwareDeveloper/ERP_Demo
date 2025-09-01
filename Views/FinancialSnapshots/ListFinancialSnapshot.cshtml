@@ -1,15 +1,167 @@
-
 @{
-    Layout = null;
+    Layout = "_Layout";
+    // Example data for static design; replace with your model in production
+    var snapshots = new[] {
+        new { SnapshotID = 1, Date = DateTime.Parse("2025-08-31"), Revenue = 2500000m, Expenses = 1800000m, Profit = 700000m, CashFlow = 500000m, Status = "Healthy", AIInsights = "Positive trend, above forecast." },
+        new { SnapshotID = 2, Date = DateTime.Parse("2025-07-31"), Revenue = 2200000m, Expenses = 1700000m, Profit = 500000m, CashFlow = 350000m, Status = "Stable", AIInsights = "Stable, matches forecast." },
+        new { SnapshotID = 3, Date = DateTime.Parse("2025-06-30"), Revenue = 2100000m, Expenses = 1600000m, Profit = 500000m, CashFlow = 300000m, Status = "Watch", AIInsights = "Profit margin below target." }
+    };
 }
 
-<!DOCTYPE html>
+<h2 class="h1 fw-bold themed-heading mb-4 border-bottom pb-2">Financial Snapshots</h2>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>ListFinancialSnapshots</title>
-</head>
-<body>
-</body>
-</html>
+<!-- KPI Cards Row -->
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-2">
+                    <span class="me-2 fs-3 text-primary"><i class="bi bi-graph-up"></i></span>
+                    <h5 class="card-title mb-0">Total Snapshots</h5>
+                </div>
+                <div class="display-5 fw-bold text-primary mb-1">@snapshots.Length</div>
+                <div class="text-muted">Healthy: @snapshots.Count(s => s.Status == "Healthy")</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-2">
+                    <span class="me-2 fs-3 text-success"><i class="bi bi-currency-dollar"></i></span>
+                    <h5 class="card-title mb-0">Total Revenue</h5>
+                </div>
+                <div class="display-5 fw-bold text-success mb-1">@snapshots.Sum(s => s.Revenue).ToString("C")</div>
+                <div class="text-muted">Last: @snapshots.MaxBy(s => s.Date).Revenue.ToString("C")</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-2">
+                    <span class="me-2 fs-3 text-danger"><i class="bi bi-cash-stack"></i></span>
+                    <h5 class="card-title mb-0">Total Profit</h5>
+                </div>
+                <div class="display-5 fw-bold text-danger mb-1">@snapshots.Sum(s => s.Profit).ToString("C")</div>
+                <div class="text-muted">Margin: @((int)(snapshots.Sum(s => s.Profit) * 100 / snapshots.Sum(s => s.Revenue)))%</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-2">
+                    <span class="me-2 fs-3 text-info"><i class="bi bi-bank"></i></span>
+                    <h5 class="card-title mb-0">Total Cash Flow</h5>
+                </div>
+                <div class="display-5 fw-bold text-info mb-1">@snapshots.Sum(s => s.CashFlow).ToString("C")</div>
+                <div class="text-muted">Last: @snapshots.MaxBy(s => s.Date).CashFlow.ToString("C")</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- AI Forecast Widget (High Contrast) -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card shadow-lg border-0" style="background: linear-gradient(90deg,#e3e6f0 0%,#f8fafc 100%);">
+            <div class="card-body p-4">
+                <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                    <div>
+                        <h5 class="mb-2 text-dark"><i class="bi bi-lightbulb me-2"></i>AI Forecast: Next Quarter Profit</h5>
+                        <div class="fs-2 fw-bold text-dark">$750,000</div>
+                        <div class="small text-dark">Based on revenue growth, expense trends, and predictive analytics.</div>
+                    </div>
+                    <div class="mt-3 mt-md-0">
+                        <span class="badge rounded-pill bg-primary bg-opacity-10 text-primary fs-6 px-4 py-2 shadow-sm">Projected Margin: 28%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- BI Chart Placeholder -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">Financial Trend (BI Chart)</h5>
+            </div>
+            <div class="card-body text-center">
+                <img src="https://via.placeholder.com/600x200?text=Financial+Trend+Chart" alt="Financial Trend Chart" class="img-fluid rounded" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Financial Snapshots Table -->
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">Financial Snapshots List</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>#</th>
+                                <th>Date</th>
+                                <th>Revenue</th>
+                                <th>Expenses</th>
+                                <th>Profit</th>
+                                <th>Cash Flow</th>
+                                <th>Status</th>
+                                <th>AI Insights</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var s in snapshots.OrderByDescending(s => s.Date))
+                            {
+                                <tr>
+                                    <td>@s.SnapshotID</td>
+                                    <td class="fw-semibold">@s.Date.ToString("yyyy-MM-dd")</td>
+                                    <td>@s.Revenue.ToString("C")</td>
+                                    <td>@s.Expenses.ToString("C")</td>
+                                    <td>@s.Profit.ToString("C")</td>
+                                    <td>@s.CashFlow.ToString("C")</td>
+                                    <td>
+                                        @if (s.Status == "Healthy")
+                                        {
+                                            <span class="badge bg-success">Healthy</span>
+                                        }
+                                        else if (s.Status == "Stable")
+                                        {
+                                            <span class="badge bg-info">Stable</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-warning text-dark">Watch</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (s.AIInsights.Contains("Positive"))
+                                        {
+                                            <span class="text-success">@s.AIInsights</span>
+                                        }
+                                        else if (s.AIInsights.Contains("below target"))
+                                        {
+                                            <span class="text-danger">@s.AIInsights</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-primary">@s.AIInsights</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

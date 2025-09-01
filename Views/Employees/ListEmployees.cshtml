@@ -1,15 +1,210 @@
-
 @{
-    Layout = null;
+    Layout = "_Layout";
+    // Example data for static design; replace with your model in production
+    var employees = new[] {
+        new { EmployeeID = 1, Name = "Alice Smith", Department = "Finance", JobTitle = "Accountant", Location = "NY", Status = "Active", Manager = "Bob Lee", Hired = DateTime.Parse("2022-03-15"), Email = "alice@company.com", Skills = "Excel, SAP", PerformanceScore = 95 },
+        new { EmployeeID = 2, Name = "John Doe", Department = "Operations", JobTitle = "Supervisor", Location = "LA", Status = "Leave", Manager = "Carol Jones", Hired = DateTime.Parse("2021-07-10"), Email = "john@company.com", Skills = "Leadership, Logistics", PerformanceScore = 80 },
+        new { EmployeeID = 3, Name = "Maria Garcia", Department = "HR", JobTitle = "HR Specialist", Location = "TX", Status = "Inactive", Manager = "Bob Lee", Hired = DateTime.Parse("2020-01-20"), Email = "maria@company.com", Skills = "Recruiting, Payroll", PerformanceScore = 60 }
+    };
 }
 
-<!DOCTYPE html>
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark glass sticky-top mb-3">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-semibold" href="#">
+            <i class="bi bi-people-fill me-2"></i>
+            Employees <span>Dashboard</span>
+        </a>
+        <div class="ms-auto d-flex gap-2">
+            <button class="btn btn-sm btn-outline-light"><i class="bi bi-bookmark-plus me-1"></i>Save View</button>
+            <div class="dropdown">
+                <button class="btn btn-sm btn-outline-light dropdown-toggle" data-bs-toggle="dropdown"><i class="bi bi-collection me-1"></i>Views</button>
+                <div class="dropdown-menu dropdown-menu-end">
+                    <button class="dropdown-item" type="button">Default</button>
+                    <div class="dropdown-divider"></div>
+                    <div class="px-3 small text-muted">No custom views yet</div>
+                </div>
+            </div>
+            <button class="btn btn-sm btn-outline-light"><i class="bi bi-arrows-collapse"></i></button>
+            <button class="btn btn-sm btn-outline-light"><i class="bi bi-moon-stars"></i></button>
+        </div>
+    </div>
+</nav>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>ListEmployees</title>
-</head>
-<body>
-</body>
-</html>
+<main class="container py-4">
+    <!-- KPI Cards Row -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-2">
+                        <span class="me-2 fs-3 text-primary"><i class="bi bi-people"></i></span>
+                        <h5 class="card-title mb-0">Total Employees</h5>
+                    </div>
+                    <div class="display-5 fw-bold text-primary mb-1">@employees.Length</div>
+                    <div class="text-muted">+2 this month</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-2">
+                        <span class="me-2 fs-3 text-success"><i class="bi bi-check2-circle"></i></span>
+                        <h5 class="card-title mb-0">Active</h5>
+                    </div>
+                    <div class="display-5 fw-bold text-success mb-1">@employees.Count(e => e.Status == "Active")</div>
+                    <div class="text-muted">On Leave: @employees.Count(e => e.Status == "Leave")</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-2">
+                        <span class="me-2 fs-3 text-warning"><i class="bi bi-airplane"></i></span>
+                        <h5 class="card-title mb-0">On Leave</h5>
+                    </div>
+                    <div class="display-5 fw-bold text-warning mb-1">@employees.Count(e => e.Status == "Leave")</div>
+                    <div class="text-muted">Inactive: @employees.Count(e => e.Status == "Inactive")</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-2">
+                        <span class="me-2 fs-3 text-info"><i class="bi bi-geo-alt"></i></span>
+                        <h5 class="card-title mb-0">Locations</h5>
+                    </div>
+                    <div class="display-5 fw-bold text-info mb-1">@employees.Select(e => e.Location).Distinct().Count()</div>
+                    <div class="text-muted">Departments: @employees.Select(e => e.Department).Distinct().Count()</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Forecast Widget (High Contrast) -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow-lg border-0" style="background: linear-gradient(90deg,#e3e6f0 0%,#f8fafc 100%);">
+                <div class="card-body p-4">
+                    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                        <div>
+                            <h5 class="mb-2 text-dark"><i class="bi bi-lightbulb me-2"></i>AI Forecast: Next Month Headcount</h5>
+                            <div class="fs-2 fw-bold text-dark">+5</div>
+                            <div class="small text-dark">Based on hiring trends, attrition, and leave patterns.</div>
+                        </div>
+                        <div class="mt-3 mt-md-0">
+                            <span class="badge rounded-pill bg-primary bg-opacity-10 text-primary fs-6 px-4 py-2 shadow-sm">Projected Active: 18</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BI Chart Placeholder -->
+    <div class="row mb-4">
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">Headcount by Department (BI Chart)</h5>
+                </div>
+                <div class="card-body text-center">
+                    <img src="https://via.placeholder.com/600x200?text=Headcount+by+Department+Chart" alt="Headcount by Department Chart" class="img-fluid rounded" />
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">Status Mix (BI Chart)</h5>
+                </div>
+                <div class="card-body text-center">
+                    <img src="https://via.placeholder.com/300x200?text=Status+Mix+Chart" alt="Status Mix Chart" class="img-fluid rounded" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Employees Table -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">Employees List</h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Department</th>
+                                    <th>Job Title</th>
+                                    <th>Location</th>
+                                    <th>Status</th>
+                                    <th>Manager</th>
+                                    <th>Hired</th>
+                                    <th>Email</th>
+                                    <th>Skills</th>
+                                    <th>AI Insights</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var e in employees)
+                                {
+                                    <tr>
+                                        <td>@e.EmployeeID</td>
+                                        <td class="fw-semibold">@e.Name</td>
+                                        <td>@e.Department</td>
+                                        <td>@e.JobTitle</td>
+                                        <td>@e.Location</td>
+                                        <td>
+                                            @if (e.Status == "Active")
+                                            {
+                                                <span class="badge bg-success">Active</span>
+                                            }
+                                            else if (e.Status == "Leave")
+                                            {
+                                                <span class="badge bg-warning text-dark">Leave</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-secondary">Inactive</span>
+                                            }
+                                        </td>
+                                        <td>@e.Manager</td>
+                                        <td>@e.Hired.ToString("yyyy-MM-dd")</td>
+                                        <td>@e.Email</td>
+                                        <td>@e.Skills</td>
+                                        <td>
+                                            @if (e.PerformanceScore > 90)
+                                            {
+                                                <span class="text-success">Top Performer</span>
+                                            }
+                                            else if (e.Status == "Leave")
+                                            {
+                                                <span class="text-warning">On Leave</span>
+                                            }
+                                            else if (e.Status == "Inactive")
+                                            {
+                                                <span class="text-danger">Inactive</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-primary">Stable</span>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

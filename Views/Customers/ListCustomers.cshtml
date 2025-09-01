@@ -1,15 +1,155 @@
-
 @{
-    Layout = null;
+    Layout = "_Layout";
+    // Example data for static design; replace with your model in production
+    var customers = new[] {
+        new { CustomerID = 1, Name = "Acme Corp", Industry = "Construction", Status = "Active", Revenue = 850000m, LastPurchase = DateTime.Parse("2025-08-28"), EngagementScore = 92 },
+        new { CustomerID = 2, Name = "Global Paper", Industry = "Manufacturing", Status = "Inactive", Revenue = 420000m, LastPurchase = DateTime.Parse("2025-07-15"), EngagementScore = 55 },
+        new { CustomerID = 3, Name = "TechSource", Industry = "IT Services", Status = "Active", Revenue = 1200000m, LastPurchase = DateTime.Parse("2025-08-30"), EngagementScore = 88 }
+    };
 }
 
-<!DOCTYPE html>
+<h2 class="h1 fw-bold themed-heading mb-4 border-bottom pb-2">Customers</h2>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>ListCustomers</title>
-</head>
-<body>
-</body>
-</html>
+<!-- KPI Cards Row -->
+<div class="row g-4 mb-4">
+    <div class="col-md-4">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-2">
+                    <span class="me-2 fs-3 text-primary"><i class="bi bi-people"></i></span>
+                    <h5 class="card-title mb-0">Total Customers</h5>
+                </div>
+                <div class="display-5 fw-bold text-primary mb-1">@customers.Length</div>
+                <div class="text-muted">Active: @customers.Count(c => c.Status == "Active"), Inactive: @customers.Count(c => c.Status == "Inactive")</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-2">
+                    <span class="me-2 fs-3 text-success"><i class="bi bi-currency-dollar"></i></span>
+                    <h5 class="card-title mb-0">Total Revenue</h5>
+                </div>
+                <div class="display-5 fw-bold text-success mb-1">@customers.Sum(c => c.Revenue).ToString("C")</div>
+                <div class="text-muted">Top Industry: @customers.GroupBy(c => c.Industry).OrderByDescending(g => g.Sum(c => c.Revenue)).First().Key</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-2">
+                    <span class="me-2 fs-3 text-info"><i class="bi bi-bar-chart-line"></i></span>
+                    <h5 class="card-title mb-0">Avg. Engagement Score</h5>
+                </div>
+                <div class="display-5 fw-bold text-info mb-1">@((int)customers.Average(c => c.EngagementScore))</div>
+                <div class="text-muted">High: @customers.Max(c => c.EngagementScore), Low: @customers.Min(c => c.EngagementScore)</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- AI Forecast Widget (High Contrast) -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card shadow-lg border-0" style="background: linear-gradient(90deg,#e3e6f0 0%,#f8fafc 100%);">
+            <div class="card-body p-4">
+                <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                    <div>
+                        <h5 class="mb-2 text-dark"><i class="bi bi-graph-up-arrow me-2"></i>AI Forecast: Next Quarter Customer Revenue</h5>
+                        <div class="fs-2 fw-bold text-dark">$2,900,000</div>
+                        <div class="small text-dark">Based on historical customer activity and predictive analytics.</div>
+                    </div>
+                    <div class="mt-3 mt-md-0">
+                        <span class="badge rounded-pill bg-primary bg-opacity-10 text-primary fs-6 px-4 py-2 shadow-sm">Projected Active Customers: 5</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- BI Chart Placeholder -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">Customer Revenue Trend (BI Chart)</h5>
+            </div>
+            <div class="card-body text-center">
+                <img src="https://via.placeholder.com/600x200?text=Customer+Revenue+Trend+Chart" alt="Customer Revenue Trend Chart" class="img-fluid rounded" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Customers Table -->
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">Customers List</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Industry</th>
+                                <th>Status</th>
+                                <th>Revenue</th>
+                                <th>Last Purchase</th>
+                                <th>Engagement Score</th>
+                                <th>AI Insights</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var c in customers)
+                            {
+                                <tr>
+                                    <td>@c.CustomerID</td>
+                                    <td class="fw-semibold">@c.Name</td>
+                                    <td>@c.Industry</td>
+                                    <td>
+                                        @if (c.Status == "Active")
+                                        {
+                                            <span class="badge bg-success">Active</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary">Inactive</span>
+                                        }
+                                    </td>
+                                    <td>@c.Revenue.ToString("C")</td>
+                                    <td>@c.LastPurchase.ToString("yyyy-MM-dd")</td>
+                                    <td>@c.EngagementScore</td>
+                                    <td>
+                                        @if (c.Status == "Inactive")
+                                        {
+                                            <span class="text-danger">Low Engagement</span>
+                                        }
+                                        else if (c.EngagementScore > 90)
+                                        {
+                                            <span class="text-success">VIP</span>
+                                        }
+                                        else if (c.EngagementScore < 60)
+                                        {
+                                            <span class="text-warning">At Risk</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-primary">Stable</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

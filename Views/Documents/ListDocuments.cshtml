@@ -1,15 +1,176 @@
-
 @{
-    Layout = null;
+    Layout = "_Layout";
+    // Example data for static design; replace with your model in production
+    var documents = new[] {
+        new { DocumentID = 1, Name = "Invoice Aug 2025", Type = "Invoice", Status = "Validated", Pages = 2, Uploaded = DateTime.Parse("2025-08-28"), Issues = 0, AIInsights = "All totals match. No outliers." },
+        new { DocumentID = 2, Name = "Handwritten Timesheet", Type = "Timesheet", Status = "Flagged", Pages = 1, Uploaded = DateTime.Parse("2025-08-27"), Issues = 2, AIInsights = "2 values flagged as outliers. Header suggested: 'Employee Name'." },
+        new { DocumentID = 3, Name = "Material Log", Type = "Log", Status = "Cleaned", Pages = 3, Uploaded = DateTime.Parse("2025-08-25"), Issues = 0, AIInsights = "Auto-aligned columns. All dates validated." }
+    };
 }
 
-<!DOCTYPE html>
+<h2 class="h1 fw-bold themed-heading mb-4 border-bottom pb-2">Documents</h2>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>ListDocuments</title>
-</head>
-<body>
-</body>
-</html>
+<!-- KPI Cards Row -->
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-2">
+                    <span class="me-2 fs-3 text-primary"><i class="bi bi-file-earmark-text"></i></span>
+                    <h5 class="card-title mb-0">Total Documents</h5>
+                </div>
+                <div class="display-5 fw-bold text-primary mb-1">@documents.Length</div>
+                <div class="text-muted">Validated: @documents.Count(d => d.Status == "Validated")</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-2">
+                    <span class="me-2 fs-3 text-success"><i class="bi bi-check2-circle"></i></span>
+                    <h5 class="card-title mb-0">Cleaned & Formatted</h5>
+                </div>
+                <div class="display-5 fw-bold text-success mb-1">@documents.Count(d => d.Status == "Cleaned")</div>
+                <div class="text-muted">Auto-aligned: @documents.Count(d => d.AIInsights.Contains("Auto-aligned"))</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-2">
+                    <span class="me-2 fs-3 text-warning"><i class="bi bi-exclamation-triangle"></i></span>
+                    <h5 class="card-title mb-0">Flagged Issues</h5>
+                </div>
+                <div class="display-5 fw-bold text-warning mb-1">@documents.Sum(d => d.Issues)</div>
+                <div class="text-muted">Handwriting: @documents.Count(d => d.Name.Contains("Handwritten"))</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-2">
+                    <span class="me-2 fs-3 text-info"><i class="bi bi-cloud-arrow-up"></i></span>
+                    <h5 class="card-title mb-0">Recent Uploads</h5>
+                </div>
+                <div class="display-5 fw-bold text-info mb-1">@documents.Count(d => d.Uploaded > DateTime.Now.AddDays(-7))</div>
+                <div class="text-muted">Multi-sheet: @documents.Count(d => d.Pages > 1)</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- AI Forecast Widget (High Contrast) -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card shadow-lg border-0" style="background: linear-gradient(90deg,#e3e6f0 0%,#f8fafc 100%);">
+            <div class="card-body p-4">
+                <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                    <div>
+                        <h5 class="mb-2 text-dark"><i class="bi bi-lightbulb me-2"></i>AI Forecast: Next Month Document Accuracy</h5>
+                        <div class="fs-2 fw-bold text-dark">98.7%</div>
+                        <div class="small text-dark">Smart validation, auto-cleaning, and outlier detection expected to reduce manual corrections by 80%.</div>
+                    </div>
+                    <div class="mt-3 mt-md-0">
+                        <span class="badge rounded-pill bg-primary bg-opacity-10 text-primary fs-6 px-4 py-2 shadow-sm">Suggested Headers: 5</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- BI Chart Placeholder -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">Document Processing Trend (BI Chart)</h5>
+            </div>
+            <div class="card-body text-center">
+                <img src="https://via.placeholder.com/600x200?text=Document+Processing+Trend+Chart" alt="Document Processing Trend Chart" class="img-fluid rounded" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Documents Table -->
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">Documents List</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                                <th>Pages</th>
+                                <th>Uploaded</th>
+                                <th>Issues</th>
+                                <th>AI Insights</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var d in documents)
+                            {
+                                <tr>
+                                    <td>@d.DocumentID</td>
+                                    <td class="fw-semibold">@d.Name</td>
+                                    <td>@d.Type</td>
+                                    <td>
+                                        @if (d.Status == "Validated")
+                                        {
+                                            <span class="badge bg-success">Validated</span>
+                                        }
+                                        else if (d.Status == "Cleaned")
+                                        {
+                                            <span class="badge bg-info">Cleaned</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-warning text-dark">Flagged</span>
+                                        }
+                                    </td>
+                                    <td>@d.Pages</td>
+                                    <td>@d.Uploaded.ToString("yyyy-MM-dd")</td>
+                                    <td>
+                                        @if (d.Issues > 0)
+                                        {
+                                            <span class="text-danger fw-bold">@d.Issues</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-success">0</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (d.AIInsights.Contains("outlier"))
+                                        {
+                                            <span class="text-warning">@d.AIInsights</span>
+                                        }
+                                        else if (d.AIInsights.Contains("validated"))
+                                        {
+                                            <span class="text-success">@d.AIInsights</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-primary">@d.AIInsights</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,15 +1,171 @@
-
 @{
-    Layout = null;
+    Layout = "_Layout";
+    // Example data for static design; replace with your model in production
+    var records = new[] {
+        new { RecordID = 1, Equipment = "Excavator", Type = "Scheduled", Status = "Completed", Date = DateTime.Parse("2025-08-10"), Technician = "Alice Smith", Cost = 1200m, AIInsights = "No issues detected. Next service in 6 months." },
+        new { RecordID = 2, Equipment = "Forklift", Type = "Unscheduled", Status = "In Progress", Date = DateTime.Parse("2025-08-20"), Technician = "John Doe", Cost = 800m, AIInsights = "Part replacement required. Delay expected." },
+        new { RecordID = 3, Equipment = "Generator", Type = "Scheduled", Status = "Pending", Date = DateTime.Parse("2025-09-01"), Technician = "Maria Garcia", Cost = 500m, AIInsights = "Low usage. Service can be postponed." }
+    };
 }
 
-<!DOCTYPE html>
+<h2 class="h1 fw-bold themed-heading mb-4 border-bottom pb-2">Maintenance Records</h2>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>ListMaintenanceRecords</title>
-</head>
-<body>
-</body>
-</html>
+<!-- KPI Cards Row -->
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-2">
+                    <span class="me-2 fs-3 text-primary"><i class="bi bi-wrench"></i></span>
+                    <h5 class="card-title mb-0">Total Records</h5>
+                </div>
+                <div class="display-5 fw-bold text-primary mb-1">@records.Length</div>
+                <div class="text-muted">Completed: @records.Count(r => r.Status == "Completed")</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-2">
+                    <span class="me-2 fs-3 text-success"><i class="bi bi-calendar-check"></i></span>
+                    <h5 class="card-title mb-0">Scheduled</h5>
+                </div>
+                <div class="display-5 fw-bold text-success mb-1">@records.Count(r => r.Type == "Scheduled")</div>
+                <div class="text-muted">Pending: @records.Count(r => r.Status == "Pending")</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-2">
+                    <span class="me-2 fs-3 text-warning"><i class="bi bi-exclamation-triangle"></i></span>
+                    <h5 class="card-title mb-0">Unscheduled</h5>
+                </div>
+                <div class="display-5 fw-bold text-warning mb-1">@records.Count(r => r.Type == "Unscheduled")</div>
+                <div class="text-muted">In Progress: @records.Count(r => r.Status == "In Progress")</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-2">
+                    <span class="me-2 fs-3 text-info"><i class="bi bi-currency-dollar"></i></span>
+                    <h5 class="card-title mb-0">Total Cost</h5>
+                </div>
+                <div class="display-5 fw-bold text-info mb-1">@records.Sum(r => r.Cost).ToString("C")</div>
+                <div class="text-muted">Avg. per Record: @(records.Sum(r => r.Cost) / records.Length).ToString("C")</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- AI Forecast Widget (High Contrast) -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card shadow-lg border-0" style="background: linear-gradient(90deg,#e3e6f0 0%,#f8fafc 100%);">
+            <div class="card-body p-4">
+                <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                    <div>
+                        <h5 class="mb-2 text-dark"><i class="bi bi-lightbulb me-2"></i>AI Forecast: Next Month Maintenance Needs</h5>
+                        <div class="fs-2 fw-bold text-dark">3 records</div>
+                        <div class="small text-dark">Predictive analytics suggest increased unscheduled maintenance due to seasonal usage spikes.</div>
+                    </div>
+                    <div class="mt-3 mt-md-0">
+                        <span class="badge rounded-pill bg-primary bg-opacity-10 text-primary fs-6 px-4 py-2 shadow-sm">Projected Cost: $2,500</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- BI Chart Placeholder -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">Maintenance Trend (BI Chart)</h5>
+            </div>
+            <div class="card-body text-center">
+                <img src="https://via.placeholder.com/600x200?text=Maintenance+Trend+Chart" alt="Maintenance Trend Chart" class="img-fluid rounded" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Maintenance Records Table -->
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">Maintenance Records List</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>#</th>
+                                <th>Equipment</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Technician</th>
+                                <th>Cost</th>
+                                <th>AI Insights</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var r in records.OrderByDescending(r => r.Date))
+                            {
+                                <tr>
+                                    <td>@r.RecordID</td>
+                                    <td class="fw-semibold">@r.Equipment</td>
+                                    <td>@r.Type</td>
+                                    <td>
+                                        @if (r.Status == "Completed")
+                                        {
+                                            <span class="badge bg-success">Completed</span>
+                                        }
+                                        else if (r.Status == "In Progress")
+                                        {
+                                            <span class="badge bg-warning text-dark">In Progress</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary">Pending</span>
+                                        }
+                                    </td>
+                                    <td>@r.Date.ToString("yyyy-MM-dd")</td>
+                                    <td>@r.Technician</td>
+                                    <td>@r.Cost.ToString("C")</td>
+                                    <td>
+                                        @if (r.AIInsights.Contains("issues"))
+                                        {
+                                            <span class="text-success">@r.AIInsights</span>
+                                        }
+                                        else if (r.AIInsights.Contains("Delay"))
+                                        {
+                                            <span class="text-danger">@r.AIInsights</span>
+                                        }
+                                        else if (r.AIInsights.Contains("postponed"))
+                                        {
+                                            <span class="text-warning">@r.AIInsights</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-primary">@r.AIInsights</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

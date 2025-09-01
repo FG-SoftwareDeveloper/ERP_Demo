@@ -1,15 +1,182 @@
-
 @{
-    Layout = null;
+    Layout = "_Layout";
+    // Example data for static design; replace with your model in production
+    var projects = new[] {
+        new { ProjectID = 1, Name = "HQ Expansion", Status = "Active", Budget = 2500000m, Spent = 1800000m, Forecast = 2600000m, Profit = 400000m, LastUpdate = DateTime.Parse("2025-08-28"), AIInsights = "On track. Forecast within 5% of budget." },
+        new { ProjectID = 2, Name = "Bridge Build", Status = "Delayed", Budget = 3200000m, Spent = 2900000m, Forecast = 3500000m, Profit = 200000m, LastUpdate = DateTime.Parse("2025-08-25"), AIInsights = "Delay due to material shortage. Over budget risk." },
+        new { ProjectID = 3, Name = "Warehouse Retrofit", Status = "Completed", Budget = 1200000m, Spent = 1150000m, Forecast = 1200000m, Profit = 150000m, LastUpdate = DateTime.Parse("2025-08-20"), AIInsights = "Completed under budget. Profit margin above target." }
+    };
 }
 
-<!DOCTYPE html>
+<h2 class="h1 fw-bold themed-heading mb-4 border-bottom pb-2">Project Financial Summary</h2>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>ListProjectFinancialSummary</title>
-</head>
-<body>
-</body>
-</html>
+<!-- KPI Cards Row -->
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-2">
+                    <span class="me-2 fs-3 text-primary"><i class="bi bi-kanban"></i></span>
+                    <h5 class="card-title mb-0">Total Projects</h5>
+                </div>
+                <div class="display-5 fw-bold text-primary mb-1">@projects.Length</div>
+                <div class="text-muted">Active: @projects.Count(p => p.Status == "Active")</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-2">
+                    <span class="me-2 fs-3 text-success"><i class="bi bi-currency-dollar"></i></span>
+                    <h5 class="card-title mb-0">Total Budget</h5>
+                </div>
+                <div class="display-5 fw-bold text-success mb-1">@projects.Sum(p => p.Budget).ToString("C")</div>
+                <div class="text-muted">Spent: @projects.Sum(p => p.Spent).ToString("C")</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-2">
+                    <span class="me-2 fs-3 text-info"><i class="bi bi-cash-stack"></i></span>
+                    <h5 class="card-title mb-0">Total Profit</h5>
+                </div>
+                <div class="display-5 fw-bold text-info mb-1">@projects.Sum(p => p.Profit).ToString("C")</div>
+                <div class="text-muted">Avg. Margin: @(projects.Average(p => (double)p.Profit / (double)p.Budget * 100).ToString("F1"))%</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-2">
+                    <span class="me-2 fs-3 text-warning"><i class="bi bi-exclamation-triangle"></i></span>
+                    <h5 class="card-title mb-0">Delayed / Over Budget</h5>
+                </div>
+                <div class="display-5 fw-bold text-warning mb-1">@projects.Count(p => p.Status == "Delayed" || p.Spent > p.Budget)</div>
+                <div class="text-muted">Completed: @projects.Count(p => p.Status == "Completed")</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- AI Forecast Widget (High Contrast) -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card shadow-lg border-0" style="background: linear-gradient(90deg,#e3e6f0 0%,#f8fafc 100%);">
+            <div class="card-body p-4">
+                <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                    <div>
+                        <h5 class="mb-2 text-dark"><i class="bi bi-lightbulb me-2"></i>AI Forecast: Next Quarter Project Profit</h5>
+                        <div class="fs-2 fw-bold text-dark">$600,000</div>
+                        <div class="small text-dark">Based on current spend, completion rates, and predictive analytics.</div>
+                    </div>
+                    <div class="mt-3 mt-md-0">
+                        <span class="badge rounded-pill bg-primary bg-opacity-10 text-primary fs-6 px-4 py-2 shadow-sm">Projected Margin: 22%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- BI Chart Placeholder -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">Project Financial Trend (BI Chart)</h5>
+            </div>
+            <div class="card-body text-center">
+                <img src="https://via.placeholder.com/600x200?text=Project+Financial+Trend+Chart" alt="Project Financial Trend Chart" class="img-fluid rounded" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Project Financial Summary Table -->
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">Projects List</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Status</th>
+                                <th>Budget</th>
+                                <th>Spent</th>
+                                <th>Forecast</th>
+                                <th>Profit</th>
+                                <th>Last Update</th>
+                                <th>AI Insights</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var p in projects.OrderByDescending(p => p.LastUpdate))
+                            {
+                                <tr>
+                                    <td>@p.ProjectID</td>
+                                    <td class="fw-semibold">@p.Name</td>
+                                    <td>
+                                        @if (p.Status == "Active")
+                                        {
+                                            <span class="badge bg-success">Active</span>
+                                        }
+                                        else if (p.Status == "Delayed")
+                                        {
+                                            <span class="badge bg-warning text-dark">Delayed</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary">Completed</span>
+                                        }
+                                    </td>
+                                    <td>@p.Budget.ToString("C")</td>
+                                    <td>
+                                        @if (p.Spent > p.Budget)
+                                        {
+                                            <span class="text-danger fw-bold">@p.Spent.ToString("C")</span>
+                                        }
+                                        else
+                                        {
+                                            <span>@p.Spent.ToString("C")</span>
+                                        }
+                                    </td>
+                                    <td>@p.Forecast.ToString("C")</td>
+                                    <td>@p.Profit.ToString("C")</td>
+                                    <td>@p.LastUpdate.ToString("yyyy-MM-dd")</td>
+                                    <td>
+                                        @if (p.AIInsights.Contains("over budget"))
+                                        {
+                                            <span class="text-danger">@p.AIInsights</span>
+                                        }
+                                        else if (p.AIInsights.Contains("Completed"))
+                                        {
+                                            <span class="text-success">@p.AIInsights</span>
+                                        }
+                                        else if (p.AIInsights.Contains("delay"))
+                                        {
+                                            <span class="text-warning">@p.AIInsights</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-primary">@p.AIInsights</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
