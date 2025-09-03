@@ -7,96 +7,30 @@
         new { EmployeeID = 3, Name = "Maria Garcia", Department = "HR", JobTitle = "HR Specialist", Location = "TX", Status = "Inactive", Manager = "Bob Lee", Hired = DateTime.Parse("2020-01-20"), Email = "maria@company.com", Skills = "Recruiting, Payroll", PerformanceScore = 60 }
     };
 }
-
-<!-- NAVBAR -->
-<nav class="navbar navbar-expand-lg navbar-dark glass sticky-top mb-3">
-    <div class="container-fluid">
-        <a class="navbar-brand fw-semibold" href="#">
-            <i class="bi bi-people-fill me-2"></i>
-            Employees <span>Dashboard</span>
-        </a>
-        <div class="ms-auto d-flex gap-2">
-            <button class="btn btn-sm btn-outline-light"><i class="bi bi-bookmark-plus me-1"></i>Save View</button>
-            <div class="dropdown">
-                <button class="btn btn-sm btn-outline-light dropdown-toggle" data-bs-toggle="dropdown"><i class="bi bi-collection me-1"></i>Views</button>
-                <div class="dropdown-menu dropdown-menu-end">
-                    <button class="dropdown-item" type="button">Default</button>
-                    <div class="dropdown-divider"></div>
-                    <div class="px-3 small text-muted">No custom views yet</div>
-                </div>
-            </div>
-            <button class="btn btn-sm btn-outline-light"><i class="bi bi-arrows-collapse"></i></button>
-            <button class="btn btn-sm btn-outline-light"><i class="bi bi-moon-stars"></i></button>
-        </div>
-    </div>
-</nav>
-
-<main class="container py-4">
-    <!-- KPI Cards Row -->
-    <div class="row g-4 mb-4">
-        <div class="col-md-3">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-body">
-                    <div class="d-flex align-items-center mb-2">
-                        <span class="me-2 fs-3 text-primary"><i class="bi bi-people"></i></span>
-                        <h5 class="card-title mb-0">Total Employees</h5>
-                    </div>
-                    <div class="display-5 fw-bold text-primary mb-1">@employees.Length</div>
-                    <div class="text-muted">+2 this month</div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-body">
-                    <div class="d-flex align-items-center mb-2">
-                        <span class="me-2 fs-3 text-success"><i class="bi bi-check2-circle"></i></span>
-                        <h5 class="card-title mb-0">Active</h5>
-                    </div>
-                    <div class="display-5 fw-bold text-success mb-1">@employees.Count(e => e.Status == "Active")</div>
-                    <div class="text-muted">On Leave: @employees.Count(e => e.Status == "Leave")</div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-body">
-                    <div class="d-flex align-items-center mb-2">
-                        <span class="me-2 fs-3 text-warning"><i class="bi bi-airplane"></i></span>
-                        <h5 class="card-title mb-0">On Leave</h5>
-                    </div>
-                    <div class="display-5 fw-bold text-warning mb-1">@employees.Count(e => e.Status == "Leave")</div>
-                    <div class="text-muted">Inactive: @employees.Count(e => e.Status == "Inactive")</div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-body">
-                    <div class="d-flex align-items-center mb-2">
-                        <span class="me-2 fs-3 text-info"><i class="bi bi-geo-alt"></i></span>
-                        <h5 class="card-title mb-0">Locations</h5>
-                    </div>
-                    <div class="display-5 fw-bold text-info mb-1">@employees.Select(e => e.Location).Distinct().Count()</div>
-                    <div class="text-muted">Departments: @employees.Select(e => e.Department).Distinct().Count()</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- AI Forecast Widget (High Contrast) -->
+<div class="container-fluid py-4">
+    <!-- Page Header -->
     <div class="row mb-4">
         <div class="col-12">
-            <div class="card shadow-lg border-0" style="background: linear-gradient(90deg,#e3e6f0 0%,#f8fafc 100%);">
+            <div class="card glass-effect border-0 animate-fade-in-up">
                 <div class="card-body p-4">
                     <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
                         <div>
-                            <h5 class="mb-2 text-dark"><i class="bi bi-lightbulb me-2"></i>AI Forecast: Next Month Headcount</h5>
-                            <div class="fs-2 fw-bold text-dark">+5</div>
-                            <div class="small text-dark">Based on hiring trends, attrition, and leave patterns.</div>
+                            <h1 class="mb-2 text-themed-primary d-flex align-items-center">
+                                <i class="bi bi-person-badge me-3 icon-primary fs-2"></i>
+                                Employees
+                            </h1>
+                            <p class="text-themed-secondary mb-0">Manage headcount, utilization, comp bands, PTO & status</p>
                         </div>
-                        <div class="mt-3 mt-md-0">
-                            <span class="badge rounded-pill bg-primary bg-opacity-10 text-primary fs-6 px-4 py-2 shadow-sm">Projected Active: 18</span>
+                        <div class="mt-3 mt-md-0 d-flex gap-2">
+                            <button class="btn btn-themed">
+                                <i class="bi bi-person-plus me-2"></i>New Employee
+                            </button>
+                            <button class="btn btn-themed-secondary">
+                                <i class="bi bi-upload me-2"></i>Import
+                            </button>
+                            <button class="btn btn-outline-secondary focus-ring">
+                                <i class="bi bi-download me-2"></i>Export Roster
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -104,25 +38,163 @@
         </div>
     </div>
 
-    <!-- BI Chart Placeholder -->
-    <div class="row mb-4">
-        <div class="col-lg-8">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-header bg-white">
-                    <h5 class="mb-0">Headcount by Department (BI Chart)</h5>
-                </div>
-                <div class="card-body text-center">
-                    <img src="https://via.placeholder.com/600x200?text=Headcount+by+Department+Chart" alt="Headcount by Department Chart" class="img-fluid rounded" />
+    <!-- KPI Cards -->
+    <div class="row g-4 mb-4">
+        <div class="col-lg-3 col-md-6">
+            <div class="card card-2025 hover-3d kpi-card border-0 h-100 animate-fade-in-up animate-delay-1">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-2">
+                        <span class="me-3 fs-2 icon-primary"><i class="bi bi-people"></i></span>
+                        <h6 class="mb-0 text-themed-primary">Total Employees</h6>
+                    </div>
+                    <div class="display-6 fw-bold text-themed-primary">1,142</div>
+                    <small class="text-themed-secondary">+37 YTD</small>
                 </div>
             </div>
         </div>
-        <div class="col-lg-4">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-header bg-white">
-                    <h5 class="mb-0">Status Mix (BI Chart)</h5>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card card-2025 hover-3d kpi-card border-0 h-100 animate-fade-in-up animate-delay-2">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-2">
+                        <span class="me-3 fs-2 icon-success"><i class="bi bi-person-workspace"></i></span>
+                        <h6 class="mb-0 text-themed-primary">Avg. Utilization</h6>
+                    </div>
+                    <div class="display-6 fw-bold text-themed-primary">82%</div>
+                    <small class="text-themed-secondary">+3 pts vs last month</small>
                 </div>
-                <div class="card-body text-center">
-                    <img src="https://via.placeholder.com/300x200?text=Status+Mix+Chart" alt="Status Mix Chart" class="img-fluid rounded" />
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card card-2025 hover-3d kpi-card border-0 h-100 animate-fade-in-up animate-delay-3">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-2">
+                        <span class="me-3 fs-2 icon-info"><i class="bi bi-person-raised-hand"></i></span>
+                        <h6 class="mb-0 text-themed-primary">Open Roles</h6>
+                    </div>
+                    <div class="display-6 fw-bold text-themed-primary">37</div>
+                    <small class="text-themed-secondary">Hiring across 9 depts</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card card-2025 hover-3d kpi-card border-0 h-100 animate-fade-in-up animate-delay-4">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-2">
+                        <span class="me-3 fs-2 icon-warning"><i class="bi bi-airplane"></i></span>
+                        <h6 class="mb-0 text-themed-primary">PTO Pending</h6>
+                    </div>
+                    <div class="display-6 fw-bold text-themed-primary">19</div>
+                    <small class="text-themed-secondary">Awaiting approval</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card glass-effect border-0 animate-fade-in-up">
+                <div class="card-body p-4">
+                    <div class="row g-3 align-items-end">
+                        <div class="col-lg-3 col-md-6">
+                            <label class="form-label text-themed-primary fw-medium">Search Employees</label>
+                            <div class="position-relative">
+                                <input type="text" class="form-control focus-ring" id="qEmp" placeholder="Name, email, role, manager">
+                                <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-3 text-themed-secondary"></i>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-6">
+                            <label class="form-label text-themed-primary fw-medium">Status</label>
+                            <select id="statusEmp" class="form-select focus-ring">
+                                <option value="">All</option>
+                                <option>Active</option>
+                                <option>On Leave</option>
+                                <option>Terminated</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2 col-md-6">
+                            <label class="form-label text-themed-primary fw-medium">Employment</label>
+                            <select id="typeEmp" class="form-select focus-ring">
+                                <option value="">Any</option>
+                                <option>Full-time</option>
+                                <option>Part-time</option>
+                                <option>Contractor</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2 col-md-6">
+                            <label class="form-label text-themed-primary fw-medium">Department</label>
+                            <select id="deptEmp" class="form-select focus-ring">
+                                <option value="">All</option>
+                                <option>Engineering</option>
+                                <option>Sales</option>
+                                <option>Support</option>
+                                <option>Operations</option>
+                                <option>HR</option>
+                                <option>Finance</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-3 col-md-12">
+                            <label class="form-label text-themed-primary fw-medium">Location & Util</label>
+                            <div class="d-flex gap-2">
+                                <select id="locEmp" class="form-select focus-ring">
+                                    <option value="">Anywhere</option>
+                                    <option>North America</option>
+                                    <option>EMEA</option>
+                                    <option>APAC</option>
+                                    <option>LATAM</option>
+                                </select>
+                                <select id="utilEmp" class="form-select focus-ring">
+                                    <option value="">Any Util</option>
+                                    <option value="<60">&lt;60%</option>
+                                    <option value="60-90">60–90%</option>
+                                    <option value="90+">90%+</option>
+                                </select>
+                                <button class="btn btn-themed flex-shrink-0" id="btnApplyEmp">
+                                    <i class="bi bi-funnel me-2"></i>Apply
+                                </button>
+                                <button class="btn btn-outline-secondary focus-ring flex-shrink-0" id="btnClearEmp" title="Reset">
+                                    <i class="bi bi-arrow-clockwise"></i>
+                                </button>
+                            </div>
+                            <small class="text-themed-secondary">Tip: Use quick filters for leave & contractors.</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card ai-forecast-card border-0 animate-fade-in-up">
+                <div class="card-body p-4">
+                    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                        <div>
+                            <h5 class="mb-2 d-flex align-items-center">
+                                <i class="bi bi-lightning-charge me-2"></i>
+                                Quick Actions
+                            </h5>
+                            <p class="mb-0 opacity-90">Approve PTO, rebalance workload, adjust bands</p>
+                        </div>
+                        <div class="mt-3 mt-md-0 d-flex flex-wrap gap-2">
+                            <button class="btn btn-light btn-sm bg-opacity-20 text-white">
+                                <i class="bi bi-check2-square me-1"></i>Approve PTO
+                            </button>
+                            <button class="btn btn-light btn-sm bg-opacity-20 text-white">
+                                <i class="bi bi-arrow-left-right me-1"></i>Rebalance Utilization
+                            </button>
+                            <button class="btn btn-light btn-sm bg-opacity-20 text-white">
+                                <i class="bi bi-cash-coin me-1"></i>Adjust Comp Bands
+                            </button>
+                            <button class="btn btn-light btn-sm bg-opacity-20 text-white">
+                                <i class="bi bi-people me-1"></i>Run Roster Audit
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -131,80 +203,454 @@
     <!-- Employees Table -->
     <div class="row">
         <div class="col-12">
-            <div class="card shadow-sm border-0">
-                <div class="card-header bg-white">
-                    <h5 class="mb-0">Employees List</h5>
+            <div class="card themed-table border-0 animate-fade-in-up">
+                <div class="card-header bg-transparent border-0 p-4">
+                    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                        <h5 class="mb-2 mb-md-0 text-themed-primary d-flex align-items-center">
+                            <i class="bi bi-table me-2 icon-primary"></i>
+                            Employees Roster
+                        </h5>
+                        <div class="d-flex gap-2">
+                            <div class="btn-group" role="group" aria-label="Quick filters">
+                                <button class="btn btn-outline-primary btn-sm focus-ring active" id="btnEmpAll">All</button>
+                                <button class="btn btn-outline-primary btn-sm focus-ring" id="btnEmpActive">Active</button>
+                                <button class="btn btn-outline-primary btn-sm focus-ring" id="btnEmpLeave">On Leave</button>
+                                <button class="btn btn-outline-primary btn-sm focus-ring" id="btnEmpContractor">Contractors</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
                 <div class="card-body p-0">
                     <div class="table-responsive">
-                        <table class="table table-hover align-middle mb-0">
-                            <thead class="table-light">
+                        <table class="table table-hover align-middle mb-0" id="empTable">
+                            <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>Name</th>
+                                    <th style="width:36px">
+                                        <div class="form-check">
+                                            <input class="form-check-input focus-ring" type="checkbox" id="selectAllEmp">
+                                            <label class="form-check-label" for="selectAllEmp"></label>
+                                        </div>
+                                    </th>
+                                    <th>Employee</th>
+                                    <th>Role / Level</th>
                                     <th>Department</th>
-                                    <th>Job Title</th>
-                                    <th>Location</th>
-                                    <th>Status</th>
                                     <th>Manager</th>
-                                    <th>Hired</th>
-                                    <th>Email</th>
-                                    <th>Skills</th>
-                                    <th>AI Insights</th>
+                                    <th>Location</th>
+                                    <th>Start</th>
+                                    <th>Employment</th>
+                                    <th>Status</th>
+                                    <th>Utilization</th>
+                                    <th>PTO</th>
+                                    <th>Band</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                @foreach (var e in employees)
-                                {
-                                    <tr>
-                                        <td>@e.EmployeeID</td>
-                                        <td class="fw-semibold">@e.Name</td>
-                                        <td>@e.Department</td>
-                                        <td>@e.JobTitle</td>
-                                        <td>@e.Location</td>
-                                        <td>
-                                            @if (e.Status == "Active")
-                                            {
-                                                <span class="badge bg-success">Active</span>
-                                            }
-                                            else if (e.Status == "Leave")
-                                            {
-                                                <span class="badge bg-warning text-dark">Leave</span>
-                                            }
-                                            else
-                                            {
-                                                <span class="badge bg-secondary">Inactive</span>
-                                            }
-                                        </td>
-                                        <td>@e.Manager</td>
-                                        <td>@e.Hired.ToString("yyyy-MM-dd")</td>
-                                        <td>@e.Email</td>
-                                        <td>@e.Skills</td>
-                                        <td>
-                                            @if (e.PerformanceScore > 90)
-                                            {
-                                                <span class="text-success">Top Performer</span>
-                                            }
-                                            else if (e.Status == "Leave")
-                                            {
-                                                <span class="text-warning">On Leave</span>
-                                            }
-                                            else if (e.Status == "Inactive")
-                                            {
-                                                <span class="text-danger">Inactive</span>
-                                            }
-                                            else
-                                            {
-                                                <span class="text-primary">Stable</span>
-                                            }
-                                        </td>
-                                    </tr>
-                                }
+                            <tbody id="empTbody">
+                                <!-- Sample rows (replace with Model data) -->
+                                <tr data-status="Active" data-type="Full-time" data-dept="Engineering" data-location="North America" data-util="92" data-pto="12.5" data-start="2022-03-12" data-band="E5">
+                                    <td><div class="form-check"><input class="form-check-input focus-ring" type="checkbox"></div></td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-sm bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2">
+                                                <i class="bi bi-person text-primary"></i>
+                                            </div>
+                                            <div>
+                                                <strong class="text-themed-primary">Emma Wilson</strong>
+                                                <div class="small text-themed-secondary">emma.wilson@acme.com</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Sr. Software Engineer / <span class="text-themed-secondary">E5</span></td>
+                                    <td>Engineering</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-xs bg-info bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2">
+                                                <i class="bi bi-person text-info"></i>
+                                            </div>
+                                            <span class="text-themed-secondary">Alex Turner</span>
+                                        </div>
+                                    </td>
+                                    <td>North America</td>
+                                    <td class="text-themed-secondary">2022-03-12</td>
+                                    <td><span class="badge badge-themed bg-primary bg-opacity-10 text-primary">Full-time</span></td>
+                                    <td><span class="badge badge-themed bg-success text-success"><i class="bi bi-check2-circle me-1"></i>Active</span></td>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <span class="small text-themed-secondary">92%</span>
+                                            <div class="progress w-100" style="height:6px;">
+                                                <div class="progress-bar bg-primary" style="width:92%"></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-themed-primary fw-medium">12.5 d</td>
+                                    <td><span class="badge badge-themed bg-secondary bg-opacity-10 text-secondary">E5</span></td>
+                                    <td>
+                                        <div class="d-flex gap-1">
+                                            <button class="btn btn-sm btn-outline-primary focus-ring emp-view" data-emp="Emma Wilson" title="View"><i class="bi bi-eye"></i></button>
+                                            <button class="btn btn-sm btn-outline-secondary focus-ring" title="Message"><i class="bi bi-chat-dots"></i></button>
+                                            <div class="btn-group">
+                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle focus-ring" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item" href="#"><i class="bi bi-arrow-up-right-circle me-2"></i>Promote / Band Change</a></li>
+                                                    <li><a class="dropdown-item" href="#"><i class="bi bi-card-checklist me-2"></i>Performance Reviews</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr data-status="Active" data-type="Full-time" data-dept="Sales" data-location="EMEA" data-util="105" data-pto="6" data-start="2023-05-20" data-band="S3">
+                                    <td><div class="form-check"><input class="form-check-input focus-ring" type="checkbox"></div></td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-sm bg-warning bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2">
+                                                <i class="bi bi-person text-warning"></i>
+                                            </div>
+                                            <div>
+                                                <strong class="text-themed-primary">Liam Carter</strong>
+                                                <div class="small text-themed-secondary">liam.carter@globex.com</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Account Executive / <span class="text-themed-secondary">S3</span></td>
+                                    <td>Sales</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-xs bg-success bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2">
+                                                <i class="bi bi-person text-success"></i>
+                                            </div>
+                                            <span class="text-themed-secondary">Dana Patel</span>
+                                        </div>
+                                    </td>
+                                    <td>EMEA</td>
+                                    <td class="text-themed-secondary">2023-05-20</td>
+                                    <td><span class="badge badge-themed bg-primary bg-opacity-10 text-primary">Full-time</span></td>
+                                    <td><span class="badge badge-themed bg-warning text-warning"><i class="bi bi-exclamation-triangle me-1"></i>Over Capacity</span></td>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <span class="small text-danger fw-medium">105%</span>
+                                            <div class="progress w-100" style="height:6px;">
+                                                <div class="progress-bar bg-danger" style="width:100%"></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-themed-primary fw-medium">6 d</td>
+                                    <td><span class="badge badge-themed bg-secondary bg-opacity-10 text-secondary">S3</span></td>
+                                    <td>
+                                        <div class="d-flex gap-1">
+                                            <button class="btn btn-sm btn-outline-primary focus-ring emp-view" data-emp="Liam Carter" title="View"><i class="bi bi-eye"></i></button>
+                                            <button class="btn btn-sm btn-outline-warning focus-ring" title="Rebalance"><i class="bi bi-arrow-left-right"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr data-status="On Leave" data-type="Full-time" data-dept="Support" data-location="APAC" data-util="0" data-pto="0" data-start="2021-11-01" data-band="SU2">
+                                    <td><div class="form-check"><input class="form-check-input focus-ring" type="checkbox"></div></td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-sm bg-danger bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2">
+                                                <i class="bi bi-person text-danger"></i>
+                                            </div>
+                                            <div>
+                                                <strong class="text-themed-primary">Noah Zhang</strong>
+                                                <div class="small text-themed-secondary">noah.zhang@pactraders.co</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Support Specialist / <span class="text-themed-secondary">SU2</span></td>
+                                    <td>Support</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-xs bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2">
+                                                <i class="bi bi-person text-primary"></i>
+                                            </div>
+                                            <span class="text-themed-secondary">Morgan Lee</span>
+                                        </div>
+                                    </td>
+                                    <td>APAC</td>
+                                    <td class="text-themed-secondary">2021-11-01</td>
+                                    <td><span class="badge badge-themed bg-primary bg-opacity-10 text-primary">Full-time</span></td>
+                                    <td><span class="badge badge-themed bg-secondary text-secondary"><i class="bi bi-pause-circle me-1"></i>On Leave</span></td>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <span class="small text-themed-secondary">0%</span>
+                                            <div class="progress w-100" style="height:6px;">
+                                                <div class="progress-bar bg-secondary" style="width:0%"></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-themed-primary fw-medium">0 d</td>
+                                    <td><span class="badge badge-themed bg-secondary bg-opacity-10 text-secondary">SU2</span></td>
+                                    <td>
+                                        <div class="d-flex gap-1">
+                                            <button class="btn btn-sm btn-outline-primary focus-ring emp-view" data-emp="Noah Zhang" title="View"><i class="bi bi-eye"></i></button>
+                                            <button class="btn btn-sm btn-outline-success focus-ring" title="Plan Return"><i class="bi bi-calendar-check"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr data-status="Active" data-type="Contractor" data-dept="Operations" data-location="APAC" data-util="75" data-pto="0" data-start="2025-06-10" data-band="C2">
+                                    <td><div class="form-check"><input class="form-check-input focus-ring" type="checkbox"></div></td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-sm bg-info bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2">
+                                                <i class="bi bi-person text-info"></i>
+                                            </div>
+                                            <div>
+                                                <strong class="text-themed-primary">Ava Nguyen</strong>
+                                                <div class="small text-themed-secondary">ava.nguyen@contractor.io</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Data Analyst (Contract) / <span class="text-themed-secondary">C2</span></td>
+                                    <td>Operations</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-xs bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2">
+                                                <i class="bi bi-person text-primary"></i>
+                                            </div>
+                                            <span class="text-themed-secondary">Morgan Lee</span>
+                                        </div>
+                                    </td>
+                                    <td>APAC</td>
+                                    <td class="text-themed-secondary">2025-06-10</td>
+                                    <td><span class="badge badge-themed bg-info text-info">Contractor</span></td>
+                                    <td><span class="badge badge-themed bg-success text-success"><i class="bi bi-check2-circle me-1"></i>Active</span></td>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <span class="small text-themed-secondary">75%</span>
+                                            <div class="progress w-100" style="height:6px;">
+                                                <div class="progress-bar bg-primary" style="width:75%"></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-themed-primary fw-medium">—</td>
+                                    <td><span class="badge badge-themed bg-secondary bg-opacity-10 text-secondary">C2</span></td>
+                                    <td>
+                                        <div class="d-flex gap-1">
+                                            <button class="btn btn-sm btn-outline-primary focus-ring emp-view" data-emp="Ava Nguyen" title="View"><i class="bi bi-eye"></i></button>
+                                            <button class="btn btn-sm btn-outline-secondary focus-ring" title="Extend Contract"><i class="bi bi-clock-history"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr data-status="Active" data-type="Part-time" data-dept="HR" data-location="LATAM" data-util="60" data-pto="8" data-start="2024-09-13" data-band="HR2">
+                                    <td><div class="form-check"><input class="form-check-input focus-ring" type="checkbox"></div></td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-sm bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2">
+                                                <i class="bi bi-person text-primary"></i>
+                                            </div>
+                                            <div>
+                                                <strong class="text-themed-primary">Sofia Alvarez</strong>
+                                                <div class="small text-themed-secondary">sofia.alvarez@company.mx</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>HR Generalist / <span class="text-themed-secondary">HR2</span></td>
+                                    <td>HR</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-xs bg-info bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2">
+                                                <i class="bi bi-person text-info"></i>
+                                            </div>
+                                            <span class="text-themed-secondary">Anna Lee</span>
+                                        </div>
+                                    </td>
+                                    <td>LATAM</td>
+                                    <td class="text-themed-secondary">2024-09-13</td>
+                                    <td><span class="badge badge-themed bg-primary bg-opacity-10 text-primary">Part-time</span></td>
+                                    <td><span class="badge badge-themed bg-success text-success"><i class="bi bi-check2-circle me-1"></i>Active</span></td>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <span class="small text-themed-secondary">60%</span>
+                                            <div class="progress w-100" style="height:6px;">
+                                                <div class="progress-bar bg-primary" style="width:60%"></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-themed-primary fw-medium">8 d</td>
+                                    <td><span class="badge badge-themed bg-secondary bg-opacity-10 text-secondary">HR2</span></td>
+                                    <td>
+                                        <div class="d-flex gap-1">
+                                            <button class="btn btn-sm btn-outline-primary focus-ring emp-view" data-emp="Sofia Alvarez" title="View"><i class="bi bi-eye"></i></button>
+                                            <button class="btn btn-sm btn-outline-secondary focus-ring" title="Convert to FTE"><i class="bi bi-arrow-right-circle"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- ... more rows ... -->
                             </tbody>
                         </table>
                     </div>
                 </div>
+
+                <div class="card-footer bg-transparent border-0 p-4">
+                    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                        <div class="text-themed-secondary mb-2 mb-md-0">Showing 1–10 of 1,142 employees</div>
+                        <nav>
+                            <ul class="pagination pagination-sm mb-0">
+                                <li class="page-item disabled"><span class="page-link bg-transparent border-0 text-themed-secondary">Previous</span></li>
+                                <li class="page-item active"><span class="page-link bg-primary border-primary">1</span></li>
+                                <li class="page-item"><a class="page-link bg-transparent border-0 text-themed-primary focus-ring" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link bg-transparent border-0 text-themed-primary focus-ring" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link bg-transparent border-0 text-themed-primary focus-ring" href="#">Next</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
-</main>
+</div>
+
+<!-- Quick View Modal -->
+<div class="modal fade" id="empQuickView" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content glass-effect border-0">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-person-lines-fill me-2"></i>Employee Profile</h5>
+                <button type="button" class="btn-close focus-ring" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="empQuickContent" class="row g-3">
+                    <!-- populated by script -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline-secondary focus-ring" data-bs-dismiss="modal">Close</button>
+                <button class="btn btn-themed"><i class="bi bi-pencil-square me-2"></i>Edit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        (function () {
+          const $  = (s, r=document) => r.querySelector(s);
+          const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+          const modal = id => bootstrap.Modal.getOrCreateInstance(document.getElementById(id));
+
+          // ---------- Filters ----------
+          const qEl   = $('#qEmp');
+          const stEl  = $('#statusEmp');
+          const typEl = $('#typeEmp');
+          const depEl = $('#deptEmp');
+          const locEl = $('#locEmp');
+          const utlEl = $('#utilEmp');
+          const tbody = $('#empTbody');
+
+          function matchUtil(filter, n) {
+            n = Number(n) || 0;
+            switch (filter) {
+              case '<60':   return n < 60;
+              case '60-90': return n >= 60 && n < 90;
+              case '90+':   return n >= 90;
+              default:      return true;
+            }
+          }
+
+          function applyEmpFilters() {
+            const q   = (qEl?.value || '').toLowerCase();
+            const st  = stEl?.value || '';
+            const typ = typEl?.value || '';
+            const dep = depEl?.value || '';
+            const loc = locEl?.value || '';
+            const utl = utlEl?.value || '';
+
+            $$('#empTbody tr').forEach(tr => {
+              const hay = tr.innerText.toLowerCase();
+              const keep = (!q   || hay.includes(q))
+                        && (!st  || (tr.dataset.status   || '') === st)
+                        && (!typ || (tr.dataset.type     || '') === typ)
+                        && (!dep || (tr.dataset.dept     || '') === dep)
+                        && (!loc || (tr.dataset.location || '') === loc)
+                        && matchUtil(utl, tr.dataset.util || '0');
+              tr.style.display = keep ? '' : 'none';
+            });
+          }
+
+          $('#btnApplyEmp')?.addEventListener('click', applyEmpFilters);
+          $('#btnClearEmp')?.addEventListener('click', () => {
+            qEl.value=''; stEl.value=''; typEl.value=''; depEl.value=''; locEl.value=''; utlEl.value='';
+            applyEmpFilters();
+          });
+          qEl?.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); applyEmpFilters(); } });
+
+          // Quick filter buttons
+          const bAll = $('#btnEmpAll'), bAct = $('#btnEmpActive'), bLeave = $('#btnEmpLeave'), bCont = $('#btnEmpContractor');
+          function setActive(btn){ [bAll,bAct,bLeave,bCont].forEach(x=>x&&x.classList.remove('active')); btn.classList.add('active'); }
+          bAll?.addEventListener('click', ()=>{ setActive(bAll);   $$('#empTbody tr').forEach(tr=> tr.style.display=''); });
+          bAct?.addEventListener('click', ()=>{ setActive(bAct);   $$('#empTbody tr').forEach(tr=> tr.style.display = (tr.dataset.status==='Active')?'':'' ); });
+          bLeave?.addEventListener('click',()=>{ setActive(bLeave); $$('#empTbody tr').forEach(tr=> tr.style.display = (tr.dataset.status==='On Leave')?'':'' ); });
+          bCont?.addEventListener('click', ()=>{ setActive(bCont); $$('#empTbody tr').forEach(tr=> tr.style.display = (tr.dataset.type==='Contractor')?'':'' ); });
+
+          // Select All
+          const selectAll = $('#selectAllEmp');
+          selectAll?.addEventListener('change', () => {
+            $$('#empTbody input[type="checkbox"]').forEach(cb => cb.checked = selectAll.checked);
+          });
+
+          // ---------- Quick View Modal ----------
+          $$('.emp-view').forEach(btn => btn.addEventListener('click', () => {
+            const tr = btn.closest('tr');
+            if (!tr) return;
+            const data = {
+              name: btn.dataset.emp || tr.querySelector('td:nth-child(2) strong')?.textContent || '—',
+              email: tr.querySelector('td:nth-child(2) .small')?.textContent || '—',
+              role: tr.children[2]?.innerText || '—',
+              dept: tr.children[3]?.innerText || '—',
+              manager: tr.children[4]?.innerText || '—',
+              location: tr.children[5]?.innerText || '—',
+              start: tr.dataset.start || tr.children[6]?.innerText || '—',
+              employment: tr.dataset.type || tr.children[7]?.innerText || '—',
+              status: tr.dataset.status || tr.children[8]?.innerText || '—',
+              util: tr.dataset.util || '0',
+              pto: tr.dataset.pto || '0',
+              band: tr.dataset.band || tr.children[11]?.innerText || '—',
+            };
+            $('#empQuickContent').innerHTML = `
+              <div class="col-md-4">
+                <div class="card hover-3d h-100">
+                  <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                      <div class="avatar-lg bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" style="width:64px;height:64px;">
+                        <i class="bi bi-person fs-3 text-primary"></i>
+                      </div>
+                      <div>
+                        <h5 class="mb-0 text-themed-primary">${data.name}</h5>
+                        <div class="small text-themed-secondary">${data.email}</div>
+                      </div>
+                    </div>
+                    <div class="d-grid gap-2">
+                      <button class="btn btn-themed"><i class="bi bi-chat-dots me-2"></i>Message</button>
+                      <button class="btn btn-outline-secondary focus-ring"><i class="bi bi-calendar3 me-2"></i>Schedule 1:1</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-8">
+                <div class="card glass-effect h-100">
+                  <div class="card-body">
+                    <div class="row g-3">
+                      <div class="col-sm-6"><div class="small text-themed-secondary">Role / Level</div><div class="fw-medium text-themed-primary">${data.role}</div></div>
+                      <div class="col-sm-6"><div class="small text-themed-secondary">Department</div><div class="fw-medium text-themed-primary">${data.dept}</div></div>
+                      <div class="col-sm-6"><div class="small text-themed-secondary">Manager</div><div class="fw-medium text-themed-primary">${data.manager}</div></div>
+                      <div class="col-sm-6"><div class="small text-themed-secondary">Location</div><div class="fw-medium text-themed-primary">${data.location}</div></div>
+                      <div class="col-sm-6"><div class="small text-themed-secondary">Start Date</div><div class="fw-medium text-themed-primary">${data.start}</div></div>
+                      <div class="col-sm-6"><div class="small text-themed-secondary">Employment</div><div class="fw-medium text-themed-primary">${data.employment}</div></div>
+                      <div class="col-sm-4"><div class="small text-themed-secondary">Status</div><div class="fw-medium text-themed-primary">${data.status}</div></div>
+                      <div class="col-sm-4"><div class="small text-themed-secondary">Utilization</div><div class="fw-medium text-themed-primary">${data.util}%</div></div>
+                      <div class="col-sm-4"><div class="small text-themed-secondary">PTO Balance</div><div class="fw-medium text-themed-primary">${data.pto} d</div></div>
+                      <div class="col-sm-4"><div class="small text-themed-secondary">Band</div><div class="fw-medium text-themed-primary">${data.band}</div></div>
+                    </div>
+                  </div>
+                </div>
+              </div>`;
+            modal('empQuickView').show();
+          }));
+        })();
+    </script>
+}

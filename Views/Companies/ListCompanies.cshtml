@@ -8,144 +8,488 @@
     };
 }
 
-<h2 class="h1 fw-bold themed-heading mb-4 border-bottom pb-2">Companies</h2>
-
-<!-- KPI Cards Row -->
-<div class="row g-4 mb-4">
-    <div class="col-md-4">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-primary"><i class="bi bi-building"></i></span>
-                    <h5 class="card-title mb-0">Total Companies</h5>
-                </div>
-                <div class="display-5 fw-bold text-primary mb-1">@companies.Length</div>
-                <div class="text-muted">Active: @companies.Count(c => c.Status == "Active"), Inactive: @companies.Count(c => c.Status == "Inactive")</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-success"><i class="bi bi-currency-dollar"></i></span>
-                    <h5 class="card-title mb-0">Total Revenue</h5>
-                </div>
-                <div class="display-5 fw-bold text-success mb-1">@companies.Sum(c => c.Revenue).ToString("C")</div>
-                <div class="text-muted">Top Industry: @companies.GroupBy(c => c.Industry).OrderByDescending(g => g.Sum(c => c.Revenue)).First().Key</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-info"><i class="bi bi-people"></i></span>
-                    <h5 class="card-title mb-0">Total Employees</h5>
-                </div>
-                <div class="display-5 fw-bold text-info mb-1">@companies.Sum(c => c.Employees)</div>
-                <div class="text-muted">Avg. per Company: @(companies.Sum(c => c.Employees) / companies.Length)</div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- AI Forecast Widget (High Contrast) -->
-<div class="row mb-4">
-    <div class="col-12">
-        <div class="card shadow-lg border-0" style="background: linear-gradient(90deg,#e3e6f0 0%,#f8fafc 100%);">
-            <div class="card-body p-4">
-                <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
-                    <div>
-                        <h5 class="mb-2 text-dark"><i class="bi bi-graph-up-arrow me-2"></i>AI Forecast: Next Quarter Revenue Growth</h5>
-                        <div class="fs-2 fw-bold text-dark">+12.5%</div>
-                        <div class="small text-dark">Based on historical company performance and predictive analytics.</div>
-                    </div>
-                    <div class="mt-3 mt-md-0">
-                        <span class="badge rounded-pill bg-primary bg-opacity-10 text-primary fs-6 px-4 py-2 shadow-sm">Projected Total Revenue: $7,000,000</span>
+<div class="container-fluid py-4">
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card glass-effect border-0 animate-fade-in-up">
+                <div class="card-body p-4">
+                    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                        <div>
+                            <h1 class="mb-2 text-themed-primary d-flex align-items-center">
+                                <i class="bi bi-building me-3 icon-primary fs-2"></i>
+                                Companies
+                            </h1>
+                            <p class="text-themed-secondary mb-0">Manage accounts, health, and revenue by company</p>
+                        </div>
+                        <div class="mt-3 mt-md-0">
+                            <button class="btn btn-themed me-2">
+                                <i class="bi bi-plus-circle me-2"></i>New Company
+                            </button>
+                            <button class="btn btn-themed-secondary">
+                                <i class="bi bi-upload me-2"></i>Import
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- BI Chart Placeholder -->
-<div class="row mb-4">
-    <div class="col-12">
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-white">
-                <h5 class="mb-0">Company Revenue Trend (BI Chart)</h5>
+    <!-- KPI Cards -->
+    <div class="row g-4 mb-4">
+        <div class="col-lg-3 col-md-6">
+            <div class="card card-2025 hover-3d kpi-card border-0 h-100 animate-fade-in-up animate-delay-1">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <span class="me-3 fs-2 icon-primary"><i class="bi bi-collection"></i></span>
+                        <h6 class="card-title mb-0 text-themed-primary">Total Companies</h6>
+                    </div>
+                    <div class="display-6 fw-bold text-themed-primary mb-2">648</div>
+                    <div class="text-themed-secondary"><small>+28 this quarter</small></div>
+                </div>
             </div>
-            <div class="card-body text-center">
-                <img src="https://via.placeholder.com/600x200?text=Company+Revenue+Trend+Chart" alt="Company Revenue Trend Chart" class="img-fluid rounded" />
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card card-2025 hover-3d kpi-card border-0 h-100 animate-fade-in-up animate-delay-2">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <span class="me-3 fs-2 icon-success"><i class="bi bi-check-circle"></i></span>
+                        <h6 class="card-title mb-0 text-themed-primary">Active</h6>
+                    </div>
+                    <div class="display-6 fw-bold text-themed-primary mb-2">492</div>
+                    <div class="text-themed-secondary"><small>76% of total</small></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card card-2025 hover-3d kpi-card border-0 h-100 animate-fade-in-up animate-delay-3">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <span class="me-3 fs-2 icon-info"><i class="bi bi-currency-dollar"></i></span>
+                        <h6 class="card-title mb-0 text-themed-primary">ARR</h6>
+                    </div>
+                    <div class="display-6 fw-bold text-themed-primary mb-2">$14.7M</div>
+                    <div class="text-themed-secondary"><small>Up 9% YoY</small></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card card-2025 hover-3d kpi-card border-0 h-100 animate-fade-in-up animate-delay-4">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <span class="me-3 fs-2 icon-warning"><i class="bi bi-activity"></i></span>
+                        <h6 class="card-title mb-0 text-themed-primary">Churn Risk</h6>
+                    </div>
+                    <div class="display-6 fw-bold text-themed-primary mb-2">42</div>
+                    <div class="text-themed-secondary">
+                        <span class="badge badge-themed bg-warning bg-opacity-10 text-warning">Watchlist</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Companies Table -->
-<div class="row">
-    <div class="col-12">
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-white">
-                <h5 class="mb-0">Companies List</h5>
+    <!-- Filters -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card glass-effect border-0 animate-fade-in-up">
+                <div class="card-body p-4">
+                    <div class="row g-3 align-items-end">
+                        <div class="col-lg-3 col-md-6">
+                            <label class="form-label text-themed-primary fw-medium">Search Companies</label>
+                            <div class="position-relative">
+                                <input type="text" class="form-control focus-ring" id="qCompanies" placeholder="Name, domain, owner">
+                                <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-3 text-themed-secondary"></i>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-6">
+                            <label class="form-label text-themed-primary fw-medium">Industry</label>
+                            <select id="industryCompanies" class="form-select focus-ring">
+                                <option value="">All Industries</option>
+                                <option>SaaS</option>
+                                <option>Manufacturing</option>
+                                <option>Retail</option>
+                                <option>Healthcare</option>
+                                <option>Finance</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2 col-md-6">
+                            <label class="form-label text-themed-primary fw-medium">Status</label>
+                            <select id="statusCompanies" class="form-select focus-ring">
+                                <option value="">All</option>
+                                <option>Active</option>
+                                <option>Prospect</option>
+                                <option>On Hold</option>
+                                <option>Churned</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2 col-md-6">
+                            <label class="form-label text-themed-primary fw-medium">Region</label>
+                            <select id="regionCompanies" class="form-select focus-ring">
+                                <option value="">All</option>
+                                <option>North America</option>
+                                <option>EMEA</option>
+                                <option>APAC</option>
+                                <option>LATAM</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-3 col-md-12">
+                            <label class="form-label text-themed-primary fw-medium">Employee Size</label>
+                            <div class="d-flex gap-2">
+                                <select id="sizeCompanies" class="form-select focus-ring">
+                                    <option value="">Any</option>
+                                    <option value="1-50">1–50</option>
+                                    <option value="51-250">51–250</option>
+                                    <option value="251-1000">251–1,000</option>
+                                    <option value="1000+">1,000+</option>
+                                </select>
+                                <button class="btn btn-themed flex-fill" id="btnApplyCompanies">
+                                    <i class="bi bi-funnel me-2"></i>Apply
+                                </button>
+                                <button class="btn btn-outline-secondary focus-ring" id="btnClearCompanies" title="Reset">
+                                    <i class="bi bi-arrow-clockwise"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle mb-0">
-                        <thead class="table-light">
-                            <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Industry</th>
-                                <th>Status</th>
-                                <th>Revenue</th>
-                                <th>Employees</th>
-                                <th>Last Activity</th>
-                                <th>AI Insights</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var c in companies)
-                            {
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card ai-forecast-card border-0 animate-fade-in-up">
+                <div class="card-body p-4">
+                    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                        <div>
+                            <h5 class="mb-2 d-flex align-items-center">
+                                <i class="bi bi-lightning-charge me-2"></i>
+                                Quick Actions
+                            </h5>
+                            <p class="mb-0 opacity-90">Keep relationships healthy and up-to-date</p>
+                        </div>
+                        <div class="mt-3 mt-md-0 d-flex flex-wrap gap-2">
+                            <button class="btn btn-light btn-sm bg-opacity-20 text-white">
+                                <i class="bi bi-envelope-open me-1"></i>Bulk Email
+                            </button>
+                            <button class="btn btn-light btn-sm bg-opacity-20 text-white">
+                                <i class="bi bi-person-gear me-1"></i>Assign Owner
+                            </button>
+                            <button class="btn btn-light btn-sm bg-opacity-20 text-white">
+                                <i class="bi bi-filetype-csv me-1"></i>Export CSV
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Companies Table -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card themed-table border-0 animate-fade-in-up">
+                <div class="card-header bg-transparent border-0 p-4">
+                    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                        <h5 class="mb-2 mb-md-0 text-themed-primary d-flex align-items-center">
+                            <i class="bi bi-table me-2 icon-primary"></i>
+                            Companies List
+                        </h5>
+                        <div class="d-flex gap-2">
+                            <div class="btn-group" role="group" aria-label="Quick filters">
+                                <button class="btn btn-outline-primary btn-sm focus-ring active" id="btnCompaniesAll">All</button>
+                                <button class="btn btn-outline-primary btn-sm focus-ring" id="btnCompaniesActive">Active</button>
+                                <button class="btn btn-outline-primary btn-sm focus-ring" id="btnCompaniesProspect">Prospects</button>
+                                <button class="btn btn-outline-primary btn-sm focus-ring" id="btnCompaniesChurn">At Risk</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0" id="companiesTable">
+                            <thead>
                                 <tr>
-                                    <td>@c.CompanyID</td>
-                                    <td class="fw-semibold">@c.Name</td>
-                                    <td>@c.Industry</td>
+                                    <th style="width:36px">
+                                        <div class="form-check">
+                                            <input class="form-check-input focus-ring" type="checkbox" id="selectAllCompanies">
+                                            <label class="form-check-label" for="selectAllCompanies"></label>
+                                        </div>
+                                    </th>
+                                    <th>Company</th>
+                                    <th>Domain</th>
+                                    <th>Industry</th>
+                                    <th>Employees</th>
+                                    <th class="text-end">ARR</th>
+                                    <th>Status</th>
+                                    <th>Owner</th>
+                                    <th>Region</th>
+                                    <th>Last Activity</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="companiesTbody">
+                                <!-- Sample rows (replace with Model data) -->
+                                <tr data-status="Active" data-industry="SaaS" data-region="North America" data-size="251-1000" data-arr="450000">
+                                    <td><div class="form-check"><input class="form-check-input focus-ring" type="checkbox"></div></td>
                                     <td>
-                                        @if (c.Status == "Active")
-                                        {
-                                            <span class="badge bg-success">Active</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge bg-secondary">Inactive</span>
-                                        }
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-building me-2 icon-primary"></i>
+                                            <div>
+                                                <strong class="text-themed-primary">Acme Software</strong>
+                                                <div class="small text-themed-secondary">ID: CO-1001</div>
+                                            </div>
+                                        </div>
                                     </td>
-                                    <td>@c.Revenue.ToString("C")</td>
-                                    <td>@c.Employees</td>
-                                    <td>@c.LastActivity.ToString("yyyy-MM-dd")</td>
+                                    <td><a href="#" class="text-decoration-none text-themed-primary">acme.io</a></td>
+                                    <td><span class="badge badge-themed bg-primary bg-opacity-10 text-primary">SaaS</span></td>
+                                    <td>650</td>
+                                    <td class="text-end fw-bold text-themed-primary">$450,000</td>
+                                    <td><span class="badge badge-themed bg-success text-success"><i class="bi bi-check-circle me-1"></i>Active</span></td>
                                     <td>
-                                        @if (c.Status == "Inactive")
-                                        {
-                                            <span class="text-danger">Low Engagement</span>
-                                        }
-                                        else if (c.Revenue > 3000000)
-                                        {
-                                            <span class="text-success">High Growth</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="text-warning">Stable</span>
-                                        }
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-xs bg-info bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2">
+                                                <i class="bi bi-person text-info"></i>
+                                            </div>
+                                            <span class="text-themed-secondary">John Smith</span>
+                                        </div>
+                                    </td>
+                                    <td>North America</td>
+                                    <td class="text-themed-secondary">2025-08-31</td>
+                                    <td>
+                                        <div class="d-flex gap-1">
+                                            <button class="btn btn-sm btn-outline-primary focus-ring" title="View"><i class="bi bi-eye"></i></button>
+                                            <button class="btn btn-sm btn-outline-secondary focus-ring" title="Edit"><i class="bi bi-pencil"></i></button>
+                                            <div class="btn-group">
+                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle focus-ring" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item" href="#"><i class="bi bi-link-45deg me-2"></i>Copy Link</a></li>
+                                                    <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash me-2"></i>Delete</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+
+                                <tr data-status="Prospect" data-industry="Manufacturing" data-region="EMEA" data-size="51-250" data-arr="0">
+                                    <td><div class="form-check"><input class="form-check-input focus-ring" type="checkbox"></div></td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-building me-2 icon-warning"></i>
+                                            <div>
+                                                <strong class="text-themed-primary">Globex Industrial</strong>
+                                                <div class="small text-themed-secondary">ID: CO-1023</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><a href="#" class="text-decoration-none text-themed-primary">globex.eu</a></td>
+                                    <td><span class="badge badge-themed bg-secondary bg-opacity-10 text-secondary">Manufacturing</span></td>
+                                    <td>180</td>
+                                    <td class="text-end fw-bold text-themed-primary">$0</td>
+                                    <td><span class="badge badge-themed bg-info text-info"><i class="bi bi-stars me-1"></i>Prospect</span></td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-xs bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2">
+                                                <i class="bi bi-person text-primary"></i>
+                                            </div>
+                                            <span class="text-themed-secondary">Sarah Johnson</span>
+                                        </div>
+                                    </td>
+                                    <td>EMEA</td>
+                                    <td class="text-themed-secondary">2025-08-29</td>
+                                    <td>
+                                        <div class="d-flex gap-1">
+                                            <button class="btn btn-sm btn-outline-primary focus-ring" title="View"><i class="bi bi-eye"></i></button>
+                                            <button class="btn btn-sm btn-outline-success focus-ring" title="Convert"><i class="bi bi-arrow-right-circle"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr data-status="On Hold" data-industry="Retail" data-region="APAC" data-size="1000+" data-arr="1200000">
+                                    <td><div class="form-check"><input class="form-check-input focus-ring" type="checkbox"></div></td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-building me-2 icon-info"></i>
+                                            <div>
+                                                <strong class="text-themed-primary">Global Retail Group</strong>
+                                                <div class="small text-themed-secondary">ID: CO-1044</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><a href="#" class="text-decoration-none text-themed-primary">grg.com</a></td>
+                                    <td><span class="badge badge-themed bg-info text-info">Retail</span></td>
+                                    <td>2,800</td>
+                                    <td class="text-end fw-bold text-themed-primary">$1,200,000</td>
+                                    <td><span class="badge badge-themed bg-warning text-warning"><i class="bi bi-pause-circle me-1"></i>On Hold</span></td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-xs bg-success bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2">
+                                                <i class="bi bi-person text-success"></i>
+                                            </div>
+                                            <span class="text-themed-secondary">Mike Davis</span>
+                                        </div>
+                                    </td>
+                                    <td>APAC</td>
+                                    <td class="text-themed-secondary">2025-08-26</td>
+                                    <td>
+                                        <div class="d-flex gap-1">
+                                            <button class="btn btn-sm btn-outline-primary focus-ring" title="View"><i class="bi bi-eye"></i></button>
+                                            <button class="btn btn-sm btn-outline-secondary focus-ring" title="Edit"><i class="bi bi-pencil"></i></button>
+                                            <div class="btn-group">
+                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle focus-ring" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-text me-2"></i>Create Task</a></li>
+                                                    <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-flag me-2"></i>Flag Risk</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr data-status="Churned" data-industry="Healthcare" data-region="North America" data-size="1-50" data-arr="0">
+                                    <td><div class="form-check"><input class="form-check-input focus-ring" type="checkbox"></div></td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-building me-2 icon-danger"></i>
+                                            <div>
+                                                <strong class="text-themed-primary">Medico Labs</strong>
+                                                <div class="small text-themed-secondary">ID: CO-1080</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><a href="#" class="text-decoration-none text-themed-primary">medico.health</a></td>
+                                    <td><span class="badge badge-themed bg-danger bg-opacity-10 text-danger">Healthcare</span></td>
+                                    <td>42</td>
+                                    <td class="text-end fw-bold text-themed-primary">$0</td>
+                                    <td><span class="badge badge-themed bg-danger text-danger"><i class="bi bi-x-circle me-1"></i>Churned</span></td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-xs bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2">
+                                                <i class="bi bi-person text-primary"></i>
+                                            </div>
+                                            <span class="text-themed-secondary">Anna Lee</span>
+                                        </div>
+                                    </td>
+                                    <td>North America</td>
+                                    <td class="text-themed-secondary">2025-07-12</td>
+                                    <td>
+                                        <div class="d-flex gap-1">
+                                            <button class="btn btn-sm btn-outline-primary focus-ring" title="View"><i class="bi bi-eye"></i></button>
+                                            <div class="btn-group">
+                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle focus-ring" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item" href="#"><i class="bi bi-arrow-repeat me-2"></i>Win-back</a></li>
+                                                    <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-pdf me-2"></i>Export Record</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- ... more rows from your model ... -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+
+                <div class="card-footer bg-transparent border-0 p-4">
+                    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                        <div class="text-themed-secondary mb-2 mb-md-0">Showing 1–10 of 648 companies</div>
+                        <nav>
+                            <ul class="pagination pagination-sm mb-0">
+                                <li class="page-item disabled"><span class="page-link bg-transparent border-0 text-themed-secondary">Previous</span></li>
+                                <li class="page-item active"><span class="page-link bg-primary border-primary">1</span></li>
+                                <li class="page-item"><a class="page-link bg-transparent border-0 text-themed-primary focus-ring" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link bg-transparent border-0 text-themed-primary focus-ring" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link bg-transparent border-0 text-themed-primary focus-ring" href="#">Next</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        (function () {
+          const qEl   = document.getElementById('qCompanies');
+          const indEl = document.getElementById('industryCompanies');
+          const stEl  = document.getElementById('statusCompanies');
+          const regEl = document.getElementById('regionCompanies');
+          const sizeEl= document.getElementById('sizeCompanies');
+          const tbody = document.getElementById('companiesTbody');
+
+          function matchesSize(sizeFilter, employees) {
+            if (!sizeFilter) return true;
+            const n = Number(employees) || 0;
+            switch (sizeFilter) {
+              case '1-50': return n >= 1 && n <= 50;
+              case '51-250': return n >= 51 && n <= 250;
+              case '251-1000': return n >= 251 && n <= 1000;
+              case '1000+': return n >= 1000;
+              default: return true;
+            }
+          }
+
+          function apply() {
+            const q   = (qEl.value || '').toLowerCase();
+            const ind = indEl.value;
+            const st  = stEl.value;
+            const reg = regEl.value;
+            const size= sizeEl.value;
+
+            tbody.querySelectorAll('tr').forEach(tr => {
+              const cells = tr.cells;
+              const hay = (cells[1].innerText + ' ' + cells[2].innerText + ' ' + cells[7].innerText).toLowerCase(); // name + domain + owner
+              const industry = tr.dataset.industry || '';
+              const status   = tr.dataset.status || '';
+              const region   = tr.dataset.region || '';
+              const employees= cells[4].innerText.replace(/[^0-9]/g,'') || '0';
+
+              let keep = hay.includes(q);
+              if (ind && industry !== ind) keep = false;
+              if (st && status !== st) keep = false;
+              if (reg && region !== reg) keep = false;
+              if (!matchesSize(size, employees)) keep = false;
+
+              tr.style.display = keep ? '' : 'none';
+            });
+          }
+
+          const btnApply = document.getElementById('btnApplyCompanies');
+          const btnClear = document.getElementById('btnClearCompanies');
+          if (btnApply) btnApply.addEventListener('click', apply);
+          if (btnClear) btnClear.addEventListener('click', () => {
+            qEl.value = ''; indEl.value = ''; stEl.value = ''; regEl.value = ''; sizeEl.value = ''; apply();
+          });
+
+          // Quick filter buttons
+          const bAll = document.getElementById('btnCompaniesAll');
+          const bAct = document.getElementById('btnCompaniesActive');
+          const bPros= document.getElementById('btnCompaniesProspect');
+          const bChrn= document.getElementById('btnCompaniesChurn');
+          function setActive(btn){ [bAll,bAct,bPros,bChrn].forEach(x=>x&&x.classList.remove('active')); btn.classList.add('active'); }
+          if (bAll)  bAll.addEventListener('click', ()=>{ setActive(bAll);  tbody.querySelectorAll('tr').forEach(tr=> tr.style.display=''); });
+          if (bAct)  bAct.addEventListener('click', ()=>{ setActive(bAct);  tbody.querySelectorAll('tr').forEach(tr=> tr.style.display = (tr.dataset.status==='Active')?'':'' ); });
+          if (bPros) bPros.addEventListener('click',()=>{ setActive(bPros); tbody.querySelectorAll('tr').forEach(tr=> tr.style.display = (tr.dataset.status==='Prospect')?'':'' ); });
+          if (bChrn) bChrn.addEventListener('click',()=>{ setActive(bChrn); tbody.querySelectorAll('tr').forEach(tr=> tr.style.display = (tr.dataset.status==='Churned' || tr.dataset.status==='On Hold')?'':'' ); });
+
+          // Select All
+          const selectAll = document.getElementById('selectAllCompanies');
+          if (selectAll) {
+            selectAll.addEventListener('change', () => {
+              document.querySelectorAll('#companiesTbody input[type="checkbox"]').forEach(cb => cb.checked = selectAll.checked);
+            });
+          }
+        })();
+    </script>
+}

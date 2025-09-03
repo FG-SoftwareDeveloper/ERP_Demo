@@ -5,7 +5,7 @@ namespace MyApp.Namespace
     public class JournalEntriesController : Controller
     {
         // GET: JournalEntriesController
-        public ActionResult Index()
+        public IActionResult ListJournalEntries()
         {
             return View();
         }

@@ -5,7 +5,7 @@ namespace MyApp.Namespace
     public class ProjectFinancialSummaryController : Controller
     {
         // GET: ProjectFinancialSummaryController
-        public ActionResult Index()
+        public IActionResult ListProjectFinancialSummary()
         {
             return View();
         }

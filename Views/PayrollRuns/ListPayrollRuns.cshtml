@@ -7,74 +7,69 @@
         new { PayrollRunID = 3, Period = "Jun 2025", Status = "Pending", Employees = 119, TotalGross = 178000m, TotalNet = 143000m, Date = DateTime.Parse("2025-06-30"), AIInsights = "Pending approval. Net pay matches forecast." }
     };
 }
-
-<h2 class="h1 fw-bold themed-heading mb-4 border-bottom pb-2">Payroll Runs</h2>
-
-<!-- KPI Cards Row -->
-<div class="row g-4 mb-4">
-    <div class="col-md-3">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-primary"><i class="bi bi-calculator"></i></span>
-                    <h5 class="card-title mb-0">Total Runs</h5>
-                </div>
-                <div class="display-5 fw-bold text-primary mb-1">@payrollRuns.Length</div>
-                <div class="text-muted">Completed: @payrollRuns.Count(p => p.Status == "Completed")</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-success"><i class="bi bi-currency-dollar"></i></span>
-                    <h5 class="card-title mb-0">Total Gross</h5>
-                </div>
-                <div class="display-5 fw-bold text-success mb-1">@payrollRuns.Sum(p => p.TotalGross).ToString("C")</div>
-                <div class="text-muted">Last: @payrollRuns.OrderByDescending(p => p.Date).First().TotalGross.ToString("C")</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-info"><i class="bi bi-cash-stack"></i></span>
-                    <h5 class="card-title mb-0">Total Net</h5>
-                </div>
-                <div class="display-5 fw-bold text-info mb-1">@payrollRuns.Sum(p => p.TotalNet).ToString("C")</div>
-                <div class="text-muted">Last: @payrollRuns.OrderByDescending(p => p.Date).First().TotalNet.ToString("C")</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-warning"><i class="bi bi-people"></i></span>
-                    <h5 class="card-title mb-0">Employees Paid</h5>
-                </div>
-                <div class="display-5 fw-bold text-warning mb-1">@payrollRuns.OrderByDescending(p => p.Date).First().Employees</div>
-                <div class="text-muted">Avg. per Run: @(payrollRuns.Average(p => p.Employees))</div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- AI Forecast Widget (High Contrast) -->
-<div class="row mb-4">
-    <div class="col-12">
-        <div class="card shadow-lg border-0" style="background: linear-gradient(90deg,#e3e6f0 0%,#f8fafc 100%);">
-            <div class="card-body p-4">
-                <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card glass-effect border-0">
+                <div class="card-body p-4 d-flex flex-column flex-md-row align-items-md-center justify-content-between">
                     <div>
-                        <h5 class="mb-2 text-dark"><i class="bi bi-lightbulb me-2"></i>AI Forecast: Next Payroll Net Pay</h5>
-                        <div class="fs-2 fw-bold text-dark">$146,000</div>
-                        <div class="small text-dark">Based on historical payroll, new hires, and deduction trends.</div>
+                        <h1 class="mb-1 text-themed-primary d-flex align-items-center"><i class="bi bi-calculator me-3 icon-primary fs-2"></i> Payroll Runs</h1>
+                        <p class="text-themed-secondary mb-0">Guided wizard, exception radar, and AI payroll auditor.</p>
                     </div>
-                    <div class="mt-3 mt-md-0">
-                        <span class="badge rounded-pill bg-primary bg-opacity-10 text-primary fs-6 px-4 py-2 shadow-sm">Projected Employees: 122</span>
+                    <div class="mt-3 mt-md-0 d-flex flex-wrap gap-2">
+                        <button class="btn btn-themed" data-bs-toggle="modal" data-bs-target="#startWizard"><i class="bi bi-play-circle me-2"></i>Start Run</button>
+                        <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#aiAuditor"><i class="bi bi-robot me-2"></i>AI Auditor</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signature: Steps + Overtime Dist + Exceptions -->
+    <div class="row g-4 mb-4">
+        <div class="col-xxl-5">
+            <div class="card glass-effect border-0 h-100">
+                <div class="card-header p-4 bg-transparent border-0"><h5 class="mb-0 text-themed-primary"><i class="bi bi-list-ol me-2 icon-success"></i>Run Wizard</h5></div>
+                <div class="card-body p-4">
+                    <ol class="small mb-0">
+                        <li>Import Timecards</li>
+                        <li>Validate Deductions</li>
+                        <li>Preview Gross-to-Net</li>
+                        <li>Approve & Commit</li>
+                        <li>Fund & Notify</li>
+                    </ol>
+                    <div class="mt-3 chart-container"><canvas id="progressDonut"></canvas></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xxl-7">
+            <div class="card glass-effect border-0 h-100">
+                <div class="card-header p-4 bg-transparent border-0"><h5 class="mb-0 text-themed-primary"><i class="bi bi-bar-chart-line me-2 icon-info"></i>Overtime Distribution</h5></div>
+                <div class="card-body p-4">
+                    <div class="chart-container"><canvas id="overtimeBar"></canvas></div>
+                    <small class="text-themed-secondary">Identify outliers by dept/site.</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card themed-table border-0">
+                <div class="card-header p-4 bg-transparent border-0 d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0 text-themed-primary"><i class="bi bi-table me-2 icon-primary"></i>Recent Runs</h5>
+                    <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#aiAuditor"><i class="bi bi-bug me-1"></i>Scan Exceptions</button>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead><tr><th>Run #</th><th>Period</th><th>Pay Date</th><th>Employees</th><th>Gross</th><th>Net</th><th>Exceptions</th><th>Status</th><th>Actions</th></tr></thead>
+                            <tbody>
+                                <tr><td>PR-2025-17</td><td>2025-08</td><td>2025-08-30</td><td>212</td><td>$182,340</td><td>$132,780</td><td><span class="badge bg-warning text-warning badge-themed">3</span></td><td><span class="badge bg-success text-success badge-themed">Completed</span></td><td><button class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></button></td></tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -82,90 +77,32 @@
     </div>
 </div>
 
-<!-- BI Chart Placeholder -->
-<div class="row mb-4">
-    <div class="col-12">
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-white">
-                <h5 class="mb-0">Payroll Trend (BI Chart)</h5>
+<!-- Modals -->
+<div class="modal fade" id="startWizard" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content glass-effect border-0">
+            <div class="modal-header"><h5 class="modal-title"><i class="bi bi-play-fill me-2"></i>Start Payroll Run</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-md-6"><label class="form-label">Period</label><input class="form-control focus-ring" placeholder="2025-09"></div>
+                    <div class="col-md-6"><label class="form-label">Pay Date</label><input type="date" class="form-control focus-ring"></div>
+                    <div class="col-12"><label class="form-label">Notes</label><textarea class="form-control focus-ring"></textarea></div>
+                </div>
             </div>
-            <div class="card-body text-center">
-                <img src="https://via.placeholder.com/600x200?text=Payroll+Trend+Chart" alt="Payroll Trend Chart" class="img-fluid rounded" />
-            </div>
+            <div class="modal-footer"><button class="btn btn-themed">Start</button></div>
         </div>
     </div>
 </div>
 
-<!-- Payroll Runs Table -->
-<div class="row">
-    <div class="col-12">
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-white">
-                <h5 class="mb-0">Payroll Runs List</h5>
+<div class="modal fade" id="aiAuditor" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content glass-effect border-0">
+            <div class="modal-header"><h5 class="modal-title"><i class="bi bi-robot me-2"></i>AI Payroll Auditor</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+            <div class="modal-body">
+                <div class="alert alert-warning"><i class="bi bi-exclamation-triangle me-2"></i>5 employees show > 30% OT increase vs 4wk avg; check approvals.</div>
+                <div class="alert alert-info"><i class="bi bi-lightbulb me-2"></i>Auto-fix rounding on 12 timecards (±0.01h).</div>
             </div>
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle mb-0">
-                        <thead class="table-light">
-                            <tr>
-                                <th>#</th>
-                                <th>Period</th>
-                                <th>Status</th>
-                                <th>Employees</th>
-                                <th>Total Gross</th>
-                                <th>Total Net</th>
-                                <th>Date</th>
-                                <th>AI Insights</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var p in payrollRuns.OrderByDescending(p => p.Date))
-                            {
-                                <tr>
-                                    <td>@p.PayrollRunID</td>
-                                    <td class="fw-semibold">@p.Period</td>
-                                    <td>
-                                        @if (p.Status == "Completed")
-                                        {
-                                            <span class="badge bg-success">Completed</span>
-                                        }
-                                        else if (p.Status == "Pending")
-                                        {
-                                            <span class="badge bg-warning text-dark">Pending</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge bg-secondary">@p.Status</span>
-                                        }
-                                    </td>
-                                    <td>@p.Employees</td>
-                                    <td>@p.TotalGross.ToString("C")</td>
-                                    <td>@p.TotalNet.ToString("C")</td>
-                                    <td>@p.Date.ToString("yyyy-MM-dd")</td>
-                                    <td>
-                                        @if (p.AIInsights.Contains("anomalies"))
-                                        {
-                                            <span class="text-danger">@p.AIInsights</span>
-                                        }
-                                        else if (p.AIInsights.Contains("flagged"))
-                                        {
-                                            <span class="text-warning">@p.AIInsights</span>
-                                        }
-                                        else if (p.AIInsights.Contains("on time") || p.AIInsights.Contains("matches forecast"))
-                                        {
-                                            <span class="text-success">@p.AIInsights</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="text-primary">@p.AIInsights</span>
-                                        }
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            <div class="modal-footer"><button class="btn btn-themed-secondary"><i class="bi bi-tools me-1"></i>Create Fix Tasks</button></div>
         </div>
     </div>
 </div>

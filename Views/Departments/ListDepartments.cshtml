@@ -7,151 +7,527 @@
         new { DepartmentID = 3, Name = "HR", Manager = "Carol Jones", Status = "Inactive", Budget = 400000m, Employees = 8, LastActivity = DateTime.Parse("2025-07-15"), PerformanceScore = 60 }
     };
 }
-
-<h2 class="h1 fw-bold themed-heading mb-4 border-bottom pb-2">Departments</h2>
-
-<!-- KPI Cards Row -->
-<div class="row g-4 mb-4">
-    <div class="col-md-4">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-primary"><i class="bi bi-diagram-3"></i></span>
-                    <h5 class="card-title mb-0">Total Departments</h5>
-                </div>
-                <div class="display-5 fw-bold text-primary mb-1">@departments.Length</div>
-                <div class="text-muted">Active: @departments.Count(d => d.Status == "Active"), Inactive: @departments.Count(d => d.Status == "Inactive")</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-success"><i class="bi bi-currency-dollar"></i></span>
-                    <h5 class="card-title mb-0">Total Budget</h5>
-                </div>
-                <div class="display-5 fw-bold text-success mb-1">@departments.Sum(d => d.Budget).ToString("C")</div>
-                <div class="text-muted">Avg. per Dept: @(departments.Sum(d => d.Budget) / departments.Length).ToString("C")</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-info"><i class="bi bi-people"></i></span>
-                    <h5 class="card-title mb-0">Total Employees</h5>
-                </div>
-                <div class="display-5 fw-bold text-info mb-1">@departments.Sum(d => d.Employees)</div>
-                <div class="text-muted">Avg. per Dept: @(departments.Sum(d => d.Employees) / departments.Length)</div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- AI Forecast Widget (High Contrast) -->
-<div class="row mb-4">
-    <div class="col-12">
-        <div class="card shadow-lg border-0" style="background: linear-gradient(90deg,#e3e6f0 0%,#f8fafc 100%);">
-            <div class="card-body p-4">
-                <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
-                    <div>
-                        <h5 class="mb-2 text-dark"><i class="bi bi-graph-up-arrow me-2"></i>AI Forecast: Next Quarter Department Performance</h5>
-                        <div class="fs-2 fw-bold text-dark">+9.2%</div>
-                        <div class="small text-dark">Based on historical department metrics and predictive analytics.</div>
-                    </div>
-                    <div class="mt-3 mt-md-0">
-                        <span class="badge rounded-pill bg-primary bg-opacity-10 text-primary fs-6 px-4 py-2 shadow-sm">Projected Avg. Score: 88</span>
+<div class="container-fluid py-4">
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card glass-effect border-0 animate-fade-in-up">
+                <div class="card-body p-4">
+                    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                        <div>
+                            <h1 class="mb-2 text-themed-primary d-flex align-items-center">
+                                <i class="bi bi-diagram-3 me-3 icon-primary fs-2"></i>
+                                Departments
+                            </h1>
+                            <p class="text-themed-secondary mb-0">Organize teams, track headcount, utilization, and budget</p>
+                        </div>
+                        <div class="mt-3 mt-md-0">
+                            <button class="btn btn-themed me-2">
+                                <i class="bi bi-plus-circle me-2"></i>New Department
+                            </button>
+                            <button class="btn btn-themed-secondary">
+                                <i class="bi bi-upload me-2"></i>Import
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- BI Chart Placeholder -->
-<div class="row mb-4">
-    <div class="col-12">
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-white">
-                <h5 class="mb-0">Department Performance Trend (BI Chart)</h5>
+    <!-- KPI Cards -->
+    <div class="row g-4 mb-4">
+        <div class="col-lg-3 col-md-6">
+            <div class="card card-2025 hover-3d kpi-card border-0 h-100 animate-fade-in-up animate-delay-1">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <span class="me-3 fs-2 icon-primary"><i class="bi bi-collection"></i></span>
+                        <h6 class="card-title mb-0 text-themed-primary">Total Departments</h6>
+                    </div>
+                    <div class="display-6 fw-bold text-themed-primary mb-2">24</div>
+                    <div class="text-themed-secondary"><small>+2 this quarter</small></div>
+                </div>
             </div>
-            <div class="card-body text-center">
-                <img src="https://via.placeholder.com/600x200?text=Department+Performance+Trend+Chart" alt="Department Performance Trend Chart" class="img-fluid rounded" />
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card card-2025 hover-3d kpi-card border-0 h-100 animate-fade-in-up animate-delay-2">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <span class="me-3 fs-2 icon-info"><i class="bi bi-people"></i></span>
+                        <h6 class="card-title mb-0 text-themed-primary">Headcount</h6>
+                    </div>
+                    <div class="display-6 fw-bold text-themed-primary mb-2">1,142</div>
+                    <div class="text-themed-secondary"><small>Open roles: 37</small></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card card-2025 hover-3d kpi-card border-0 h-100 animate-fade-in-up animate-delay-3">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <span class="me-3 fs-2 icon-success"><i class="bi bi-graph-up"></i></span>
+                        <h6 class="card-title mb-0 text-themed-primary">Avg. Utilization</h6>
+                    </div>
+                    <div class="display-6 fw-bold text-themed-primary mb-2">82%</div>
+                    <div class="text-themed-secondary"><small class="text-success">+3 pts vs last month</small></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card card-2025 hover-3d kpi-card border-0 h-100 animate-fade-in-up animate-delay-4">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <span class="me-3 fs-2 icon-warning"><i class="bi bi-cash-stack"></i></span>
+                        <h6 class="card-title mb-0 text-themed-primary">Budget Used</h6>
+                    </div>
+                    <div class="display-6 fw-bold text-themed-primary mb-2">68%</div>
+                    <div class="text-themed-secondary"><small>YTD spend</small></div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Departments Table -->
-<div class="row">
-    <div class="col-12">
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-white">
-                <h5 class="mb-0">Departments List</h5>
+    <!-- Filters -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card glass-effect border-0 animate-fade-in-up">
+                <div class="card-body p-4">
+                    <div class="row g-3 align-items-end">
+                        <div class="col-lg-3 col-md-6">
+                            <label class="form-label text-themed-primary fw-medium">Search Departments</label>
+                            <div class="position-relative">
+                                <input type="text" class="form-control focus-ring" id="qDept" placeholder="Name, manager, cost center">
+                                <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-3 text-themed-secondary"></i>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-6">
+                            <label class="form-label text-themed-primary fw-medium">Status</label>
+                            <select id="statusDept" class="form-select focus-ring">
+                                <option value="">All</option>
+                                <option>Active</option>
+                                <option>On Hold</option>
+                                <option>Inactive</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2 col-md-6">
+                            <label class="form-label text-themed-primary fw-medium">Location</label>
+                            <select id="locDept" class="form-select focus-ring">
+                                <option value="">Anywhere</option>
+                                <option>North America</option>
+                                <option>EMEA</option>
+                                <option>APAC</option>
+                                <option>LATAM</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2 col-md-6">
+                            <label class="form-label text-themed-primary fw-medium">Type</label>
+                            <select id="typeDept" class="form-select focus-ring">
+                                <option value="">All Types</option>
+                                <option>G&A</option>
+                                <option>R&D</option>
+                                <option>Sales</option>
+                                <option>Operations</option>
+                                <option>Support</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-3 col-md-12">
+                            <div class="d-flex gap-2">
+                                <select id="sizeDept" class="form-select focus-ring" title="Headcount">
+                                    <option value="">Any Size</option>
+                                    <option value="1-25">1–25</option>
+                                    <option value="26-100">26–100</option>
+                                    <option value="101-300">101–300</option>
+                                    <option value="300+">300+</option>
+                                </select>
+                                <select id="utilDept" class="form-select focus-ring" title="Utilization">
+                                    <option value="">Any Util</option>
+                                    <option value="<60">&lt;60%</option>
+                                    <option value="60-80">60–80%</option>
+                                    <option value="80-100">80–100%</option>
+                                    <option value="100+">100%+</option>
+                                </select>
+                                <button class="btn btn-themed flex-fill" id="btnApplyDept">
+                                    <i class="bi bi-funnel me-2"></i>Apply
+                                </button>
+                                <button class="btn btn-outline-secondary focus-ring" id="btnClearDept" title="Reset">
+                                    <i class="bi bi-arrow-clockwise"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle mb-0">
-                        <thead class="table-light">
-                            <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Manager</th>
-                                <th>Status</th>
-                                <th>Budget</th>
-                                <th>Employees</th>
-                                <th>Last Activity</th>
-                                <th>Performance Score</th>
-                                <th>AI Insights</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var d in departments)
-                            {
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card ai-forecast-card border-0 animate-fade-in-up">
+                <div class="card-body p-4">
+                    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                        <div>
+                            <h5 class="mb-2 d-flex align-items-center">
+                                <i class="bi bi-lightning-charge me-2"></i>
+                                Quick Actions
+                            </h5>
+                            <p class="mb-0 opacity-90">Balance workload, fill roles, and control spend</p>
+                        </div>
+                        <div class="mt-3 mt-md-0 d-flex flex-wrap gap-2">
+                            <button class="btn btn-light btn-sm bg-opacity-20 text-white">
+                                <i class="bi bi-person-plus me-1"></i>Create Requisition
+                            </button>
+                            <button class="btn btn-light btn-sm bg-opacity-20 text-white">
+                                <i class="bi bi-arrow-left-right me-1"></i>Rebalance Headcount
+                            </button>
+                            <button class="btn btn-light btn-sm bg-opacity-20 text-white">
+                                <i class="bi bi-file-earmark-pdf me-1"></i>Export Report
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Departments Table -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card themed-table border-0 animate-fade-in-up">
+                <div class="card-header bg-transparent border-0 p-4">
+                    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                        <h5 class="mb-2 mb-md-0 text-themed-primary d-flex align-items-center">
+                            <i class="bi bi-table me-2 icon-primary"></i>
+                            Departments List
+                        </h5>
+                        <div class="d-flex gap-2">
+                            <div class="btn-group" role="group" aria-label="Quick filters">
+                                <button class="btn btn-outline-primary btn-sm focus-ring active" id="btnDeptAll">All</button>
+                                <button class="btn btn-outline-primary btn-sm focus-ring" id="btnDeptHiring">Hiring</button>
+                                <button class="btn btn-outline-primary btn-sm focus-ring" id="btnDeptUnder">Underutilized</button>
+                                <button class="btn btn-outline-primary btn-sm focus-ring" id="btnDeptOver">Over Capacity</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0" id="deptTable">
+                            <thead>
                                 <tr>
-                                    <td>@d.DepartmentID</td>
-                                    <td class="fw-semibold">@d.Name</td>
-                                    <td>@d.Manager</td>
+                                    <th style="width:36px">
+                                        <div class="form-check">
+                                            <input class="form-check-input focus-ring" type="checkbox" id="selectAllDept">
+                                            <label class="form-check-label" for="selectAllDept"></label>
+                                        </div>
+                                    </th>
+                                    <th>Department</th>
+                                    <th>Manager</th>
+                                    <th>Headcount</th>
+                                    <th>Open Roles</th>
+                                    <th class="text-end">Budget (Used / Alloc)</th>
+                                    <th>Utilization</th>
+                                    <th>Status</th>
+                                    <th>Location</th>
+                                    <th>Type</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="deptTbody">
+                                <!-- Sample rows (replace with Model data) -->
+                                <tr data-status="Active" data-location="North America" data-type="R&D" data-headcount="220" data-openroles="12" data-util="88" data-used="1250000" data-alloc="1800000">
+                                    <td><div class="form-check"><input class="form-check-input focus-ring" type="checkbox"></div></td>
                                     <td>
-                                        @if (d.Status == "Active")
-                                        {
-                                            <span class="badge bg-success">Active</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge bg-secondary">Inactive</span>
-                                        }
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-cpu me-2 icon-primary"></i>
+                                            <div>
+                                                <strong class="text-themed-primary">Engineering</strong>
+                                                <div class="small text-themed-secondary">Cost Center: CC-1001</div>
+                                            </div>
+                                        </div>
                                     </td>
-                                    <td>@d.Budget.ToString("C")</td>
-                                    <td>@d.Employees</td>
-                                    <td>@d.LastActivity.ToString("yyyy-MM-dd")</td>
-                                    <td>@d.PerformanceScore</td>
                                     <td>
-                                        @if (d.Status == "Inactive")
-                                        {
-                                            <span class="text-danger">Needs Attention</span>
-                                        }
-                                        else if (d.PerformanceScore > 90)
-                                        {
-                                            <span class="text-success">Outstanding</span>
-                                        }
-                                        else if (d.PerformanceScore < 70)
-                                        {
-                                            <span class="text-warning">Below Target</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="text-primary">On Track</span>
-                                        }
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-xs bg-info bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2">
+                                                <i class="bi bi-person text-info"></i>
+                                            </div>
+                                            <span class="text-themed-secondary">Alex Turner</span>
+                                        </div>
+                                    </td>
+                                    <td>220</td>
+                                    <td><span class="badge badge-themed bg-info text-info">12</span></td>
+                                    <td class="text-end fw-bold text-themed-primary">$1.25M / $1.80M</td>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <span class="small text-themed-secondary">88%</span>
+                                            <div class="progress w-100" style="height:6px;">
+                                                <div class="progress-bar bg-primary" style="width:88%"></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge badge-themed bg-success text-success"><i class="bi bi-check-circle me-1"></i>Active</span></td>
+                                    <td>North America</td>
+                                    <td><span class="badge badge-themed bg-primary bg-opacity-10 text-primary">R&amp;D</span></td>
+                                    <td>
+                                        <div class="d-flex gap-1">
+                                            <button class="btn btn-sm btn-outline-primary focus-ring" title="View"><i class="bi bi-eye"></i></button>
+                                            <button class="btn btn-sm btn-outline-secondary focus-ring" title="Edit"><i class="bi bi-pencil"></i></button>
+                                            <div class="btn-group">
+                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle focus-ring" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item" href="#"><i class="bi bi-people me-2"></i>Plan Hiring</a></li>
+                                                    <li><a class="dropdown-item" href="#"><i class="bi bi-filetype-pdf me-2"></i>Budget PDF</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+
+                                <tr data-status="Active" data-location="EMEA" data-type="Sales" data-headcount="160" data-openroles="7" data-util="102" data-used="980000" data-alloc="920000">
+                                    <td><div class="form-check"><input class="form-check-input focus-ring" type="checkbox"></div></td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-bag-check me-2 icon-warning"></i>
+                                            <div>
+                                                <strong class="text-themed-primary">Field Sales</strong>
+                                                <div class="small text-themed-secondary">Cost Center: CC-1015</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-xs bg-success bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2">
+                                                <i class="bi bi-person text-success"></i>
+                                            </div>
+                                            <span class="text-themed-secondary">Dana Patel</span>
+                                        </div>
+                                    </td>
+                                    <td>160</td>
+                                    <td><span class="badge badge-themed bg-info text-info">7</span></td>
+                                    <td class="text-end fw-bold text-themed-primary">$980K / $920K</td>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <span class="small text-danger fw-medium">102%</span>
+                                            <div class="progress w-100" style="height:6px;">
+                                                <div class="progress-bar bg-danger" style="width:100%"></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge badge-themed bg-warning text-warning"><i class="bi bi-exclamation-triangle me-1"></i>Over Capacity</span></td>
+                                    <td>EMEA</td>
+                                    <td><span class="badge badge-themed bg-secondary bg-opacity-10 text-secondary">Sales</span></td>
+                                    <td>
+                                        <div class="d-flex gap-1">
+                                            <button class="btn btn-sm btn-outline-primary focus-ring" title="View"><i class="bi bi-eye"></i></button>
+                                            <button class="btn btn-sm btn-outline-warning focus-ring" title="Rebalance"><i class="bi bi-arrow-left-right"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr data-status="On Hold" data-location="APAC" data-type="Support" data-headcount="48" data-openroles="0" data-util="54" data-used="210000" data-alloc="480000">
+                                    <td><div class="form-check"><input class="form-check-input focus-ring" type="checkbox"></div></td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-life-preserver me-2 icon-info"></i>
+                                            <div>
+                                                <strong class="text-themed-primary">Customer Support</strong>
+                                                <div class="small text-themed-secondary">Cost Center: CC-1028</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-xs bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2">
+                                                <i class="bi bi-person text-primary"></i>
+                                            </div>
+                                            <span class="text-themed-secondary">Morgan Lee</span>
+                                        </div>
+                                    </td>
+                                    <td>48</td>
+                                    <td><span class="badge badge-themed bg-secondary bg-opacity-10 text-secondary">0</span></td>
+                                    <td class="text-end fw-bold text-themed-primary">$210K / $480K</td>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <span class="small text-themed-secondary">54%</span>
+                                            <div class="progress w-100" style="height:6px;">
+                                                <div class="progress-bar bg-secondary" style="width:54%"></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge badge-themed bg-warning text-warning"><i class="bi bi-pause-circle me-1"></i>On Hold</span></td>
+                                    <td>APAC</td>
+                                    <td><span class="badge badge-themed bg-info text-info">Support</span></td>
+                                    <td>
+                                        <div class="d-flex gap-1">
+                                            <button class="btn btn-sm btn-outline-primary focus-ring" title="View"><i class="bi bi-eye"></i></button>
+                                            <button class="btn btn-sm btn-outline-success focus-ring" title="Improve Utilization"><i class="bi bi-rocket-takeoff"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr data-status="Inactive" data-location="LATAM" data-type="G&A" data-headcount="12" data-openroles="0" data-util="0" data-used="12000" data-alloc="95000">
+                                    <td><div class="form-check"><input class="form-check-input focus-ring" type="checkbox"></div></td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-building-gear me-2 icon-secondary"></i>
+                                            <div>
+                                                <strong class="text-themed-primary">Admin (Legacy)</strong>
+                                                <div class="small text-themed-secondary">Cost Center: CC-1035</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-xs bg-secondary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2">
+                                                <i class="bi bi-person text-secondary"></i>
+                                            </div>
+                                            <span class="text-themed-secondary">—</span>
+                                        </div>
+                                    </td>
+                                    <td>12</td>
+                                    <td><span class="badge badge-themed bg-secondary bg-opacity-10 text-secondary">0</span></td>
+                                    <td class="text-end fw-bold text-themed-primary">$12K / $95K</td>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <span class="small text-themed-secondary">0%</span>
+                                            <div class="progress w-100" style="height:6px;">
+                                                <div class="progress-bar bg-secondary" style="width:0%"></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge badge-themed bg-secondary text-secondary"><i class="bi bi-x-circle me-1"></i>Inactive</span></td>
+                                    <td>LATAM</td>
+                                    <td><span class="badge badge-themed bg-primary bg-opacity-10 text-primary">G&amp;A</span></td>
+                                    <td>
+                                        <div class="d-flex gap-1">
+                                            <button class="btn btn-sm btn-outline-primary focus-ring" title="View"><i class="bi bi-eye"></i></button>
+                                            <div class="btn-group">
+                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle focus-ring" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash me-2"></i>Archive</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- ... more rows from your model ... -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+
+                <div class="card-footer bg-transparent border-0 p-4">
+                    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                        <div class="text-themed-secondary mb-2 mb-md-0">Showing 1–10 of 24 departments</div>
+                        <nav>
+                            <ul class="pagination pagination-sm mb-0">
+                                <li class="page-item disabled"><span class="page-link bg-transparent border-0 text-themed-secondary">Previous</span></li>
+                                <li class="page-item active"><span class="page-link bg-primary border-primary">1</span></li>
+                                <li class="page-item"><a class="page-link bg-transparent border-0 text-themed-primary focus-ring" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link bg-transparent border-0 text-themed-primary focus-ring" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link bg-transparent border-0 text-themed-primary focus-ring" href="#">Next</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        (function () {
+          const qEl   = document.getElementById('qDept');
+          const stEl  = document.getElementById('statusDept');
+          const locEl = document.getElementById('locDept');
+          const typeEl= document.getElementById('typeDept');
+          const sizeEl= document.getElementById('sizeDept');
+          const utilEl= document.getElementById('utilDept');
+          const tbody = document.getElementById('deptTbody');
+
+          function matchSize(filter, n) {
+            n = Number(n) || 0;
+            switch (filter) {
+              case '1-25': return n >= 1 && n <= 25;
+              case '26-100': return n >= 26 && n <= 100;
+              case '101-300': return n >= 101 && n <= 300;
+              case '300+': return n >= 300;
+              default: return true;
+            }
+          }
+
+          function matchUtil(filter, n) {
+            n = Number(n) || 0;
+            switch (filter) {
+              case '<60': return n < 60;
+              case '60-80': return n >= 60 && n < 80;
+              case '80-100': return n >= 80 && n <= 100;
+              case '100+': return n > 100;
+              default: return true;
+            }
+          }
+
+          function apply() {
+            const q   = (qEl.value || '').toLowerCase();
+            const st  = stEl.value;
+            const loc = locEl.value;
+            const typ = typeEl.value;
+            const size= sizeEl.value;
+            const util= utilEl.value;
+
+            tbody.querySelectorAll('tr').forEach(tr => {
+              const cells = tr.cells;
+              const hay = (cells[1].innerText + ' ' + cells[2].innerText + ' ' + cells[8].innerText + ' ' + cells[9].innerText).toLowerCase();
+              const status = tr.dataset.status || '';
+              const location = tr.dataset.location || '';
+              const dType = tr.dataset.type || '';
+              const headcount = tr.dataset.headcount || '0';
+              const utilPct = tr.dataset.util || '0';
+
+              let keep = hay.includes(q);
+              if (st  && status   !== st)   keep = false;
+              if (loc && location !== loc)  keep = false;
+              if (typ && dType    !== typ)  keep = false;
+              if (!matchSize(size, headcount)) keep = false;
+              if (!matchUtil(util, utilPct))   keep = false;
+
+              tr.style.display = keep ? '' : 'none';
+            });
+          }
+
+          // Buttons
+          const btnApply = document.getElementById('btnApplyDept');
+          const btnClear = document.getElementById('btnClearDept');
+          if (btnApply) btnApply.addEventListener('click', apply);
+          if (btnClear) btnClear.addEventListener('click', () => {
+            qEl.value=''; stEl.value=''; locEl.value=''; typeEl.value=''; sizeEl.value=''; utilEl.value=''; apply();
+          });
+          if (qEl) qEl.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); apply(); } });
+
+          // Quick filters
+          const bAll = document.getElementById('btnDeptAll');
+          const bHire= document.getElementById('btnDeptHiring');
+          const bUnder=document.getElementById('btnDeptUnder');
+          const bOver= document.getElementById('btnDeptOver');
+          function setActive(btn){ [bAll,bHire,bUnder,bOver].forEach(x=>x&&x.classList.remove('active')); btn.classList.add('active'); }
+          if (bAll)  bAll.addEventListener('click', ()=>{ setActive(bAll);  tbody.querySelectorAll('tr').forEach(tr=> tr.style.display=''); });
+          if (bHire) bHire.addEventListener('click',()=>{ setActive(bHire); tbody.querySelectorAll('tr').forEach(tr=> tr.style.display = (Number(tr.dataset.openroles||0) > 0)?'':'' ); });
+          if (bUnder)bUnder.addEventListener('click',()=>{ setActive(bUnder);tbody.querySelectorAll('tr').forEach(tr=> tr.style.display = (Number(tr.dataset.util||0) < 60)?'':'' ); });
+          if (bOver) bOver.addEventListener('click', ()=>{ setActive(bOver); tbody.querySelectorAll('tr').forEach(tr=> tr.style.display = (Number(tr.dataset.util||0) > 100)?'':'' ); });
+
+          // Select All
+          const selectAll = document.getElementById('selectAllDept');
+          if (selectAll) {
+            selectAll.addEventListener('change', () => {
+              document.querySelectorAll('#deptTbody input[type="checkbox"]').forEach(cb => cb.checked = selectAll.checked);
+            });
+          }
+        })();
+    </script>
+}

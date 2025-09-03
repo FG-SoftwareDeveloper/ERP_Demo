@@ -7,147 +7,609 @@
         new { KPIID = 3, Name = "Customer Retention", Value = "92%", Target = "90%", Status = "Above Target", LastUpdated = DateTime.Parse("2025-08-31"), AIInsights = "Retention boosted by loyalty program." }
     };
 }
-
-<h2 class="h1 fw-bold themed-heading mb-4 border-bottom pb-2">Key Performance Indicators (KPIs)</h2>
-
-<!-- KPI Cards Row -->
-<div class="row g-4 mb-4">
-    <div class="col-md-4">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-primary"><i class="bi bi-bar-chart-line"></i></span>
-                    <h5 class="card-title mb-0">Revenue Growth</h5>
-                </div>
-                <div class="display-5 fw-bold text-primary mb-1">12.5%</div>
-                <div class="text-muted">Target: 10%</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-success"><i class="bi bi-currency-dollar"></i></span>
-                    <h5 class="card-title mb-0">Profit Margin</h5>
-                </div>
-                <div class="display-5 fw-bold text-success mb-1">28%</div>
-                <div class="text-muted">Target: 25%</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-info"><i class="bi bi-people"></i></span>
-                    <h5 class="card-title mb-0">Customer Retention</h5>
-                </div>
-                <div class="display-5 fw-bold text-info mb-1">92%</div>
-                <div class="text-muted">Target: 90%</div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- AI Forecast Widget (High Contrast) -->
-<div class="row mb-4">
-    <div class="col-12">
-        <div class="card shadow-lg border-0" style="background: linear-gradient(90deg,#e3e6f0 0%,#f8fafc 100%);">
-            <div class="card-body p-4">
-                <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
-                    <div>
-                        <h5 class="mb-2 text-dark"><i class="bi bi-lightbulb me-2"></i>AI Forecast: Next Quarter KPI Outlook</h5>
-                        <div class="fs-2 fw-bold text-dark">All KPIs projected to exceed targets</div>
-                        <div class="small text-dark">Based on historical performance, market trends, and predictive analytics.</div>
-                    </div>
-                    <div class="mt-3 mt-md-0">
-                        <span class="badge rounded-pill bg-primary bg-opacity-10 text-primary fs-6 px-4 py-2 shadow-sm">Projected Revenue Growth: 14%</span>
+<div class="container-fluid py-4">
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card glass-effect border-0 animate-fade-in-up">
+                <div class="card-body p-4">
+                    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                        <div>
+                            <h1 class="mb-2 text-themed-primary d-flex align-items-center">
+                                <i class="bi bi-journal-text me-3 icon-primary fs-2"></i>
+                                Journal Entries
+                            </h1>
+                            <p class="text-themed-secondary mb-0">Create, approve, post & analyze journals with AI anomaly checks</p>
+                        </div>
+                        <div class="mt-3 mt-md-0 d-flex flex-wrap gap-2">
+                            <button class="btn btn-themed"><i class="bi bi-plus-circle me-2"></i>New Entry</button>
+                            <button class="btn btn-themed-secondary"><i class="bi bi-upload me-2"></i>Import</button>
+                            <button class="btn btn-outline-secondary focus-ring" data-bs-toggle="modal" data-bs-target="#batchPostModal">
+                                <i class="bi bi-box-arrow-in-right me-2"></i>Post Batch
+                            </button>
+                            <button class="btn btn-outline-secondary focus-ring" data-bs-toggle="modal" data-bs-target="#aiValidateModal">
+                                <i class="bi bi-robot me-2"></i>AI Validate
+                            </button>
+                            <div class="btn-group">
+                                <button class="btn btn-outline-primary dropdown-toggle focus-ring" data-bs-toggle="dropdown">
+                                    <i class="bi bi-download me-2"></i>Export
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#"><i class="bi bi-filetype-csv me-2"></i>CSV</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="bi bi-filetype-xlsx me-2"></i>XLSX</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-pdf me-2"></i>Audit Pack (PDF)</a></li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- BI Chart Placeholder -->
-<div class="row mb-4">
-    <div class="col-12">
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-white">
-                <h5 class="mb-0">KPI Trend (BI Chart)</h5>
+    <!-- KPI Cards -->
+    <div class="row g-4 mb-4">
+        <div class="col-xl-2 col-md-4 col-sm-6">
+            <div class="card card-2025 hover-3d kpi-card border-0 h-100 animate-fade-in-up animate-delay-1">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-1">
+                        <span class="me-3 fs-2 icon-primary"><i class="bi bi-123"></i></span>
+                        <h6 class="mb-0 text-themed-primary">Entries (30d)</h6>
+                    </div>
+                    <div class="display-6 fw-bold text-themed-primary" id="kpiCount">—</div>
+                    <small class="text-themed-secondary">+<span id="kpiCountDelta">—</span> vs prior 30d</small>
+                </div>
             </div>
-            <div class="card-body text-center">
-                <img src="https://via.placeholder.com/600x200?text=KPI+Trend+Chart" alt="KPI Trend Chart" class="img-fluid rounded" />
+        </div>
+        <div class="col-xl-2 col-md-4 col-sm-6">
+            <div class="card card-2025 hover-3d kpi-card border-0 h-100 animate-fade-in-up animate-delay-2">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-1">
+                        <span class="me-3 fs-2 icon-success"><i class="bi bi-check2-circle"></i></span>
+                        <h6 class="mb-0 text-themed-primary">Posted Rate</h6>
+                    </div>
+                    <div class="display-6 fw-bold text-themed-primary" id="kpiPosted">—%</div>
+                    <small class="text-themed-secondary"><span id="kpiPostedNum">—</span> posted</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-2 col-md-4 col-sm-6">
+            <div class="card card-2025 hover-3d kpi-card border-0 h-100 animate-fade-in-up animate-delay-3">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-1">
+                        <span class="me-3 fs-2 icon-warning"><i class="bi bi-exclamation-triangle"></i></span>
+                        <h6 class="mb-0 text-themed-primary">Out-of-Balance</h6>
+                    </div>
+                    <div class="display-6 fw-bold text-themed-primary" id="kpiOOB">—%</div>
+                    <small class="text-themed-secondary"><span id="kpiOOBNum">—</span> flagged</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-2 col-md-4 col-sm-6">
+            <div class="card card-2025 hover-3d kpi-card border-0 h-100 animate-fade-in-up animate-delay-4">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-1">
+                        <span class="me-3 fs-2 icon-info"><i class="bi bi-stopwatch"></i></span>
+                        <h6 class="mb-0 text-themed-primary">Avg Approval Time</h6>
+                    </div>
+                    <div class="display-6 fw-bold text-themed-primary" id="kpiAAT">—h</div>
+                    <small class="text-themed-secondary">median <span id="kpiAATMed">—h</span></small>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-2 col-md-4 col-sm-6">
+            <div class="card card-2025 hover-3d kpi-card border-0 h-100 animate-fade-in-up animate-delay-5">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-1">
+                        <span class="me-3 fs-2 icon-primary"><i class="bi bi-paperclip"></i></span>
+                        <h6 class="mb-0 text-themed-primary">Attachment Coverage</h6>
+                    </div>
+                    <div class="display-6 fw-bold text-themed-primary" id="kpiAttach">—%</div>
+                    <small class="text-themed-secondary"><span id="kpiAttachNum">—</span> with docs</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-2 col-md-4 col-sm-6">
+            <div class="card card-2025 hover-3d kpi-card border-0 h-100 animate-fade-in-up animate-delay-6">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-1">
+                        <span class="me-3 fs-2 icon-success"><i class="bi bi-graph-up"></i></span>
+                        <h6 class="mb-0 text-themed-primary">Reversal Rate</h6>
+                    </div>
+                    <div class="display-6 fw-bold text-themed-primary" id="kpiRevRate">—%</div>
+                    <small class="text-themed-secondary"><span id="kpiRevNum">—</span> reversed</small>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- KPIs Table -->
-<div class="row">
-    <div class="col-12">
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-white">
-                <h5 class="mb-0">KPIs List</h5>
+    <!-- Filters -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card glass-effect border-0 animate-fade-in-up">
+                <div class="card-body p-4">
+                    <div class="row g-3 align-items-end">
+                        <div class="col-lg-3 col-md-6">
+                            <label class="form-label text-themed-primary fw-medium">Search</label>
+                            <div class="position-relative">
+                                <input type="text" id="qJE" class="form-control focus-ring" placeholder="JE #, description, account, person">
+                                <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-3 text-themed-secondary"></i>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-6">
+                            <label class="form-label text-themed-primary fw-medium">Status</label>
+                            <select id="stJE" class="form-select focus-ring">
+                                <option value="">All</option>
+                                <option>Draft</option>
+                                <option>Submitted</option>
+                                <option>Approved</option>
+                                <option>Posted</option>
+                                <option>Reversed</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2 col-md-6">
+                            <label class="form-label text-themed-primary fw-medium">Source</label>
+                            <select id="srcJE" class="form-select focus-ring">
+                                <option value="">Any</option>
+                                <option>Manual</option>
+                                <option>AP</option>
+                                <option>AR</option>
+                                <option>Payroll</option>
+                                <option>FX</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2 col-md-6">
+                            <label class="form-label text-themed-primary fw-medium">Period</label>
+                            <select id="perJE" class="form-select focus-ring">
+                                <option value="">All</option>
+                                <option>This Period</option>
+                                <option>Last Period</option>
+                                <option>This Quarter</option>
+                                <option>Year-to-Date</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-3 col-md-12">
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-themed flex-fill" id="btnApplyJE"><i class="bi bi-funnel me-2"></i>Apply</button>
+                                <button class="btn btn-outline-secondary focus-ring" id="btnResetJE" title="Reset"><i class="bi bi-arrow-clockwise"></i></button>
+                                <div class="btn-group">
+                                    <button class="btn btn-outline-primary focus-ring dropdown-toggle" data-bs-toggle="dropdown"><i class="bi bi-lightning me-1"></i>Quick</button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#" data-qf="oob"><i class="bi bi-exclamation-diamond me-2"></i>Out-of-balance</a></li>
+                                        <li><a class="dropdown-item" href="#" data-qf="need-approval"><i class="bi bi-person-check me-2"></i>Needs Approval</a></li>
+                                        <li><a class="dropdown-item" href="#" data-qf="no-attach"><i class="bi bi-paperclip me-2"></i>Missing Attachments</a></li>
+                                        <li><a class="dropdown-item" href="#" data-qf="reversals"><i class="bi bi-arrow-counterclockwise me-2"></i>Reversals</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <small class="text-themed-secondary">Tip: press <kbd>Enter</kbd> in search to filter.</small>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle mb-0">
-                        <thead class="table-light">
-                            <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Value</th>
-                                <th>Target</th>
-                                <th>Status</th>
-                                <th>Last Updated</th>
-                                <th>AI Insights</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var k in kpis)
-                            {
+        </div>
+    </div>
+
+    <!-- BI Row (Trend + Quality) -->
+    <div class="row g-4 mb-4">
+        <div class="col-xxl-8">
+            <div class="card glass-effect border-0 animate-fade-in-up h-100">
+                <div class="card-header bg-transparent border-0 p-4 d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0 text-themed-primary d-flex align-items-center"><i class="bi bi-graph-up me-2 icon-primary"></i>Postings Trend (Last 12 Weeks)</h5>
+                    <div class="btn-group btn-group-sm">
+                        <button class="btn btn-outline-primary focus-ring active" id="trendAll">All</button>
+                        <button class="btn btn-outline-primary focus-ring" id="trendManual">Manual</button>
+                        <button class="btn btn-outline-primary focus-ring" id="trendSystem">System</button>
+                    </div>
+                </div>
+                <div class="card-body p-4">
+                    <div class="chart-container"><canvas id="trendChart"></canvas></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xxl-4">
+            <div class="card glass-effect border-0 animate-fade-in-up h-100">
+                <div class="card-header bg-transparent border-0 p-4">
+                    <h5 class="mb-0 text-themed-primary d-flex align-items-center"><i class="bi bi-pie-chart me-2 icon-info"></i>Source Mix & OOB Rate</h5>
+                </div>
+                <div class="card-body p-4">
+                    <div class="chart-container mb-3"><canvas id="mixChart"></canvas></div>
+                    <div class="p-3 rounded glass-effect d-flex align-items-center justify-content-between">
+                        <div>
+                            <div class="small text-themed-secondary">Out-of-balance rate</div>
+                            <div class="display-6 text-themed-primary" id="oobBig">—%</div>
+                        </div>
+                        <button class="btn btn-themed-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#aiValidateModal">
+                            <i class="bi bi-robot me-1"></i>Explain
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Journal Entries Table -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card themed-table border-0 animate-fade-in-up">
+                <div class="card-header bg-transparent border-0 p-4">
+                    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                        <h5 class="mb-2 mb-md-0 text-themed-primary d-flex align-items-center">
+                            <i class="bi bi-table me-2 icon-primary"></i>Journal Entries List
+                        </h5>
+                        <div class="d-flex gap-2">
+                            <div class="btn-group" role="group">
+                                <button class="btn btn-outline-primary btn-sm focus-ring active" id="btnJEAll">All</button>
+                                <button class="btn btn-outline-primary btn-sm focus-ring" id="btnJENeedApproval">Need Approval</button>
+                                <button class="btn btn-outline-primary btn-sm focus-ring" id="btnJEOOB">Out-of-balance</button>
+                                <button class="btn btn-outline-primary btn-sm focus-ring" id="btnJEPosted">Posted</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0" id="jeTable">
+                            <thead>
                                 <tr>
-                                    <td>@k.KPIID</td>
-                                    <td class="fw-semibold">@k.Name</td>
-                                    <td>@k.Value</td>
-                                    <td>@k.Target</td>
-                                    <td>
-                                        @if (k.Status == "Above Target")
-                                        {
-                                            <span class="badge bg-success">Above Target</span>
-                                        }
-                                        else if (k.Status == "On Track")
-                                        {
-                                            <span class="badge bg-info">On Track</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge bg-warning text-dark">Below Target</span>
-                                        }
-                                    </td>
-                                    <td>@k.LastUpdated.ToString("yyyy-MM-dd")</td>
-                                    <td>
-                                        @if (k.AIInsights.Contains("growth"))
-                                        {
-                                            <span class="text-success">@k.AIInsights</span>
-                                        }
-                                        else if (k.AIInsights.Contains("stable"))
-                                        {
-                                            <span class="text-primary">@k.AIInsights</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="text-warning">@k.AIInsights</span>
-                                        }
-                                    </td>
+                                    <th style="width:36px">
+                                        <div class="form-check">
+                                            <input class="form-check-input focus-ring" type="checkbox" id="selectAllJE">
+                                            <label class="form-check-label" for="selectAllJE"></label>
+                                        </div>
+                                    </th>
+                                    <th>JE #</th>
+                                    <th>Date</th>
+                                    <th>Period</th>
+                                    <th>Source</th>
+                                    <th>Description</th>
+                                    <th class="text-end">Debit</th>
+                                    <th class="text-end">Credit</th>
+                                    <th class="text-end">Diff</th>
+                                    <th>Status</th>
+                                    <th>Approver</th>
+                                    <th>Attach</th>
+                                    <th>Actions</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody id="jeTbody"><!-- rows injected by script --></tbody>
+                        </table>
+                    </div>
                 </div>
+
+                <div class="card-footer bg-transparent border-0 p-4">
+                    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                        <div class="text-themed-secondary mb-2 mb-md-0" id="jeCount">Showing 1–10</div>
+                        <nav>
+                            <ul class="pagination pagination-sm mb-0">
+                                <li class="page-item disabled"><span class="page-link bg-transparent border-0 text-themed-secondary">Previous</span></li>
+                                <li class="page-item active"><span class="page-link bg-primary border-primary">1</span></li>
+                                <li class="page-item"><a class="page-link bg-transparent border-0 text-themed-primary focus-ring" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link bg-transparent border-0 text-themed-primary focus-ring" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link bg-transparent border-0 text-themed-primary focus-ring" href="#">Next</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
 </div>
+
+<!-- ======= MODALS ======= -->
+<!-- AI Validation -->
+<div class="modal fade" id="aiValidateModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content glass-effect border-0">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-robot me-2"></i>AI Validation & Anomalies</h5>
+                <button class="btn-close focus-ring" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-warning">
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    <strong>JE-2025-0005</strong> is out-of-balance by <strong>$250</strong>. Likely missing offset in 5200 – Inventory Adjustments.
+                </div>
+                <div class="alert alert-info">
+                    <i class="bi bi-lightbulb me-2"></i>
+                    <strong>JE-2025-0002</strong> missing attachment (supporting schedule). Add file before approval.
+                </div>
+                <div class="alert alert-secondary">
+                    <i class="bi bi-clipboard2-check me-2"></i>
+                    <strong>JE-2025-0003</strong> auto-reconciles to Payroll ledger. No action needed.
+                </div>
+                <div class="mt-3">
+                    <button class="btn btn-themed-secondary btn-sm"><i class="bi bi-tools me-1"></i>Create Fix Task</button>
+                    <button class="btn btn-outline-secondary focus-ring btn-sm"><i class="bi bi-cloud-arrow-up me-1"></i>Upload Attachment</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline-secondary focus-ring" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Batch Post -->
+<div class="modal fade" id="batchPostModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content glass-effect border-0">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-box-arrow-in-right me-2"></i>Post Selected Entries</h5>
+                <button class="btn-close focus-ring" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-themed-secondary">You’re about to post all selected <span id="postSel">0</span> entries.</p>
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" id="postLock">
+                    <label class="form-check-label" for="postLock">Lock period after posting</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="postNotify" checked>
+                    <label class="form-check-label" for="postNotify">Notify approvers</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-themed"><i class="bi bi-check2 me-1"></i>Post</button>
+                <button class="btn btn-outline-secondary focus-ring" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick View Entry -->
+<div class="modal fade" id="jeQuickView" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content glass-effect border-0">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-eye me-2"></i>Journal Entry</h5>
+                <button class="btn-close focus-ring" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="jeQuickContent" class="small text-themed-primary"><!-- injected --></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline-secondary focus-ring" data-bs-dismiss="modal">Close</button>
+                <button class="btn btn-themed"><i class="bi bi-pencil-square me-2"></i>Edit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        (function(){
+          const $  = (s,r=document)=>r.querySelector(s);
+          const $$ = (s,r=document)=>Array.from(r.querySelectorAll(s));
+          const modal = id => bootstrap.Modal.getOrCreateInstance(document.getElementById(id));
+
+          // —— Demo JE dataset (replace with Model) ——
+          const entries = [
+            { id:'JE-2025-0001', date:'2025-08-29', period:'2025-08', src:'AP',      desc:'Accrual – Utilities',       debit:12450, credit:12450, diff:0,     status:'Posted',    approver:'Jane Miller',   attach:2, lines:4 },
+            { id:'JE-2025-0002', date:'2025-08-30', period:'2025-08', src:'AR',      desc:'Revenue Recognition',       debit:38200, credit:38200, diff:0,     status:'Submitted', approver:'—',             attach:0, lines:6 },
+            { id:'JE-2025-0003', date:'2025-08-31', period:'2025-08', src:'Payroll', desc:'Payroll Accrual',           debit:91200, credit:91200, diff:0,     status:'Approved',  approver:'Alex Turner',   attach:1, lines:8 },
+            { id:'JE-2025-0004', date:'2025-08-31', period:'2025-08', src:'FX',      desc:'FX Revaluation',            debit:11800, credit:11800, diff:0,     status:'Posted',    approver:'Dana Patel',    attach:1, lines:3 },
+            { id:'JE-2025-0005', date:'2025-08-28', period:'2025-08', src:'Manual',  desc:'Inventory Shrinkage',       debit:4750,  credit:4500,  diff:250,   status:'Draft',     approver:'—',             attach:0, lines:2 },
+            { id:'JE-2025-0006', date:'2025-08-15', period:'2025-08', src:'Manual',  desc:'Reversal of JE-2025-0001', debit:12450, credit:12450, diff:0,     status:'Reversed',  approver:'System',        attach:1, lines:2 },
+          ];
+
+          // —— Render table ——
+          function badgeStatus(s){
+            switch(s){
+              case 'Posted':   return '<span class="badge badge-themed bg-success text-success">Posted</span>';
+              case 'Approved': return '<span class="badge badge-themed bg-info text-info">Approved</span>';
+              case 'Submitted':return '<span class="badge badge-themed bg-warning text-warning">Submitted</span>';
+              case 'Reversed': return '<span class="badge badge-themed bg-secondary text-secondary">Reversed</span>';
+              default:         return '<span class="badge badge-themed bg-primary bg-opacity-10 text-primary">Draft</span>';
+            }
+          }
+          function fmt(n){ return n.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}); }
+
+          function renderRows(list=entries){
+            const tb = $('#jeTbody'); tb.innerHTML='';
+            list.forEach(e=>{
+              const tr = document.createElement('tr');
+              tr.dataset.status = e.status;
+              tr.dataset.src    = e.src;
+              tr.dataset.oob    = e.diff !== 0 ? '1':'0';
+              tr.dataset.attach = e.attach;
+              tr.dataset.needApproval = (e.status==='Submitted' || e.status==='Draft') ? '1':'0';
+              tr.innerHTML = `
+                <td><div class="form-check"><input class="form-check-input focus-ring selJE" type="checkbox"></div></td>
+                <td>
+                  <button class="btn btn-link p-0 text-decoration-none focus-ring je-view" data-id="${e.id}">
+                    <i class="bi bi-journal-text me-1"></i><strong>${e.id}</strong>
+                  </button>
+                </td>
+                <td class="text-themed-secondary">${e.date}</td>
+                <td class="text-themed-secondary">${e.period}</td>
+                <td>${e.src}</td>
+                <td class="text-themed-primary">${e.desc}</td>
+                <td class="text-end text-themed-primary">${fmt(e.debit)}</td>
+                <td class="text-end text-themed-primary">${fmt(e.credit)}</td>
+                <td class="text-end ${e.diff!==0?'text-danger fw-medium':'text-themed-secondary'}">${e.diff===0? '—' : ('$'+fmt(e.diff))}</td>
+                <td>${badgeStatus(e.status)}</td>
+                <td class="text-themed-secondary">${e.approver}</td>
+                <td>
+                  ${e.attach>0? `<span class="badge badge-themed bg-primary bg-opacity-10 text-primary"><i class="bi bi-paperclip me-1"></i>${e.attach}</span>` :
+                                 `<span class="badge badge-themed bg-warning text-warning"><i class="bi bi-exclamation-circle me-1"></i>0</span>`}
+                </td>
+                <td>
+                  <div class="d-flex gap-1">
+                    <button class="btn btn-sm btn-outline-primary focus-ring je-view" data-id="${e.id}" title="Quick View"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-sm btn-outline-secondary focus-ring" title="Edit"><i class="bi bi-pencil"></i></button>
+                    <div class="btn-group">
+                      <button class="btn btn-sm btn-outline-secondary dropdown-toggle focus-ring" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></button>
+                      <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-check2-circle me-2"></i>Approve</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-in-right me-2"></i>Post</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-arrow-counterclockwise me-2"></i>Reverse</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-paperclip me-2"></i>Add Attachment</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </td>`;
+              tb.appendChild(tr);
+            });
+
+            // hook quick view
+            $$('.je-view').forEach(btn=>{
+              btn.addEventListener('click', ()=>{
+                const id = btn.dataset.id;
+                const je = entries.find(x=>x.id===id);
+                if(!je) return;
+                $('#jeQuickContent').innerHTML = `
+                  <div class="row g-3">
+                    <div class="col-sm-4">
+                      <div class="card hover-3d h-100"><div class="card-body">
+                        <div class="small text-themed-secondary">JE #</div><div class="fw-medium">${je.id}</div>
+                        <div class="small text-themed-secondary mt-2">Date</div><div>${je.date}</div>
+                        <div class="small text-themed-secondary mt-2">Period</div><div>${je.period}</div>
+                        <div class="small text-themed-secondary mt-2">Source</div><div>${je.src}</div>
+                        <div class="small text-themed-secondary mt-2">Status</div><div>${je.status}</div>
+                      </div></div>
+                    </div>
+                    <div class="col-sm-8">
+                      <div class="card glass-effect h-100"><div class="card-body">
+                        <div class="small text-themed-secondary">Description</div>
+                        <div class="mb-2">${je.desc}</div>
+                        <div class="row g-2">
+                          <div class="col-4"><div class="small text-themed-secondary">Debit</div><div class="fw-medium">$${fmt(je.debit)}</div></div>
+                          <div class="col-4"><div class="small text-themed-secondary">Credit</div><div class="fw-medium">$${fmt(je.credit)}</div></div>
+                          <div class="col-4"><div class="small text-themed-secondary">Difference</div><div class="${je.diff? 'text-danger fw-semibold':'text-themed-secondary'}">${je.diff? '$'+fmt(je.diff): '—'}</div></div>
+                        </div>
+                        <div class="mt-3 small text-themed-secondary">Lines preview (demo)</div>
+                        <div class="border rounded p-2">
+                          <code>1100 – Cash · Debit $${fmt(Math.min(je.debit, je.credit))}</code><br/>
+                          <code>4xxx – Expense · Credit $${fmt(Math.min(je.debit, je.credit))}</code>
+                        </div>
+                      </div></div>
+                    </div>
+                  </div>`;
+                modal('jeQuickView').show();
+              });
+            });
+
+            // selected count for batch post modal
+            const syncSel = ()=> $('#postSel').textContent = $$('.selJE:checked').length;
+            $$('.selJE').forEach(cb=> cb.addEventListener('change', syncSel));
+            $('#selectAllJE')?.addEventListener('change', e=>{
+              $$('.selJE').forEach(cb=> cb.checked = e.target.checked); syncSel();
+            });
+            $('#jeCount').textContent = `Showing ${list.length} of ${entries.length}`;
+          }
+
+          // —— Filters ——
+          function applyFilters(){
+            const q   = ($('#qJE')?.value || '').toLowerCase();
+            const st  = $('#stJE')?.value || '';
+            const src = $('#srcJE')?.value || '';
+            const per = $('#perJE')?.value || '';
+            const out = entries.filter(e=>{
+              const inQ   = !q || (e.id+e.desc+e.src+e.approver).toLowerCase().includes(q);
+              const inSt  = !st || e.status===st;
+              const inSrc = !src || e.src===src;
+              const inPer = !per || (per==='This Period' ? e.period==='2025-08'
+                               : per==='Last Period' ? e.period==='2025-07'
+                               : per==='This Quarter' ? /^2025-(07|08|09)$/.test(e.period)
+                               : true);
+              return inQ && inSt && inSrc && inPer;
+            });
+            renderRows(out);
+          }
+
+          $('#btnApplyJE')?.addEventListener('click', applyFilters);
+          $('#btnResetJE')?.addEventListener('click', ()=>{ ['qJE','stJE','srcJE','perJE'].forEach(id=>{ const el=$('#'+id); if(el) el.value=''; }); renderRows(entries); });
+          $('#qJE')?.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); applyFilters(); } });
+
+          // Quick filter dropdown
+          $$('.dropdown-menu [data-qf]').forEach(a=>{
+            a.addEventListener('click', e=>{
+              e.preventDefault();
+              const kind = a.dataset.qf;
+              let list = entries.slice();
+              if(kind==='oob') list = list.filter(x=>x.diff!==0);
+              if(kind==='need-approval') list = list.filter(x=> x.status==='Submitted' || x.status==='Draft');
+              if(kind==='no-attach') list = list.filter(x=> x.attach===0);
+              if(kind==='reversals') list = list.filter(x=> x.status==='Reversed');
+              renderRows(list);
+            });
+          });
+
+          // Header quick buttons
+          function setActive(btn, group){ group.forEach(b=>b&&b.classList.remove('active')); btn.classList.add('active'); }
+          const qb=[ $('#btnJEAll'), $('#btnJENeedApproval'), $('#btnJEOOB'), $('#btnJEPosted') ];
+          $('#btnJEAll')?.addEventListener('click', ()=>{ setActive(qb[0],qb); renderRows(entries); });
+          $('#btnJENeedApproval')?.addEventListener('click', ()=>{ setActive(qb[1],qb); renderRows(entries.filter(x=>x.status==='Submitted'||x.status==='Draft')); });
+          $('#btnJEOOB')?.addEventListener('click', ()=>{ setActive(qb[2],qb); renderRows(entries.filter(x=>x.diff!==0)); });
+          $('#btnJEPosted')?.addEventListener('click', ()=>{ setActive(qb[3],qb); renderRows(entries.filter(x=>x.status==='Posted')); });
+
+          // —— KPIs (toy calc) ——
+          function refreshKPIs(){
+            const total = entries.length;
+            const posted = entries.filter(e=>e.status==='Posted').length;
+            const oob    = entries.filter(e=>e.diff!==0).length;
+            const withAtt= entries.filter(e=>e.attach>0).length;
+            const rev    = entries.filter(e=>e.status==='Reversed').length;
+
+            $('#kpiCount').textContent = total;
+            $('#kpiCountDelta').textContent = 3; // demo
+            $('#kpiPosted').textContent = Math.round(posted/total*100) + '%';
+            $('#kpiPostedNum').textContent = posted;
+            $('#kpiOOB').textContent = Math.round(oob/total*100) + '%';
+            $('#kpiOOBNum').textContent = oob;
+            $('#kpiAttach').textContent = Math.round(withAtt/total*100) + '%';
+            $('#kpiAttachNum').textContent = withAtt;
+            $('#kpiRevRate').textContent = Math.round(rev/total*100) + '%';
+            $('#kpiRevNum').textContent = rev;
+            $('#kpiAAT').textContent = '18h'; $('#kpiAATMed').textContent = '12h'; // demo
+          }
+
+          // —— Charts (Chart.js must be loaded globally in layout) ——
+          let trendChart, mixChart;
+          function drawTrend(mode='all'){
+            if(!window.Chart) return;
+            const ctx = document.getElementById('trendChart'); if(!ctx) return;
+            if(trendChart) trendChart.destroy();
+            const weeks = Array.from({length:12}, (_,i)=>'W'+(i+1));
+            const rng = (min,max)=> Math.round(min + Math.random()*(max-min));
+            const dataAll    = weeks.map(()=> rng(18,45));
+            const dataManual = weeks.map(()=> rng(6,16));
+            const dataSystem = dataAll.map((v,i)=> Math.max(0, v - dataManual[i]));
+            const ds = mode==='manual' ? dataManual : mode==='system' ? dataSystem : dataAll;
+            trendChart = new Chart(ctx, { type:'line',
+              data:{ labels:weeks, datasets:[{ data:ds, label:'Entries', fill:true, tension:.35 }]},
+              options:{ plugins:{ legend:{ display:false } }, scales:{ y:{ beginAtZero:true } } }
+            });
+          }
+
+          function drawMix(){
+            if(!window.Chart) return;
+            const ctx = document.getElementById('mixChart'); if(!ctx) return;
+            if(mixChart) mixChart.destroy();
+            const srcs = ['Manual','AP','AR','Payroll','FX'];
+            const vals = srcs.map(s=> entries.filter(e=>e.src===s).length || 1);
+            mixChart = new Chart(ctx, { type:'doughnut',
+              data:{ labels:srcs, datasets:[{ data:vals }]},
+              options:{ plugins:{ legend:{ position:'bottom' } } }
+            });
+            const oob = Math.round(entries.filter(e=>e.diff!==0).length/entries.length*100);
+            $('#oobBig').textContent = oob + '%';
+          }
+
+          // trend mode buttons
+          $('#trendAll')?.addEventListener('click', ()=>{ ['trendAll','trendManual','trendSystem'].forEach(id=>$('#'+id)?.classList.remove('active')); $('#trendAll')?.classList.add('active'); drawTrend('all'); });
+          $('#trendManual')?.addEventListener('click', ()=>{ ['trendAll','trendManual','trendSystem'].forEach(id=>$('#'+id)?.classList.remove('active')); $('#trendManual')?.classList.add('active'); drawTrend('manual'); });
+          $('#trendSystem')?.addEventListener('click', ()=>{ ['trendAll','trendManual','trendSystem'].forEach(id=>$('#'+id)?.classList.remove('active')); $('#trendSystem')?.classList.add('active'); drawTrend('system'); });
+
+          // —— Init ——
+          renderRows(entries);
+          refreshKPIs();
+          drawTrend('all');
+          drawMix();
+        })();
+    </script>
+}

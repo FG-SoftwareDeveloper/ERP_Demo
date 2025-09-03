@@ -8,73 +8,58 @@
     };
 }
 
-<h2 class="h1 fw-bold themed-heading mb-4 border-bottom pb-2">Project Financial Summary</h2>
-
-<!-- KPI Cards Row -->
-<div class="row g-4 mb-4">
-    <div class="col-md-3">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-primary"><i class="bi bi-kanban"></i></span>
-                    <h5 class="card-title mb-0">Total Projects</h5>
-                </div>
-                <div class="display-5 fw-bold text-primary mb-1">@projects.Length</div>
-                <div class="text-muted">Active: @projects.Count(p => p.Status == "Active")</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-success"><i class="bi bi-currency-dollar"></i></span>
-                    <h5 class="card-title mb-0">Total Budget</h5>
-                </div>
-                <div class="display-5 fw-bold text-success mb-1">@projects.Sum(p => p.Budget).ToString("C")</div>
-                <div class="text-muted">Spent: @projects.Sum(p => p.Spent).ToString("C")</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-info"><i class="bi bi-cash-stack"></i></span>
-                    <h5 class="card-title mb-0">Total Profit</h5>
-                </div>
-                <div class="display-5 fw-bold text-info mb-1">@projects.Sum(p => p.Profit).ToString("C")</div>
-                <div class="text-muted">Avg. Margin: @(projects.Average(p => (double)p.Profit / (double)p.Budget * 100).ToString("F1"))%</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-warning"><i class="bi bi-exclamation-triangle"></i></span>
-                    <h5 class="card-title mb-0">Delayed / Over Budget</h5>
-                </div>
-                <div class="display-5 fw-bold text-warning mb-1">@projects.Count(p => p.Status == "Delayed" || p.Spent > p.Budget)</div>
-                <div class="text-muted">Completed: @projects.Count(p => p.Status == "Completed")</div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- AI Forecast Widget (High Contrast) -->
-<div class="row mb-4">
-    <div class="col-12">
-        <div class="card shadow-lg border-0" style="background: linear-gradient(90deg,#e3e6f0 0%,#f8fafc 100%);">
-            <div class="card-body p-4">
-                <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
-                    <div>
-                        <h5 class="mb-2 text-dark"><i class="bi bi-lightbulb me-2"></i>AI Forecast: Next Quarter Project Profit</h5>
-                        <div class="fs-2 fw-bold text-dark">$600,000</div>
-                        <div class="small text-dark">Based on current spend, completion rates, and predictive analytics.</div>
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card glass-effect border-0">
+                <div class="card-body p-4 d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                    <div><h1 class="mb-1 text-themed-primary d-flex align-items-center"><i class="bi bi-pie-chart me-3 icon-primary fs-2"></i> Project Financial Summary</h1><p class="text-themed-secondary mb-0">Earned value, forecast, sensitivity — with AI narrative.</p></div>
+                    <div class="mt-3 mt-md-0 d-flex flex-wrap gap-2">
+                        <button class="btn btn-themed-secondary" data-bs-toggle="modal" data-bs-target="#aiNarrative"><i class="bi bi-robot me-2"></i>AI Narrative</button>
+                        <button class="btn btn-outline-secondary" data-bs-toggle="offcanvas" data-bs-target="#scenarioPanel"><i class="bi bi-sliders me-2"></i>Scenarios</button>
                     </div>
-                    <div class="mt-3 mt-md-0">
-                        <span class="badge rounded-pill bg-primary bg-opacity-10 text-primary fs-6 px-4 py-2 shadow-sm">Projected Margin: 22%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signature: EVM cards + CPI/SPI + Tornado -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-3"><div class="card hover-3d kpi-card border-0"><div class="card-body p-4"><div class="small text-themed-secondary">BAC</div><div class="display-6 text-themed-primary">$12.4M</div><small>Budget at completion</small></div></div></div>
+        <div class="col-md-3"><div class="card hover-3d kpi-card border-0"><div class="card-body p-4"><div class="small text-themed-secondary">EAC</div><div class="display-6 text-themed-primary">$13.1M</div><small>Forecast at completion</small></div></div></div>
+        <div class="col-md-3"><div class="card hover-3d kpi-card border-0"><div class="card-body p-4"><div class="small text-themed-secondary">CPI</div><div class="display-6 text-success">1.05</div><small>Cost performance</small></div></div></div>
+        <div class="col-md-3"><div class="card hover-3d kpi-card border-0"><div class="card-body p-4"><div class="small text-themed-secondary">SPI</div><div class="display-6 text-warning">0.92</div><small>Schedule performance</small></div></div></div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-xxl-7">
+            <div class="card glass-effect border-0 h-100">
+                <div class="card-header p-4 bg-transparent border-0"><h5 class="mb-0 text-themed-primary"><i class="bi bi-graph-up-arrow me-2 icon-info"></i>EV Curve (BAC / EV / AC)</h5></div>
+                <div class="card-body p-4"><div class="chart-container"><canvas id="evCurve"></canvas></div></div>
+            </div>
+        </div>
+        <div class="col-xxl-5">
+            <div class="card glass-effect border-0 h-100">
+                <div class="card-header p-4 bg-transparent border-0"><h5 class="mb-0 text-themed-primary"><i class="bi bi-wind me-2 icon-warning"></i>Sensitivity (Tornado)</h5></div>
+                <div class="card-body p-4"><div class="chart-container"><canvas id="tornado"></canvas></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table: project list with margin + forecast -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card themed-table border-0">
+                <div class="card-header p-4 bg-transparent border-0"><h5 class="mb-0 text-themed-primary"><i class="bi bi-table me-2 icon-primary"></i>Projects</h5></div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead><tr><th>Project</th><th>Manager</th><th>BAC</th><th>EV</th><th>AC</th><th>CPI</th><th>SPI</th><th>Forecast Margin</th><th>Actions</th></tr></thead>
+                            <tbody>
+                                <tr><td>PRJ-1002</td><td>J. Miller</td><td>$1.8M</td><td>$1.1M</td><td>$1.05M</td><td>1.05</td><td>0.91</td><td class="text-success">33%</td><td><button class="btn btn-sm btn-outline-secondary" data-bs-toggle="offcanvas" data-bs-target="#scenarioPanel"><i class="bi bi-sliders"></i></button></td></tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -82,101 +67,28 @@
     </div>
 </div>
 
-<!-- BI Chart Placeholder -->
-<div class="row mb-4">
-    <div class="col-12">
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-white">
-                <h5 class="mb-0">Project Financial Trend (BI Chart)</h5>
-            </div>
-            <div class="card-body text-center">
-                <img src="https://via.placeholder.com/600x200?text=Project+Financial+Trend+Chart" alt="Project Financial Trend Chart" class="img-fluid rounded" />
-            </div>
-        </div>
+<!-- Offcanvas: Scenario Studio -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="scenarioPanel">
+    <div class="offcanvas-header"><h5 class="offcanvas-title"><i class="bi bi-sliders me-2"></i>Scenario Studio</h5><button class="btn-close" data-bs-dismiss="offcanvas"></button></div>
+    <div class="offcanvas-body">
+        <div class="mb-3"><label class="form-label">Labor Cost ?</label><input type="range" class="form-range" min="-15" max="15" value="5"></div>
+        <div class="mb-3"><label class="form-label">Material Cost ?</label><input type="range" class="form-range" min="-15" max="15" value="-3"></div>
+        <div class="mb-3"><label class="form-label">Productivity ?</label><input type="range" class="form-range" min="-10" max="10" value="2"></div>
+        <div class="chart-container"><canvas id="scenarioCompare"></canvas></div>
+        <button class="btn btn-themed w-100 mt-3"><i class="bi bi-magic me-2"></i>Recalculate</button>
     </div>
 </div>
 
-<!-- Project Financial Summary Table -->
-<div class="row">
-    <div class="col-12">
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-white">
-                <h5 class="mb-0">Projects List</h5>
+<!-- Modal: AI Narrative -->
+<div class="modal fade" id="aiNarrative" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content glass-effect border-0">
+            <div class="modal-header"><h5 class="modal-title"><i class="bi bi-robot me-2"></i>AI Narrative</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+            <div class="modal-body">
+                <p class="mb-2">Portfolio CPI is <strong>1.05</strong> (green) while SPI is <strong>0.92</strong> (slip). Materials cost pressure is the main risk (?3%).</p>
+                <ul class="small text-themed-secondary mb-0"><li>Pull forward subcontractor package to recover schedule</li><li>Negotiate volume discounts on steel</li></ul>
             </div>
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle mb-0">
-                        <thead class="table-light">
-                            <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Status</th>
-                                <th>Budget</th>
-                                <th>Spent</th>
-                                <th>Forecast</th>
-                                <th>Profit</th>
-                                <th>Last Update</th>
-                                <th>AI Insights</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var p in projects.OrderByDescending(p => p.LastUpdate))
-                            {
-                                <tr>
-                                    <td>@p.ProjectID</td>
-                                    <td class="fw-semibold">@p.Name</td>
-                                    <td>
-                                        @if (p.Status == "Active")
-                                        {
-                                            <span class="badge bg-success">Active</span>
-                                        }
-                                        else if (p.Status == "Delayed")
-                                        {
-                                            <span class="badge bg-warning text-dark">Delayed</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge bg-secondary">Completed</span>
-                                        }
-                                    </td>
-                                    <td>@p.Budget.ToString("C")</td>
-                                    <td>
-                                        @if (p.Spent > p.Budget)
-                                        {
-                                            <span class="text-danger fw-bold">@p.Spent.ToString("C")</span>
-                                        }
-                                        else
-                                        {
-                                            <span>@p.Spent.ToString("C")</span>
-                                        }
-                                    </td>
-                                    <td>@p.Forecast.ToString("C")</td>
-                                    <td>@p.Profit.ToString("C")</td>
-                                    <td>@p.LastUpdate.ToString("yyyy-MM-dd")</td>
-                                    <td>
-                                        @if (p.AIInsights.Contains("over budget"))
-                                        {
-                                            <span class="text-danger">@p.AIInsights</span>
-                                        }
-                                        else if (p.AIInsights.Contains("Completed"))
-                                        {
-                                            <span class="text-success">@p.AIInsights</span>
-                                        }
-                                        else if (p.AIInsights.Contains("delay"))
-                                        {
-                                            <span class="text-warning">@p.AIInsights</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="text-primary">@p.AIInsights</span>
-                                        }
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            <div class="modal-footer"><button class="btn btn-themed-secondary"><i class="bi bi-file-earmark-text me-1"></i>Add to Board Pack</button></div>
         </div>
     </div>
 </div>

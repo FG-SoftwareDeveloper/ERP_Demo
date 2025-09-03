@@ -2,13 +2,85 @@
     Layout = "_Layout";
 }
 
-<!DOCTYPE html>
+<div class="container-fluid py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card glass-effect border-0">
+                <div class="card-body p-4 d-flex align-items-start justify-content-between">
+                    <div><h1 class="mb-1 text-themed-primary d-flex align-items-center"><i class="bi bi-clipboard-data me-3 icon-primary fs-2"></i> Service Orders</h1><p class="text-themed-secondary mb-0">Dispatch board, route efficiency, and AI ETA risk.</p></div>
+                    <div class="d-flex gap-2"><button class="btn btn-themed"><i class="bi bi-plus-circle me-2"></i>New Order</button><button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#aiSchedule"><i class="bi bi-robot me-2"></i>Schedule Optimizer</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>ListServiceOrders</title>
-</head>
-<body>
-</body>
-</html>
+    <!-- Signature: Dispatch lanes + ETA gauges -->
+    <div class="row g-4 mb-4">
+        <div class="col-xxl-8">
+            <div class="card glass-effect border-0 h-100">
+                <div class="card-header p-4 bg-transparent border-0"><h5 class="mb-0 text-themed-primary"><i class="bi bi-truck me-2 icon-info"></i>Dispatch Board</h5></div>
+                <div class="card-body p-3">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="card hover-3d border-0">
+                                <div class="card-body">
+                                    <strong>Tech: J. Lee</strong>
+                                    <div class="small text-themed-secondary">SO-121 • 09:00 • HVAC Tune-up</div>
+                                    <div class="small text-themed-secondary">SO-122 • 11:00 • Filter Replace</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card hover-3d border-0">
+                                <div class="card-body">
+                                    <strong>Tech: A. Singh</strong>
+                                    <div class="small text-themed-secondary">SO-123 • 10:00 • Boiler Check</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <small class="text-themed-secondary">Drag & drop (future) to rebalance routes.</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-xxl-4">
+            <div class="card glass-effect border-0 h-100">
+                <div class="card-header p-4 bg-transparent border-0"><h5 class="mb-0 text-themed-primary"><i class="bi bi-speedometer me-2 icon-warning"></i>ETA Risk</h5></div>
+                <div class="card-body p-4">
+                    <div class="chart-container mb-3"><canvas id="etaGauge"></canvas></div>
+                    <div class="d-grid"><button class="btn btn-themed-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#aiSchedule"><i class="bi bi-robot me-1"></i>Reduce Risk</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card themed-table border-0">
+                <div class="card-header p-4 bg-transparent border-0"><h5 class="mb-0 text-themed-primary"><i class="bi bi-table me-2 icon-primary"></i>Service Orders</h5></div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead><tr><th>SO #</th><th>Date</th><th>Customer</th><th>Type</th><th>Tech</th><th>ETA</th><th>Status</th><th>Actions</th></tr></thead>
+                            <tbody><tr><td>SO-121</td><td>2025-09-01</td><td>ABC Co.</td><td>Preventive</td><td>J. Lee</td><td>On time</td><td><span class="badge bg-info text-info badge-themed">En Route</span></td><td><button class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></button></td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Schedule Optimizer -->
+<div class="modal fade" id="aiSchedule" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content glass-effect border-0">
+            <div class="modal-header"><h5 class="modal-title"><i class="bi bi-robot me-2"></i>AI Schedule Optimizer</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+            <div class="modal-body">
+                <div class="alert alert-info"><i class="bi bi-lightning me-2"></i>Swap SO-123 to J. Lee (closer to route) to cut drive time by 24 min and reduce ETA risk to 9%.</div>
+                <button class="btn btn-themed-secondary"><i class="bi bi-arrows-move me-1"></i>Apply</button>
+            </div>
+        </div>
+    </div>
+</div>

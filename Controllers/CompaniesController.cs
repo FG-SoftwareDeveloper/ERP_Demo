@@ -5,7 +5,7 @@ namespace MyApp.Namespace
     public class CompaniesController : Controller
     {
         // GET: CompaniesController
-        public ActionResult Index()
+        public IActionResult ListCompanies()
         {
             return View();
         }

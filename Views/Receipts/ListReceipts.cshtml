@@ -2,13 +2,97 @@
     Layout = "_Layout";
 }
 
-<!DOCTYPE html>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>ListReceipts</title>
-</head>
-<body>
-</body>
-</html>
+<div class="container-fluid py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card glass-effect border-0">
+                <div class="card-body p-4 d-flex align-items-start justify-content-between">
+                    <div><h1 class="mb-1 text-themed-primary d-flex align-items-center"><i class="bi bi-clipboard-check me-3 icon-primary fs-2"></i> Receipts</h1><p class="text-themed-secondary mb-0">Dock queue, barcode scan, and photo-backed discrepancy flows.</p></div>
+                    <div class="d-flex gap-2"><button class="btn btn-themed" data-bs-toggle="modal" data-bs-target="#scanModal"><i class="bi bi-upc-scan me-2"></i>Scan</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signature: Dock queue + evidence carousel -->
+    <div class="row g-4 mb-4">
+        <div class="col-xxl-7">
+            <div class="card glass-effect border-0 h-100">
+                <div class="card-header p-4 bg-transparent border-0"><h5 class="mb-0 text-themed-primary"><i class="bi bi-truck me-2 icon-info"></i>Dock Queue</h5></div>
+                <div class="card-body p-0">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item bg-transparent d-flex justify-content-between align-items-center">
+                            <div><strong>GRN-19044</strong><div class="small text-themed-secondary">PO-30019 • Global Metals</div></div>
+                            <span class="badge bg-warning text-warning badge-themed">Waiting</span>
+                        </li>
+                        <li class="list-group-item bg-transparent d-flex justify-content-between align-items-center">
+                            <div><strong>GRN-19045</strong><div class="small text-themed-secondary">PO-30021 • PackIt</div></div>
+                            <span class="badge bg-info text-info badge-themed">Unloading</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-xxl-5">
+            <div class="card glass-effect border-0 h-100">
+                <div class="card-header p-4 bg-transparent border-0"><h5 class="mb-0 text-themed-primary"><i class="bi bi-images me-2 icon-warning"></i>Photo Evidence</h5></div>
+                <div class="card-body p-0">
+                    <div id="photoCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active"><div class="ratio ratio-16x9 bg-dark bg-opacity-10 rounded"></div></div>
+                            <div class="carousel-item"><div class="ratio ratio-16x9 bg-dark bg-opacity-10 rounded"></div></div>
+                        </div>
+                        <button class="carousel-control-prev" data-bs-target="#photoCarousel" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></button>
+                        <button class="carousel-control-next" data-bs-target="#photoCarousel" data-bs-slide="next"><span class="carousel-control-next-icon"></span></button>
+                    </div>
+                    <div class="p-3"><button class="btn btn-outline-secondary w-100"><i class="bi bi-upload me-1"></i>Upload Photo</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card themed-table border-0">
+                <div class="card-header p-4 bg-transparent border-0 d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0 text-themed-primary"><i class="bi bi-table me-2 icon-primary"></i>Receipts</h5>
+                    <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#discrepancy"><i class="bi bi-exclamation-circle me-1"></i>Resolve Discrepancies</button>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead><tr><th>GRN</th><th>Date</th><th>PO #</th><th>Supplier</th><th>Received</th><th>Damaged</th><th>Put-away</th><th>Status</th><th>Actions</th></tr></thead>
+                            <tbody><tr><td>GRN-19044</td><td>2025-08-31</td><td>PO-30019</td><td>Global Metals</td><td>1,180</td><td>20</td><td>80%</td><td><span class="badge bg-warning text-warning badge-themed">Partial</span></td><td><button class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></button></td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modals -->
+<div class="modal fade" id="scanModal" tabindex="-1">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content glass-effect border-0">
+            <div class="modal-header"><h5 class="modal-title"><i class="bi bi-upc-scan me-2"></i>Barcode Scan</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+            <div class="modal-body"><div class="ratio ratio-16x9 rounded bg-dark bg-opacity-10"></div><small class="text-themed-secondary">Use camera to scan package labels.</small></div>
+            <div class="modal-footer"><button class="btn btn-themed">Confirm</button></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="discrepancy" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content glass-effect border-0">
+            <div class="modal-header"><h5 class="modal-title"><i class="bi bi-exclamation-diamond me-2"></i>Discrepancy Resolver</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+            <div class="modal-body">
+                <div class="alert alert-warning"><i class="bi bi-lightbulb me-2"></i>Auto-suggest claim for 20 damaged units. Attach photos?</div>
+                <button class="btn btn-themed-secondary"><i class="bi bi-paperclip me-1"></i>Attach Evidence</button>
+            </div>
+            <div class="modal-footer"><button class="btn btn-themed"><i class="bi bi-check2 me-1"></i>Open Vendor Claim</button></div>
+        </div>
+    </div>
+</div>

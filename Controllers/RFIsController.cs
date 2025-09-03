@@ -5,7 +5,7 @@ namespace MyApp.Namespace
     public class RFIsController : Controller
     {
         // GET: RFIsController
-        public ActionResult Index()
+        public IActionResult ListRFIs()
         {
             return View();
         }

@@ -2,13 +2,64 @@
     Layout = "_Layout";
 }
 
-<!DOCTYPE html>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>ListPurchaseOrderLines</title>
-</head>
-<body>
-</body>
-</html>
+<div class="container-fluid py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card glass-effect border-0">
+                <div class="card-body p-4 d-flex align-items-start justify-content-between">
+                    <div><h1 class="mb-1 text-themed-primary d-flex align-items-center"><i class="bi bi-list-ol me-3 icon-primary fs-2"></i> Purchase Order Lines</h1><p class="text-themed-secondary mb-0">Price variance, supplier fill rate, and expedite suggestions.</p></div>
+                    <div class="d-flex gap-2"><button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#aiBundle"><i class="bi bi-robot me-2"></i>AI Bundle Lines</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signature: Price Var Waterfall + Fill Rate Sparkline -->
+    <div class="row g-4 mb-4">
+        <div class="col-xxl-7">
+            <div class="card glass-effect border-0 h-100">
+                <div class="card-header p-4 bg-transparent border-0"><h5 class="mb-0 text-themed-primary"><i class="bi bi-water me-2 icon-warning"></i>Price Variance (Waterfall)</h5></div>
+                <div class="card-body p-4"><div class="chart-container"><canvas id="priceWaterfall"></canvas></div></div>
+            </div>
+        </div>
+        <div class="col-xxl-5">
+            <div class="card glass-effect border-0 h-100">
+                <div class="card-header p-4 bg-transparent border-0"><h5 class="mb-0 text-themed-primary"><i class="bi bi-graph-up-arrow me-2 icon-success"></i>Supplier Fill Rate</h5></div>
+                <div class="card-body p-4"><div class="chart-container"><canvas id="fillRateSpark"></canvas></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card themed-table border-0">
+                <div class="card-header p-4 bg-transparent border-0"><h5 class="mb-0 text-themed-primary"><i class="bi bi-table me-2 icon-primary"></i>Lines</h5></div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead><tr><th>PO #</th><th>Line</th><th>Item</th><th>Ordered</th><th>Received</th><th>Price</th><th>Std Price</th><th>Var</th><th>ETA</th><th>Actions</th></tr></thead>
+                            <tbody>
+                                <tr><td>PO-30019</td><td>10</td><td>Steel Rod 10mm</td><td>2,000</td><td>1,200</td><td>$2.50</td><td>$2.35</td><td class="text-warning">+6%</td><td>2025-09-06</td><td><button class="btn btn-sm btn-outline-secondary"><i class="bi bi-rocket-takeoff"></i></button></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: AI Bundle -->
+<div class="modal fade" id="aiBundle" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content glass-effect border-0">
+            <div class="modal-header"><h5 class="modal-title"><i class="bi bi-robot me-2"></i>AI Bundle & Expedite</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+            <div class="modal-body">
+                <div class="alert alert-info"><i class="bi bi-lightning me-2"></i>Bundle lines 10–30 across PO-30019/30021 to save $2.1k freight and improve fill rate to 97%.</div>
+                <button class="btn btn-themed-secondary"><i class="bi bi-diagram-3 me-1"></i>Create Bundle</button>
+            </div>
+        </div>
+    </div>
+</div>

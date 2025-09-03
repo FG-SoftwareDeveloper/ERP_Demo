@@ -5,7 +5,7 @@ namespace MyApp.Namespace
     public class ServiceOrdersController : Controller
     {
         // GET: ServiceOrdersController
-        public ActionResult Index()
+        public IActionResult ListServiceOrders()
         {
             return View();
         }

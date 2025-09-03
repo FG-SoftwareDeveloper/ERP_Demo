@@ -68,7 +68,7 @@
                     <i class="bi bi-graph-up me-2"></i> Financial Snapshot
                 </a>
                 <a asp-controller="JournalEntries" asp-action="ListJournalEntries" class="nav-link">
-                    <i class="bi bi-journal-text me-2"></i> Journal
+                    <i class="bi bi-journal-text me-2"></i> Journal Entries
                 </a>
                 <a asp-controller="MaintenanceRecords" asp-action="ListMaintenanceRecords" class="nav-link">
                     <i class="bi bi-wrench me-2"></i> Maintenance Records
@@ -117,35 +117,34 @@
         <!-- /#sidebar-wrapper -->
         <!-- Page Content Wrapper -->
         <div id="page-content-wrapper">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+            <nav class="navbar nav navbar-expand-lg border-bottom themed-nav border-0 top-nav">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="#">ERP BI Operations</a>
+                    <a class="navbar-brand" asp-page="/">ERP BI Operations</a>
                     <div class="position-absolute top-0 end-0 mt-2 me-2">
-                        <label class="theme-switch">
-                            <input type="checkbox" id="themeToggle">
+                        <label class="theme-switch" title="Toggle theme">
+                            <input type="checkbox" id="themeToggle" />
                             <span class="slider">
                                 <i class="bi bi-sun-fill"></i>
                                 <i class="bi bi-moon-fill"></i>
                             </span>
                         </label>
                     </div>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" id="combinedNavbarSidebarToggle">
+
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarNav" aria-controls="navbarNav"
+                            aria-expanded="false" aria-label="Toggle navigation"
+                            id="combinedNavbarSidebarToggle">
                         <span class="navbar-toggler-icon"></span>
                     </button>
+
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
                                 <a class="nav-link active" aria-current="page" asp-controller="/Index">Home</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Features</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Pricing</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-                            </li>
+                            <li class="nav-item"><a class="nav-link" href="#">Features</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#">Pricing</a></li>
+                            <li class="nav-item"><a class="nav-link disabled" aria-disabled="true">Disabled</a></li>
                         </ul>
                         <ul class="navbar-nav">
                             <partial name="_LoginPartial" />
@@ -153,7 +152,6 @@
                     </div>
                 </div>
             </nav>
-
             <div class="container-fluid py-4">
                 <main role="main" class="pb-3">
                     @RenderBody()
@@ -161,7 +159,7 @@
             </div>
         </div>
     </div>
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted position-fixed">
         <div class="container">
             &copy; 2025 - ERP_Demo - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
@@ -176,188 +174,6 @@
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-        <script>
-        $(document).ready(function() {
-            // Theme Toggle Logic
-            const themeToggle = $('#themeToggle');
-            const htmlElement = $('html'); // Target the html element for data-theme
-
-            // Function to set the theme
-            function setTheme(theme) {
-                htmlElement.attr('data-theme', theme);
-                localStorage.setItem('theme', theme);
-                // Update the checkbox state
-                themeToggle.prop('checked', theme === 'dark');
-            }
-
-            // Load theme from localStorage on page load
-            const savedTheme = localStorage.getItem('theme') || 'light'; // Default to light
-            setTheme(savedTheme);
-
-            // Listen for theme toggle changes
-            themeToggle.on('change', function() {
-                if ($(this).is(':checked')) {
-                    setTheme('dark');
-                } else {
-                    setTheme('light');
-                }
-            });
-
-            // Combined Toggle functionality for Navbar and Sidebar
-            $("#combinedNavbarSidebarToggle").click(function(e) {
-                e.preventDefault();
-                $("#wrapper").toggleClass("toggled");
-            });
-
-            // Function to set active class on sidebar link
-            function setActiveLink(path) {
-                $('#sidebarMenu .nav-link').removeClass('active');
-                $('#sidebarMenu a.nav-link').each(function() {
-                    const linkUrl = $(this).data('page-url');
-                    if (linkUrl && (path === linkUrl || (path.startsWith(linkUrl) && linkUrl !== "/"))) {
-                        $(this).addClass('active');
-                    } else if (linkUrl === "/Index" && path === "/") {
-                        $(this).addClass('active');
-                    }
-                });
-            }
-
-            // Initial active link setting
-            setActiveLink(window.location.pathname);
-
-            // AJAX page loading logic
-            async function loadPageContent(url, pushState = true) {
-                try {
-                    const response = await fetch(url);
-                    const html = await response.text();
-
-                    // Create a temporary div to parse the fetched HTML
-                    const tempDiv = document.createElement('div');
-                    tempDiv.innerHTML = html;
-
-                    // Extract the content of the <main> tag
-                    const newMainContent = tempDiv.querySelector('main[role="main"]');
-
-                    if (newMainContent) {
-                        // Replace the current main content
-                        $('#main-content-area').html(newMainContent.innerHTML);
-
-                        // Update the browser URL without reloading
-                        if (pushState) {
-                            history.pushState({ path: url }, '', url);
-                        }
-
-                        // Update active sidebar link
-                        setActiveLink(url);
-
-                        // Scroll to top of the content area, not the entire page
-                        $('#main-content-area').scrollTop(0);
-
-                        // Re-initialize DataTables and Charts for the new content
-                        // This function will be defined in site.js
-                        if (typeof initializeCurrentPageFeatures === 'function') {
-                            initializeCurrentPageFeatures();
-                        }
-                    } else {
-                        console.error('Could not find <main> content in fetched HTML for:', url);
-                    }
-                } catch (error) {
-                    console.error('Error loading page content:', error);
-                    // Optionally, redirect to the full page on error
-                    window.location.href = url;
-                }
-            }
-
-            // Handle sidebar link clicks
-            $(document).on('click', '.sidebar-ajax-link', function(e) {
-                e.preventDefault(); // Prevent default link behavior
-                const url = $(this).data('page-url');
-                if (url) {
-                    loadPageContent(url);
-                }
-            });
-
-            // Handle browser back/forward buttons
-            window.addEventListener('popstate', (event) => {
-                if (event.state && event.state.path) {
-                    loadPageContent(event.state.path, false); // Don't push state again
-                } else {
-                    // Fallback for initial page load or if state is null
-                    loadPageContent(window.location.pathname, false);
-                }
-            });
-
-            // Initial load of page features (for the page loaded on first visit)
-            // This will ensure DataTables and Charts on the initial page are set up.
-            if (typeof initializeCurrentPageFeatures === 'function') {
-                initializeCurrentPageFeatures();
-            }
-
-                    /**Home Page*/
-       
-            // Simple animation for KPI numbers (optional, but adds a nice touch)
-            function animateValue(id, start, end, duration, prefix = '', suffix = '') {
-                let current = start;
-                const range = end - start;
-                const increment = end > start ? 1 : -1;
-                const stepTime = Math.abs(Math.floor(duration / range));
-                const obj = document.getElementById(id);
-
-                if (!obj) return; // Exit if element not found
-
-                const timer = setInterval(() => {
-                    current += increment;
-                    if ((increment > 0 && current > end) || (increment < 0 && current < end)) {
-                        current = end;
-                    }
-                    if (id === 'kpiRevenue' || id === 'kpiTotalInventoryValue') { // Assuming these are currency
-                        obj.textContent = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(current);
-                    } else if (id === 'kpiProfitMargin') {
-                        obj.textContent = current.toFixed(1) + '%';
-                    } else {
-                        obj.textContent = prefix + current.toLocaleString() + suffix;
-                    }
-
-                    if (current === end) {
-                        clearInterval(timer);
-                    }
-                }, stepTime);
-            }
-
-            // Trigger animations for KPIs on page load
-            // Using dummy values for now. In a real app, these would come from your backend.
-            animateValue('kpiRevenue', 0, 1234567, 2000);
-            animateValue('kpiProfitMargin', 0, 28.5, 1500);
-            animateValue('kpiActiveUsers', 0, 1500, 1800, '', '+');
-
-            // Add a subtle bounce animation to the hero button after a delay
-            setTimeout(() => {
-                $('.animate-bounce-once').removeClass('animate-bounce-once').addClass('animate-pulse-subtle');
-            }, 2500); // Remove bounce and add subtle pulse after 2.5 seconds
-
-            // Simple intersection observer for fade-in effect on sections
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.1
-            };
-
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        $(entry.target).addClass('fade-in-visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, observerOptions);
-
-            $('.module-card, .data-card, .dashboard-link-card').each(function () {
-                observer.observe(this);
-            });
-
-        });
-        
-    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

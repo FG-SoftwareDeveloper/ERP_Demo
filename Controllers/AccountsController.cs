@@ -8,7 +8,7 @@ namespace MyApp.Namespace
     {
         //Return Accounts.cshtml View
         // In-memory sample data for now. Replace with EF later.
-        private static readonly List<AccountViewModel> _accounts = new()
+        private static readonly List<Account> _accounts = new()
         {
             new() { Id=1, Name="Cash", AccountType="Asset", CurrentBalance=50000, Company="Contoso", Active=true },
             new() { Id=2, Name="Accounts Payable", AccountType="Liability", CurrentBalance=12000, Company="Contoso", Active=true },
@@ -24,14 +24,23 @@ namespace MyApp.Namespace
             return View(m);
         }
 
-        public IActionResult Create() => View(new AccountViewModel());
+        public IActionResult Create() => View(new Account());
 
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult Create(AccountViewModel model)
+        public IActionResult Create(Account model)
         {
             if (!ModelState.IsValid) return View(model);
-            model.Id = _accounts.Any() ? _accounts.Max(a => a.Id) + 1 : 1;
-            _accounts.Add(model);
+            var newId = _accounts.Any() ? _accounts.Max(a => a.Id) + 1 : 1;
+            var newAccount = new Account
+            {
+                Id = newId,
+                Name = model.Name,
+                AccountType = model.AccountType,
+                CurrentBalance = model.CurrentBalance,
+                Company = model.Company,
+                Active = model.Active
+            };
+            _accounts.Add(newAccount);
             TempData["Msg"] = "Account created.";
             return RedirectToAction(nameof(ListAccounts));
         }
@@ -44,7 +53,7 @@ namespace MyApp.Namespace
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, AccountViewModel model)
+        public IActionResult Edit(int id, Account model)
         {
             if (!ModelState.IsValid) return View(model);
             var existing = _accounts.FirstOrDefault(a => a.Id == id);

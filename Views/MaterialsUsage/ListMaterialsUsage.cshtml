@@ -8,169 +8,110 @@
     };
 }
 
-<h2 class="h1 fw-bold themed-heading mb-4 border-bottom pb-2">Materials Usage</h2>
-
-<!-- KPI Cards Row -->
-<div class="row g-4 mb-4">
-    <div class="col-md-3">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-primary"><i class="bi bi-box-seam"></i></span>
-                    <h5 class="card-title mb-0">Total Usage Records</h5>
-                </div>
-                <div class="display-5 fw-bold text-primary mb-1">@usageRecords.Length</div>
-                <div class="text-muted">Projects: @usageRecords.Select(u => u.Project).Distinct().Count()</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-success"><i class="bi bi-check2-circle"></i></span>
-                    <h5 class="card-title mb-0">Total Quantity Used</h5>
-                </div>
-                <div class="display-5 fw-bold text-success mb-1">@usageRecords.Sum(u => u.Quantity)</div>
-                <div class="text-muted">Types: @usageRecords.Select(u => u.Type).Distinct().Count()</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-warning"><i class="bi bi-exclamation-triangle"></i></span>
-                    <h5 class="card-title mb-0">High Usage Events</h5>
-                </div>
-                <div class="display-5 fw-bold text-warning mb-1">@usageRecords.Count(u => u.Status == "High")</div>
-                <div class="text-muted">Low Usage: @usageRecords.Count(u => u.Status == "Low")</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-info"><i class="bi bi-currency-dollar"></i></span>
-                    <h5 class="card-title mb-0">Total Cost</h5>
-                </div>
-                <div class="display-5 fw-bold text-info mb-1">@usageRecords.Sum(u => u.Cost).ToString("C")</div>
-                <div class="text-muted">Avg. per Record: @(usageRecords.Sum(u => u.Cost) / usageRecords.Length).ToString("C")</div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- AI Forecast Widget (High Contrast) -->
-<div class="row mb-4">
-    <div class="col-12">
-        <div class="card shadow-lg border-0" style="background: linear-gradient(90deg,#e3e6f0 0%,#f8fafc 100%);">
-            <div class="card-body p-4">
-                <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card glass-effect border-0">
+                <div class="card-body p-4 d-flex flex-column flex-md-row align-items-md-center justify-content-between">
                     <div>
-                        <h5 class="mb-2 text-dark"><i class="bi bi-lightbulb me-2"></i>AI Forecast: Next Month Material Usage</h5>
-                        <div class="fs-2 fw-bold text-dark">Stable</div>
-                        <div class="small text-dark">Predictive analytics show no major spikes. Steel Rebar flagged for potential reorder.</div>
+                        <h1 class="mb-1 text-themed-primary d-flex align-items-center">
+                            <i class="bi bi-diagram-3 me-3 icon-primary fs-2"></i> Material Usage
+                        </h1>
+                        <p class="text-themed-secondary mb-0">Visualize flows WH?Project, track variances, and detect anomalies.</p>
                     </div>
-                    <div class="mt-3 mt-md-0">
-                        <span class="badge rounded-pill bg-primary bg-opacity-10 text-primary fs-6 px-4 py-2 shadow-sm">Projected High Usage Events: 1</span>
+                    <div class="mt-3 mt-md-0 d-flex flex-wrap gap-2">
+                        <button class="btn btn-themed"><i class="bi bi-box-arrow-in-right me-2"></i>Issue Material</button>
+                        <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#aiAnomaly"><i class="bi bi-robot me-2"></i>Anomaly Scan</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- BI Chart Placeholder -->
-<div class="row mb-4">
-    <div class="col-12">
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-white">
-                <h5 class="mb-0">Material Usage Trend (BI Chart)</h5>
+    <!-- Signature: Flow (Sankey placeholder) + Variance -->
+    <div class="row g-4 mb-4">
+        <div class="col-xxl-7">
+            <div class="card glass-effect border-0 h-100">
+                <div class="card-header bg-transparent border-0 p-4"><h5 class="mb-0 text-themed-primary"><i class="bi bi-shuffle me-2 icon-info"></i>Usage Flow (Sankey)</h5></div>
+                <div class="card-body p-4">
+                    <div class="chart-container"><canvas id="usageSankey"></canvas></div>
+                    <small class="text-themed-secondary">Shows material movement from warehouses to projects/work orders.</small>
+                </div>
             </div>
-            <div class="card-body text-center">
-                <img src="https://via.placeholder.com/600x200?text=Material+Usage+Trend+Chart" alt="Material Usage Trend Chart" class="img-fluid rounded" />
+        </div>
+        <div class="col-xxl-5">
+            <div class="card glass-effect border-0 h-100">
+                <div class="card-header bg-transparent border-0 p-4"><h5 class="mb-0 text-themed-primary"><i class="bi bi-graph-up-arrow me-2 icon-warning"></i>Plan vs Actual (Variance)</h5></div>
+                <div class="card-body p-4">
+                    <div class="chart-container mb-3"><canvas id="varianceBar"></canvas></div>
+                    <div class="p-3 rounded glass-effect d-flex align-items-center justify-content-between">
+                        <div><div class="small text-themed-secondary">Total variance</div><div class="display-6 text-themed-primary">$18.7k</div></div>
+                        <button class="btn btn-themed-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#aiAnomaly"><i class="bi bi-robot me-1"></i>Explain</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Materials Usage Table -->
-<div class="row">
-    <div class="col-12">
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-white">
-                <h5 class="mb-0">Materials Usage List</h5>
-            </div>
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle mb-0">
-                        <thead class="table-light">
-                            <tr>
-                                <th>#</th>
-                                <th>Material</th>
-                                <th>Type</th>
-                                <th>Project</th>
-                                <th>Location</th>
-                                <th>Quantity</th>
-                                <th>Unit</th>
-                                <th>Date Used</th>
-                                <th>Status</th>
-                                <th>Cost</th>
-                                <th>AI Insights</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var u in usageRecords)
-                            {
+    <!-- Table with BOM quick-view -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card themed-table border-0">
+                <div class="card-header bg-transparent border-0 p-4"><h5 class="mb-0 text-themed-primary"><i class="bi bi-table me-2 icon-primary"></i>Usage Transactions</h5></div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead><tr><th>Usage #</th><th>Date</th><th>Project</th><th>Material</th><th>Qty</th><th>Unit</th><th>Cost</th><th>BOM</th><th>Actions</th></tr></thead>
+                            <tbody>
                                 <tr>
-                                    <td>@u.UsageID</td>
-                                    <td class="fw-semibold">@u.Material</td>
-                                    <td>@u.Type</td>
-                                    <td>@u.Project</td>
-                                    <td>@u.Location</td>
-                                    <td>@u.Quantity</td>
-                                    <td>@u.Unit</td>
-                                    <td>@u.DateUsed.ToString("yyyy-MM-dd")</td>
-                                    <td>
-                                        @if (u.Status == "Normal")
-                                        {
-                                            <span class="badge bg-success">Normal</span>
-                                        }
-                                        else if (u.Status == "High")
-                                        {
-                                            <span class="badge bg-warning text-dark">High</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge bg-info">Low</span>
-                                        }
-                                    </td>
-                                    <td>@u.Cost.ToString("C")</td>
-                                    <td>
-                                        @if (u.AIInsights.Contains("spike"))
-                                        {
-                                            <span class="text-danger">@u.AIInsights</span>
-                                        }
-                                        else if (u.AIInsights.Contains("reorder"))
-                                        {
-                                            <span class="text-warning">@u.AIInsights</span>
-                                        }
-                                        else if (u.AIInsights.Contains("Delivery"))
-                                        {
-                                            <span class="text-info">@u.AIInsights</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="text-success">@u.AIInsights</span>
-                                        }
-                                    </td>
+                                    <td>MU-23045</td>
+                                    <td>2025-08-29</td>
+                                    <td>PRJ-1002</td>
+                                    <td>Steel Rod 10mm</td>
+                                    <td>140</td>
+                                    <td>pcs</td>
+                                    <td>$329</td>
+                                    <td><button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#bomQuick"><i class="bi bi-diagram-3"></i></button></td>
+                                    <td><button class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></button></td>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modals -->
+<div class="modal fade" id="aiAnomaly" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content glass-effect border-0">
+            <div class="modal-header"><h5 class="modal-title"><i class="bi bi-robot me-2"></i>AI Variance & Anomalies</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+            <div class="modal-body">
+                <div class="alert alert-warning"><i class="bi bi-exclamation-triangle me-2"></i>Project PRJ-1005 is 23% over plan for steel. Suspect duplicate issue on 08/25.</div>
+                <ul class="small text-themed-secondary mb-0"><li>Auto-create review task for storekeeper</li><li>Lock high-risk SKU for manager approval</li></ul>
+            </div>
+            <div class="modal-footer"><button class="btn btn-themed-secondary"><i class="bi bi-tools me-1"></i>Create Fix Task</button><button class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="bomQuick" tabindex="-1">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content glass-effect border-0">
+            <div class="modal-header"><h5 class="modal-title"><i class="bi bi-diagram-3 me-2"></i>BOM Quick View</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+            <div class="modal-body">
+                <ul class="small mb-0">
+                    <li>
+                        Assembly A
+                        <ul>
+                            <li>Steel Rod 10mm × 2</li>
+                            <li>Fastener M10 × 6</li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>

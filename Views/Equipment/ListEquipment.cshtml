@@ -7,176 +7,869 @@
         new { EquipmentID = 3, Name = "Generator", Type = "Light", Status = "Inactive", Location = "Site B", LastService = DateTime.Parse("2025-07-15"), UsageHours = 300, Condition = "Fair", AIInsights = "Low usage, consider redeployment" }
     };
 }
-
-<h2 class="h1 fw-bold themed-heading mb-4 border-bottom pb-2">Equipment</h2>
-
-<!-- KPI Cards Row -->
-<div class="row g-4 mb-4">
-    <div class="col-md-3">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-primary"><i class="bi bi-tools"></i></span>
-                    <h5 class="card-title mb-0">Total Equipment</h5>
-                </div>
-                <div class="display-5 fw-bold text-primary mb-1">@equipment.Length</div>
-                <div class="text-muted">Active: @equipment.Count(e => e.Status == "Active")</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-success"><i class="bi bi-check2-circle"></i></span>
-                    <h5 class="card-title mb-0">In Service</h5>
-                </div>
-                <div class="display-5 fw-bold text-success mb-1">@equipment.Count(e => e.Status == "Maintenance")</div>
-                <div class="text-muted">Last 30 days: @equipment.Count(e => e.LastService > DateTime.Now.AddDays(-30))</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-warning"><i class="bi bi-exclamation-triangle"></i></span>
-                    <h5 class="card-title mb-0">Inactive</h5>
-                </div>
-                <div class="display-5 fw-bold text-warning mb-1">@equipment.Count(e => e.Status == "Inactive")</div>
-                <div class="text-muted">Condition: @equipment.Count(e => e.Condition == "Fair" || e.Condition == "Needs Service")</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-info"><i class="bi bi-geo-alt"></i></span>
-                    <h5 class="card-title mb-0">Locations</h5>
-                </div>
-                <div class="display-5 fw-bold text-info mb-1">@equipment.Select(e => e.Location).Distinct().Count()</div>
-                <div class="text-muted">Types: @equipment.Select(e => e.Type).Distinct().Count()</div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- AI Forecast Widget (High Contrast) -->
-<div class="row mb-4">
-    <div class="col-12">
-        <div class="card shadow-lg border-0" style="background: linear-gradient(90deg,#e3e6f0 0%,#f8fafc 100%);">
-            <div class="card-body p-4">
-                <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
-                    <div>
-                        <h5 class="mb-2 text-dark"><i class="bi bi-lightbulb me-2"></i>AI Forecast: Next Month Maintenance Needs</h5>
-                        <div class="fs-2 fw-bold text-dark">2 units</div>
-                        <div class="small text-dark">Based on usage hours, last service, and condition. Predictive analytics suggest scheduling maintenance for Forklift and Generator.</div>
-                    </div>
-                    <div class="mt-3 mt-md-0">
-                        <span class="badge rounded-pill bg-primary bg-opacity-10 text-primary fs-6 px-4 py-2 shadow-sm">Optimal Utilization: 1</span>
+<div class="container-fluid py-4">
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card glass-effect border-0 animate-fade-in-up">
+                <div class="card-body p-4">
+                    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                        <div>
+                            <h1 class="mb-2 text-themed-primary d-flex align-items-center">
+                                <i class="bi bi-tools me-3 icon-primary fs-2"></i>
+                                Equipment
+                            </h1>
+                            <p class="text-themed-secondary mb-0">
+                                Predictive health, utilization, compliance & IoT — with AI assistance
+                            </p>
+                        </div>
+                        <div class="mt-3 mt-md-0 d-flex gap-2">
+                            <button class="btn btn-themed">
+                                <i class="bi bi-plus-circle me-2"></i>New Equipment
+                            </button>
+                            <button class="btn btn-themed-secondary">
+                                <i class="bi bi-upload me-2"></i>Import
+                            </button>
+                            <button class="btn btn-outline-secondary focus-ring" data-bs-toggle="modal" data-bs-target="#schedulerModal">
+                                <i class="bi bi-calendar2-check me-2"></i>AI Scheduler
+                            </button>
+                            <button class="btn btn-outline-secondary focus-ring" data-bs-toggle="modal" data-bs-target="#marketModal">
+                                <i class="bi bi-arrow-left-right me-2"></i>Share / Transfer
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- BI Chart Placeholder -->
-<div class="row mb-4">
-    <div class="col-12">
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-white">
-                <h5 class="mb-0">Equipment Usage Trend (BI Chart)</h5>
+    <!-- KPIs -->
+    <div class="row g-4 mb-4">
+        <div class="col-lg-3 col-md-6">
+            <div class="card card-2025 hover-3d kpi-card border-0 h-100 animate-fade-in-up animate-delay-1">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-2">
+                        <span class="me-3 fs-2 icon-primary"><i class="bi bi-hdd-network"></i></span>
+                        <h6 class="mb-0 text-themed-primary">Total Equipment</h6>
+                    </div>
+                    <div class="display-6 fw-bold text-themed-primary" id="kpiTotal">326</div>
+                    <small class="text-themed-secondary">+7 added this month</small>
+                </div>
             </div>
-            <div class="card-body text-center">
-                <img src="https://via.placeholder.com/600x200?text=Equipment+Usage+Trend+Chart" alt="Equipment Usage Trend Chart" class="img-fluid rounded" />
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card card-2025 hover-3d kpi-card border-0 h-100 animate-fade-in-up animate-delay-2">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-2">
+                        <span class="me-3 fs-2 icon-success"><i class="bi bi-activity"></i></span>
+                        <h6 class="mb-0 text-themed-primary">Uptime (30d)</h6>
+                    </div>
+                    <div class="display-6 fw-bold text-themed-primary" id="kpiUptime">98.4%</div>
+                    <small class="text-themed-secondary">MTBF: 412h</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card card-2025 hover-3d kpi-card border-0 h-100 animate-fade-in-up animate-delay-3">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-2">
+                        <span class="me-3 fs-2 icon-warning"><i class="bi bi-exclamation-octagon"></i></span>
+                        <h6 class="mb-0 text-themed-primary">Predicted Failures (30d)</h6>
+                    </div>
+                    <div class="display-6 fw-bold text-themed-primary" id="kpiPred">6</div>
+                    <small class="text-themed-secondary">AI risk &gt; 60%</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card card-2025 hover-3d kpi-card border-0 h-100 animate-fade-in-up animate-delay-4">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-2">
+                        <span class="me-3 fs-2 icon-info"><i class="bi bi-shield-check"></i></span>
+                        <h6 class="mb-0 text-themed-primary">Compliance</h6>
+                    </div>
+                    <div class="d-flex align-items-center gap-3">
+                        <span class="badge badge-themed bg-success text-success">? 282</span>
+                        <span class="badge badge-themed bg-warning text-warning">?? 31</span>
+                        <span class="badge badge-themed bg-danger text-danger">? 13</span>
+                    </div>
+                    <small class="text-themed-secondary">OSHA/ISO checks</small>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Equipment Table -->
-<div class="row">
-    <div class="col-12">
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-white">
-                <h5 class="mb-0">Equipment List</h5>
+    <!-- Predictive Health + IoT -->
+    <div class="row g-4 mb-4">
+        <!-- Predictive Health Watchlist -->
+        <div class="col-lg-7">
+            <div class="card glass-effect border-0 animate-fade-in-up">
+                <div class="card-header bg-transparent border-0 p-4 d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0 text-themed-primary d-flex align-items-center">
+                        <i class="bi bi-heart-pulse me-2 icon-warning"></i>Predictive Health Watchlist
+                    </h5>
+                    <button class="btn btn-outline-secondary btn-sm focus-ring" data-bs-toggle="modal" data-bs-target="#pmModal">
+                        <i class="bi bi-graph-up-arrow me-1"></i>Open Insights
+                    </button>
+                </div>
+                <div class="card-body p-0">
+                    <div class="list-group list-group-flush" id="watchlist">
+                        <!-- rows injected by script -->
+                    </div>
+                </div>
             </div>
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle mb-0">
-                        <thead class="table-light">
-                            <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Type</th>
-                                <th>Status</th>
-                                <th>Location</th>
-                                <th>Last Service</th>
-                                <th>Usage Hours</th>
-                                <th>Condition</th>
-                                <th>AI Insights</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var e in equipment)
-                            {
+        </div>
+
+        <!-- Live IoT Snapshot -->
+        <div class="col-lg-5">
+            <div class="card glass-effect border-0 animate-fade-in-up h-100">
+                <div class="card-header bg-transparent border-0 p-4 d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0 text-themed-primary d-flex align-items-center">
+                        <i class="bi bi-speedometer2 me-2 icon-primary"></i>Live IoT Snapshot
+                    </h5>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-primary btn-sm dropdown-toggle focus-ring" data-bs-toggle="dropdown" id="iotAssetBtn">Forklift A</button>
+                        <ul class="dropdown-menu" id="iotAssetMenu"></ul>
+                    </div>
+                </div>
+                <div class="card-body p-4">
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <div class="card hover-3d h-100">
+                                <div class="card-body">
+                                    <div class="small text-themed-secondary">Temperature</div>
+                                    <div class="display-6 text-themed-primary"><span id="iotTemp">—</span>°C</div>
+                                    <div class="small text-themed-secondary">Thresh: 85°C</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card hover-3d h-100">
+                                <div class="card-body">
+                                    <div class="small text-themed-secondary">Pressure</div>
+                                    <div class="display-6 text-themed-primary"><span id="iotPressure">—</span> psi</div>
+                                    <div class="small text-themed-secondary">Thresh: 140 psi</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card hover-3d h-100">
+                                <div class="card-body">
+                                    <div class="small text-themed-secondary">RPM</div>
+                                    <div class="display-6 text-themed-primary"><span id="iotRpm">—</span></div>
+                                    <div class="small text-themed-secondary">Idle &lt; 500</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card hover-3d h-100">
+                                <div class="card-body">
+                                    <div class="small text-themed-secondary">Runtime (h)</div>
+                                    <div class="display-6 text-themed-primary"><span id="iotHours">—</span>h</div>
+                                    <div class="small text-themed-secondary">This week</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3 d-flex gap-2">
+                        <button class="btn btn-themed-secondary" data-bs-toggle="modal" data-bs-target="#twinModal">
+                            <i class="bi bi-cpu me-2"></i>Digital Twin
+                        </button>
+                        <button class="btn btn-outline-secondary focus-ring" data-bs-toggle="modal" data-bs-target="#aiTroubleshootModal">
+                            <i class="bi bi-robot me-2"></i>Troubleshoot
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Utilization Heatmap & Quick AI Recs -->
+    <div class="row g-4 mb-4">
+        <div class="col-12">
+            <div class="card glass-effect border-0 animate-fade-in-up">
+                <div class="card-header bg-transparent border-0 p-4 d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0 text-themed-primary d-flex align-items-center">
+                        <i class="bi bi-grid-3x3-gap me-2 icon-info"></i>Smart Utilization Heatmap
+                    </h5>
+                    <div class="d-flex gap-2">
+                        <select class="form-select form-select-sm focus-ring" id="heatmapPeriod" style="width:auto">
+                            <option value="7">Last 7 days</option>
+                            <option value="30" selected>Last 30 days</option>
+                            <option value="90">Last 90 days</option>
+                        </select>
+                        <button class="btn btn-outline-primary btn-sm focus-ring" id="btnApplyHeatmap">Apply</button>
+                    </div>
+                </div>
+                <div class="card-body p-4">
+                    <div id="heatmapGrid" class="row g-2">
+                        <!-- cells injected by script -->
+                    </div>
+                    <div class="mt-3 p-3 rounded glass-effect">
+                        <h6 class="text-themed-primary d-flex align-items-center">
+                            <i class="bi bi-stars me-2"></i>AI Recommendation
+                        </h6>
+                        <div id="aiRec" class="text-themed-secondary">
+                            Forklift A idle 68% at Site A ? transfer to Site C (util +24%). Excavator B overworked 113% at Site B ? swap shift with Excavator C.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card glass-effect border-0 animate-fade-in-up">
+                <div class="card-body p-4">
+                    <div class="row g-3 align-items-end">
+                        <div class="col-lg-3 col-md-6">
+                            <label class="form-label text-themed-primary fw-medium">Search Equipment</label>
+                            <div class="position-relative">
+                                <input type="text" class="form-control focus-ring" id="qEq" placeholder="Asset ID, type, site, notes">
+                                <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-3 text-themed-secondary"></i>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-6">
+                            <label class="form-label text-themed-primary fw-medium">Status</label>
+                            <select id="statusEq" class="form-select focus-ring">
+                                <option value="">All</option>
+                                <option>Operational</option>
+                                <option>Maintenance</option>
+                                <option>Down</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2 col-md-6">
+                            <label class="form-label text-themed-primary fw-medium">Type</label>
+                            <select id="typeEq" class="form-select focus-ring">
+                                <option value="">Any</option>
+                                <option>Forklift</option>
+                                <option>Excavator</option>
+                                <option>Generator</option>
+                                <option>Pump</option>
+                                <option>Crane</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2 col-md-6">
+                            <label class="form-label text-themed-primary fw-medium">Site</label>
+                            <select id="siteEq" class="form-select focus-ring">
+                                <option value="">Any</option>
+                                <option>Site A</option>
+                                <option>Site B</option>
+                                <option>Site C</option>
+                                <option>HQ</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-3 col-md-12">
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-themed flex-fill" id="btnApplyEq">
+                                    <i class="bi bi-funnel me-2"></i>Apply
+                                </button>
+                                <button class="btn btn-outline-secondary focus-ring" id="btnClearEq" title="Reset">
+                                    <i class="bi bi-arrow-clockwise"></i>
+                                </button>
+                                <div class="btn-group">
+                                    <button class="btn btn-outline-primary focus-ring dropdown-toggle" data-bs-toggle="dropdown">
+                                        <i class="bi bi-download me-2"></i>Export
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#"><i class="bi bi-filetype-csv me-2"></i>CSV</a></li>
+                                        <li><a class="dropdown-item" href="#"><i class="bi bi-filetype-xlsx me-2"></i>XLSX</a></li>
+                                        <li><a class="dropdown-item" href="#"><i class="bi bi-filetype-pdf me-2"></i>Compliance PDF</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <small class="text-themed-secondary">Quick filters: At Risk, Overworked, Non-compliant</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Equipment Table -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card themed-table border-0 animate-fade-in-up">
+                <div class="card-header bg-transparent border-0 p-4">
+                    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                        <h5 class="mb-2 mb-md-0 text-themed-primary d-flex align-items-center">
+                            <i class="bi bi-table me-2 icon-primary"></i>
+                            Equipment List
+                        </h5>
+                        <div class="d-flex gap-2">
+                            <div class="btn-group" role="group">
+                                <button class="btn btn-outline-primary btn-sm focus-ring active" id="btnEqAll">All</button>
+                                <button class="btn btn-outline-primary btn-sm focus-ring" id="btnEqRisk">At Risk</button>
+                                <button class="btn btn-outline-primary btn-sm focus-ring" id="btnEqOver">Overworked</button>
+                                <button class="btn btn-outline-primary btn-sm focus-ring" id="btnEqNonComp">Non-compliant</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0" id="eqTable">
+                            <thead>
                                 <tr>
-                                    <td>@e.EquipmentID</td>
-                                    <td class="fw-semibold">@e.Name</td>
-                                    <td>@e.Type</td>
-                                    <td>
-                                        @if (e.Status == "Active")
-                                        {
-                                            <span class="badge bg-success">Active</span>
-                                        }
-                                        else if (e.Status == "Maintenance")
-                                        {
-                                            <span class="badge bg-warning text-dark">Maintenance</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge bg-secondary">Inactive</span>
-                                        }
-                                    </td>
-                                    <td>@e.Location</td>
-                                    <td>@e.LastService.ToString("yyyy-MM-dd")</td>
-                                    <td>@e.UsageHours</td>
-                                    <td>
-                                        @if (e.Condition == "Good")
-                                        {
-                                            <span class="text-success">Good</span>
-                                        }
-                                        else if (e.Condition == "Needs Service")
-                                        {
-                                            <span class="text-danger">Needs Service</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="text-warning">Fair</span>
-                                        }
-                                    </td>
-                                    <td>
-                                        @if (e.AIInsights.Contains("Optimal"))
-                                        {
-                                            <span class="text-success">@e.AIInsights</span>
-                                        }
-                                        else if (e.AIInsights.Contains("Service"))
-                                        {
-                                            <span class="text-danger">@e.AIInsights</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="text-primary">@e.AIInsights</span>
-                                        }
-                                    </td>
+                                    <th style="width:36px">
+                                        <div class="form-check">
+                                            <input class="form-check-input focus-ring" type="checkbox" id="selectAllEq">
+                                            <label class="form-check-label" for="selectAllEq"></label>
+                                        </div>
+                                    </th>
+                                    <th>Asset</th>
+                                    <th>Type</th>
+                                    <th>Site</th>
+                                    <th>Status</th>
+                                    <th>Health</th>
+                                    <th>Utilization</th>
+                                    <th>Runtime (h)</th>
+                                    <th>Next Service</th>
+                                    <th>Compliance</th>
+                                    <th>Actions</th>
                                 </tr>
-                            }
-                        </tbody>
+                            </thead>
+                            <tbody id="eqTbody">
+                                <!-- sample rows injected by script -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card-footer bg-transparent border-0 p-4">
+                    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                        <div class="text-themed-secondary mb-2 mb-md-0" id="eqCount">Showing 1–10 of 326</div>
+                        <nav>
+                            <ul class="pagination pagination-sm mb-0">
+                                <li class="page-item disabled"><span class="page-link bg-transparent border-0 text-themed-secondary">Previous</span></li>
+                                <li class="page-item active"><span class="page-link bg-primary border-primary">1</span></li>
+                                <li class="page-item"><a class="page-link bg-transparent border-0 text-themed-primary focus-ring" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link bg-transparent border-0 text-themed-primary focus-ring" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link bg-transparent border-0 text-themed-primary focus-ring" href="#">Next</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ========== MODALS ========== -->
+<!-- Predictive Maintenance Insights -->
+<div class="modal fade" id="pmModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content glass-effect border-0">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-graph-up-arrow me-2"></i>Predictive Maintenance Insights</h5>
+                <button class="btn-close focus-ring" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-themed-secondary">AI forecasts failure probability using vibration, temperature, and downtime logs.</p>
+                <div class="chart-container"><canvas id="pmChart"></canvas></div>
+                <div class="mt-3">
+                    <div class="alert alert-warning mb-2">
+                        <i class="bi bi-exclamation-triangle me-2"></i>
+                        Pump #4 has a <strong>72%</strong> failure chance in <strong>3 weeks</strong>. Recommended: bearing inspection + lubrication within 5 days.
+                    </div>
+                    <div class="alert alert-info mb-0">
+                        <i class="bi bi-lightbulb me-2"></i>
+                        “Shift Forklift A to Site C to reduce idle time by 24% and extend service interval by ~2 weeks.”
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-themed-secondary" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#schedulerModal">
+                    <i class="bi bi-calendar2-plus me-2"></i>Schedule Maintenance
+                </button>
+                <button class="btn btn-outline-secondary focus-ring" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Digital Twin Viewer -->
+<div class="modal fade" id="twinModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-fullscreen-lg-down">
+        <div class="modal-content glass-effect border-0">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-cpu me-2"></i>Digital Twin</h5>
+                <button class="btn-close focus-ring" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-lg-8">
+                        <div class="card hover-3d">
+                            <div class="card-body">
+                                <div class="ratio ratio-16x9 rounded" style="background: radial-gradient(ellipse at 30% 30%, rgba(100,150,255,.25), transparent 60%), var(--bg-surface); border:1px dashed var(--border-color);">
+                                    <!-- Placeholder: swap with Babylon/Three/Unity canvas -->
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <div class="text-themed-secondary">3D viewer placeholder (GLTF/GLB)</div>
+                                    </div>
+                                </div>
+                                <small class="text-themed-secondary">Overlay live sensors, annotations & what-if simulations.</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card glass-effect h-100">
+                            <div class="card-body">
+                                <h6 class="text-themed-primary d-flex align-items-center"><i class="bi bi-ui-radios me-2"></i>Sensor Overlays</h6>
+                                <ul class="list-unstyled small mb-3">
+                                    <li>Temp: <strong id="twTemp">—</strong> °C</li>
+                                    <li>Pressure: <strong id="twPress">—</strong> psi</li>
+                                    <li>RPM: <strong id="twRpm">—</strong></li>
+                                </ul>
+                                <h6 class="text-themed-primary d-flex align-items-center"><i class="bi bi-sliders me-2"></i>What-If Simulation</h6>
+                                <div class="d-flex gap-2 mb-2">
+                                    <input type="range" class="form-range" min="0" max="50" value="0" id="simLoad">
+                                    <span class="small text-themed-secondary">Load +<span id="simLoadVal">0</span>%</span>
+                                </div>
+                                <div class="alert alert-secondary small mb-0">
+                                    Predicted failure risk: <strong id="simRisk">18%</strong> ? <strong id="simRiskNew">18%</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline-secondary focus-ring" data-bs-dismiss="modal">Close</button>
+                <button class="btn btn-themed"><i class="bi bi-file-earmark-arrow-down me-2"></i>Export Snapshot</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- AI Troubleshooting -->
+<div class="modal fade" id="aiTroubleshootModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content glass-effect border-0">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-robot me-2"></i>Troubleshoot Assistant</h5>
+                <button class="btn-close focus-ring" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3 small text-themed-secondary">Ask: “Why is this crane down?”</div>
+                <div class="border rounded p-3 mb-3" style="height:220px; overflow:auto;" id="aiChat">
+                    <div class="text-themed-secondary"><em>Assistant will analyze logs, manuals & tickets and suggest likely causes.</em></div>
+                </div>
+                <div class="input-group">
+                    <input type="text" class="form-control focus-ring" id="aiPrompt" placeholder="Describe the issue, symptoms, error codes…">
+                    <button class="btn btn-themed" id="aiSend"><i class="bi bi-send"></i></button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline-secondary focus-ring" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- AI Scheduler -->
+<div class="modal fade" id="schedulerModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content glass-effect border-0">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-calendar2-check me-2"></i>Scheduling Assistant</h5>
+                <button class="btn-close focus-ring" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-themed-secondary">Optimize maintenances to minimize downtime and project impact.</p>
+                <ul class="list-group" id="schedList">
+                    <!-- injected by script -->
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-themed"><i class="bi bi-check2 me-2"></i>Apply Plan</button>
+                <button class="btn btn-outline-secondary focus-ring" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Marketplace / Sharing -->
+<div class="modal fade" id="marketModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content glass-effect border-0">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-arrow-left-right me-2"></i>Equipment Sharing</h5>
+                <button class="btn-close focus-ring" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-info">
+                    <i class="bi bi-lightbulb me-2"></i>Forklift A idle 70% at Site A — Site C needs one next week. Transfer to reduce rental by ~$1,200/mo.
+                </div>
+                <div class="table-responsive">
+                    <table class="table align-middle mb-0">
+                        <thead><tr><th>Asset</th><th>Current Site</th><th>Suggested Site</th><th>Util Now</th><th>Util After</th><th></th></tr></thead>
+                        <tbody id="marketTbody"></tbody>
                     </table>
                 </div>
             </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline-secondary focus-ring" data-bs-dismiss="modal">Close</button>
+            </div>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <style>
+        /* Minimal helpers for this page */
+        .health-ring {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: inline-grid;
+            place-items: center;
+            background: conic-gradient(var(--ring-color, #16a34a) var(--deg, 0deg), rgba(0,0,0,.08) 0);
+        }
+
+            .health-ring span {
+                font-size: .75rem;
+                color: var(--text-primary);
+            }
+
+        .heat-cell {
+            height: 56px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,.06);
+        }
+
+        .list-group-item:hover {
+            background: rgba(var(--glass-bg-base), .6);
+            transition: .2s;
+        }
+    </style>
+    <script>
+        (function(){
+          const $  = (s,r=document)=>r.querySelector(s);
+          const $$ = (s,r=document)=>Array.from(r.querySelectorAll(s));
+          const modal = id => bootstrap.Modal.getOrCreateInstance(document.getElementById(id));
+
+          // ---------- Demo Data ----------
+          const assets = [
+            { id:'FL-A', name:'Forklift A', type:'Forklift', site:'Site A', status:'Operational', health:78,  util:32, hours:18, next:'2025-09-10', comp:'Compliant', risk:0.28 },
+            { id:'EX-B', name:'Excavator B', type:'Excavator', site:'Site B', status:'Operational', health:54,  util:113, hours:52, next:'2025-09-05', comp:'Expiring', risk:0.66 },
+            { id:'GN-1', name:'Generator 1', type:'Generator', site:'HQ',     status:'Maintenance', health:41, util:12, hours:6,  next:'2025-09-02', comp:'Non-compliant', risk:0.74 },
+            { id:'PM-4', name:'Pump #4',     type:'Pump',      site:'Site C', status:'Operational', health:38, util:85, hours:44, next:'2025-09-03', comp:'Expiring', risk:0.72 },
+            { id:'CR-7', name:'Crane 7',     type:'Crane',     site:'Site B', status:'Down',        health:23, util:0,  hours:0,  next:'2025-09-01', comp:'Non-compliant', risk:0.81 },
+          ];
+
+          const iotAssets = ['Forklift A','Excavator B','Pump #4','Generator 1'];
+          const heatmapSites = ['Site A','Site B','Site C','HQ'];
+          const heatmapTypes = ['Forklift','Excavator','Generator','Pump','Crane'];
+
+          // ---------- Predictive Watchlist ----------
+          function healthColor(p){
+            if (p >= 70) return '#16a34a'; // green
+            if (p >= 45) return '#f59e0b'; // amber
+            return '#ef4444'; // red
+          }
+          function riskBadge(r){
+            if (r >= .7) return '<span class="badge badge-themed bg-danger text-danger">High</span>';
+            if (r >= .4) return '<span class="badge badge-themed bg-warning text-warning">Med</span>';
+            return '<span class="badge badge-themed bg-success text-success">Low</span>';
+          }
+          function renderWatchlist(){
+            const wl = $('#watchlist'); wl.innerHTML = '';
+            assets
+              .slice() // copy
+              .sort((a,b)=> b.risk - a.risk)
+              .forEach(a=>{
+                const row = document.createElement('div');
+                row.className = 'list-group-item d-flex align-items-center justify-content-between p-3';
+                const eta = a.risk >= .6 ? '? 2–3 weeks' : (a.risk >= .4 ? '? 1–2 months' : '? 3+ months');
+                row.innerHTML = `
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="health-ring" style="--deg:${Math.round(a.health*3.6)}deg; --ring-color:${healthColor(a.health)}">
+                      <span>${a.health}%</span>
+                    </div>
+                    <div>
+                      <div class="fw-semibold text-themed-primary">${a.name}</div>
+                      <div class="small text-themed-secondary">${a.type} • ${a.site}</div>
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="text-end">
+                      <div class="small text-themed-secondary">Fail ETA</div>
+                      <div class="fw-medium">${eta}</div>
+                    </div>
+                    <div>${riskBadge(a.risk)}</div>
+                    <button class="btn btn-sm btn-outline-secondary focus-ring pm-open" data-asset="${a.id}">
+                      <i class="bi bi-search"></i>
+                    </button>
+                  </div>`;
+                wl.appendChild(row);
+              });
+            $$('.pm-open').forEach(btn=>{
+              btn.addEventListener('click', ()=>{
+                updatePmChart(btn.dataset.asset || assets[0].id);
+                modal('pmModal').show();
+              });
+            });
+          }
+
+          // ---------- IoT Snapshot ----------
+          function renderIotMenu(){
+            const menu = $('#iotAssetMenu'); menu.innerHTML='';
+            iotAssets.forEach(n=>{
+              const li = document.createElement('li');
+              li.innerHTML = `<a class="dropdown-item iot-pick" href="#">${n}</a>`;
+              menu.appendChild(li);
+            });
+            $$('.iot-pick').forEach(a=>{
+              a.addEventListener('click', e=>{
+                e.preventDefault();
+                $('#iotAssetBtn').textContent = a.textContent;
+              });
+            });
+          }
+          function tickIoT(){
+            const r = (min,max)=> Math.round(min + Math.random()*(max-min));
+            $('#iotTemp').textContent    = r(55, 92);
+            $('#iotPressure').textContent= r(110, 160);
+            $('#iotRpm').textContent     = r(450, 2200);
+            $('#iotHours').textContent   = r(4, 58);
+            // mirror to twin modal
+            $('#twTemp').textContent  = $('#iotTemp').textContent;
+            $('#twPress').textContent = $('#iotPressure').textContent;
+            $('#twRpm').textContent   = $('#iotRpm').textContent;
+          }
+
+          // ---------- Utilization Heatmap ----------
+          function utilColor(p){ // 0..140
+            if (p < 40)  return 'rgba(99,102,241,.15)'; // cool underuse
+            if (p < 80)  return 'rgba(34,197,94,.25)';  // healthy
+            if (p < 100) return 'rgba(234,179,8,.30)';  // warm
+            return 'rgba(239,68,68,.35)';               // hot
+          }
+          function renderHeatmap(){
+            const grid = $('#heatmapGrid'); grid.innerHTML='';
+            heatmapSites.forEach(site=>{
+              heatmapTypes.forEach(tp=>{
+                const val = Math.round(Math.random()*140); // demo util %
+                const col = utilColor(val);
+                const cell = document.createElement('div');
+                cell.className = 'col-6 col-md-2 col-lg-2';
+                cell.innerHTML = `
+                  <div class="heat-cell text-themed-primary" style="background:${col}">
+                    <div class="text-center">
+                      <div class="small text-themed-secondary">${site.replace('Site ','S')} • ${tp.slice(0,2)}</div>
+                      <div>${val}%</div>
+                    </div>
+                  </div>`;
+                grid.appendChild(cell);
+              });
+            });
+            // demo AI rec text
+            $('#aiRec').textContent = 'Forklift A idle 68% at Site A ? transfer to Site C (util +24%). Excavator B overworked 113% at Site B ? swap shift with Excavator C.';
+          }
+
+          // ---------- Equipment Table ----------
+          function compBadge(state){
+            if (state==='Compliant') return '<span class="badge badge-themed bg-success text-success">? Compliant</span>';
+            if (state==='Expiring')  return '<span class="badge badge-themed bg-warning text-warning">?? Expiring</span>';
+            return '<span class="badge badge-themed bg-danger text-danger">? Non-compliant</span>';
+          }
+          function statusBadge(st){
+            if (st==='Operational') return '<span class="badge badge-themed bg-success text-success">Operational</span>';
+            if (st==='Maintenance') return '<span class="badge badge-themed bg-info text-info">Maintenance</span>';
+            return '<span class="badge badge-themed bg-danger text-danger">Down</span>';
+          }
+          function renderTable(){
+            const tb = $('#eqTbody'); tb.innerHTML='';
+            assets.forEach(a=>{
+              const tr = document.createElement('tr');
+              tr.dataset.status=a.status; tr.dataset.type=a.type; tr.dataset.site=a.site;
+              tr.dataset.util=a.util; tr.dataset.risk=a.risk; tr.dataset.comp=a.comp;
+              tr.innerHTML = `
+                <td><div class="form-check"><input class="form-check-input focus-ring" type="checkbox"></div></td>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <i class="bi bi-cpu me-2 ${a.status==='Down'?'icon-warning':'icon-primary'}"></i>
+                    <div>
+                      <strong class="text-themed-primary">${a.name}</strong>
+                      <div class="small text-themed-secondary">ID: ${a.id}</div>
+                    </div>
+                  </div>
+                </td>
+                <td>${a.type}</td>
+                <td>${a.site}</td>
+                <td>${statusBadge(a.status)}</td>
+                <td>
+                  <div class="d-flex align-items-center gap-2">
+                    <div class="health-ring" style="--deg:${Math.round(a.health*3.6)}deg; --ring-color:${healthColor(a.health)}"><span>${a.health}%</span></div>
+                    ${a.risk>=.7?'<span class="badge badge-themed bg-danger text-danger">High</span>':a.risk>=.4?'<span class="badge badge-themed bg-warning text-warning">Med</span>':'<span class="badge badge-themed bg-success text-success">Low</span>'}
+                  </div>
+                </td>
+                <td>
+                  <div class="d-flex align-items-center gap-2">
+                    <span class="small ${a.util>=100?'text-danger fw-medium':'text-themed-secondary'}">${a.util}%</span>
+                    <div class="progress w-100" style="height:6px;">
+                      <div class="progress-bar ${a.util>=100?'bg-danger':'bg-primary'}" style="width:${Math.min(a.util,100)}%"></div>
+                    </div>
+                  </div>
+                </td>
+                <td class="text-themed-primary fw-medium">${a.hours}</td>
+                <td class="text-themed-secondary">${a.next}</td>
+                <td>${compBadge(a.comp)}</td>
+                <td>
+                  <div class="d-flex gap-1">
+                    <button class="btn btn-sm btn-outline-primary focus-ring" title="Digital Twin" data-bs-toggle="modal" data-bs-target="#twinModal"><i class="bi bi-cpu"></i></button>
+                    <button class="btn btn-sm btn-outline-secondary focus-ring pm-open" title="PM Details" data-asset="${a.id}"><i class="bi bi-graph-up-arrow"></i></button>
+                    <div class="btn-group">
+                      <button class="btn btn-sm btn-outline-secondary dropdown-toggle focus-ring" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></button>
+                      <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-clipboard2-pulse me-2"></i>Create Ticket</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-pdf me-2"></i>Compliance Report</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-x-octagon me-2"></i>Mark Down</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </td>`;
+              tb.appendChild(tr);
+            });
+            $$('.pm-open').forEach(b=> b.addEventListener('click', ()=>{ updatePmChart(b.dataset.asset); modal('pmModal').show(); }));
+          }
+
+          // ---------- Filters & Quick Filters ----------
+          function applyEqFilters(){
+            const q   = ($('#qEq')?.value || '').toLowerCase();
+            const st  = $('#statusEq')?.value || '';
+            const tp  = $('#typeEq')?.value || '';
+            const site= $('#siteEq')?.value || '';
+            $$('#eqTbody tr').forEach(tr=>{
+              const keep = (!q || tr.innerText.toLowerCase().includes(q))
+                && (!st   || (tr.dataset.status===st))
+                && (!tp   || (tr.dataset.type===tp))
+                && (!site || (tr.dataset.site===site));
+              tr.style.display = keep ? '' : 'none';
+            });
+          }
+          $('#btnApplyEq')?.addEventListener('click', applyEqFilters);
+          $('#btnClearEq')?.addEventListener('click', ()=>{ ['qEq','statusEq','typeEq','siteEq'].forEach(id=>{ const el=$('#'+id); if(el) el.value=''; }); applyEqFilters(); });
+
+          function setActive(btn, group){ group.forEach(x=>x&&x.classList.remove('active')); btn.classList.add('active'); }
+          const bAll=$('#btnEqAll'), bRisk=$('#btnEqRisk'), bOver=$('#btnEqOver'), bNon=$('#btnEqNonComp');
+          const group=[bAll,bRisk,bOver,bNon];
+          bAll?.addEventListener('click', ()=>{ setActive(bAll,group); $$('#eqTbody tr').forEach(tr=> tr.style.display=''); });
+          bRisk?.addEventListener('click',()=>{ setActive(bRisk,group); $$('#eqTbody tr').forEach(tr=> tr.style.display = (Number(tr.dataset.risk)>=.6)?'':'' ); });
+          bOver?.addEventListener('click',()=>{ setActive(bOver,group); $$('#eqTbody tr').forEach(tr=> tr.style.display = (Number(tr.dataset.util)>=100)?'':'' ); });
+          bNon?.addEventListener('click',()=>{ setActive(bNon,group); $$('#eqTbody tr').forEach(tr=> tr.style.display = (tr.dataset.comp==='Non-compliant')?'':'' ); });
+
+          // Select All
+          $('#selectAllEq')?.addEventListener('change', (e)=>{ $$('#eqTbody input[type="checkbox"]').forEach(cb=> cb.checked = e.target.checked); });
+
+          // ---------- PM Chart ----------
+          let pmChart;
+          function updatePmChart(assetId){
+            const a = assets.find(x=>x.id===assetId) || assets[0];
+            const ctx = document.getElementById('pmChart');
+            if (!ctx) return;
+            const labels = Array.from({length:8}, (_,i)=> `W${i+1}`);
+            // Simulated: rising risk near-term then flatten
+            const base = Math.round(a.risk*100);
+            const data = labels.map((_,i)=> Math.min(100, Math.max(5, base + (i-3)*8 + (Math.random()*8-4))));
+            if (pmChart) pmChart.destroy();
+            pmChart = new Chart(ctx, { type:'line',
+              data:{ labels, datasets:[{ label:`${a.name} failure risk %`, data }] },
+              options:{ responsive:true, plugins:{ legend:{ display:false } }, scales:{ y:{ min:0, max:100, ticks:{ callback:v=>v+'%' } } } }
+            });
+          }
+
+          // ---------- Scheduler Plan ----------
+          function renderScheduler(){
+            const ul = $('#schedList'); ul.innerHTML='';
+            const plans = [
+              { asset:'Pump #4', when:'Fri 09:00–11:00', impact:'Project C loses 0h', why:'Bearing noise + high temp' },
+              { asset:'Excavator B', when:'Fri 14:00–17:00', impact:'Project B loses 1h', why:'Over-capacity 113% this week' },
+              { asset:'Generator 1', when:'Thu 10:00–12:00', impact:'HQ backup window', why:'Compliance re-test due' },
+            ];
+            plans.forEach(p=>{
+              const li = document.createElement('li');
+              li.className = 'list-group-item d-flex align-items-center justify-content-between';
+              li.innerHTML = `
+                <div>
+                  <div class="fw-semibold text-themed-primary">${p.asset}</div>
+                  <div class="small text-themed-secondary">${p.why}</div>
+                </div>
+                <div class="text-end">
+                  <div class="badge badge-themed bg-primary bg-opacity-10 text-primary">${p.when}</div>
+                  <div class="small ${/loses 0h/.test(p.impact)?'text-success':'text-warning'}">${p.impact}</div>
+                </div>`;
+              ul.appendChild(li);
+            });
+          }
+
+          // ---------- Marketplace ----------
+          function renderMarket(){
+            const tbody = $('#marketTbody'); tbody.innerHTML='';
+            const rows = [
+              { asset:'Forklift A', from:'Site A', to:'Site C', now:32, after:56 },
+              { asset:'Excavator B', from:'Site B', to:'Site C', now:113, after:84 },
+            ];
+            rows.forEach(r=>{
+              const tr = document.createElement('tr');
+              tr.innerHTML = `
+                <td>${r.asset}</td>
+                <td>${r.from}</td>
+                <td>${r.to}</td>
+                <td>${r.now}%</td>
+                <td>${r.after}%</td>
+                <td><button class="btn btn-sm btn-themed"><i class="bi bi-arrow-right-circle me-1"></i>Request Transfer</button></td>`;
+              tbody.appendChild(tr);
+            });
+          }
+
+          // ---------- Digital Twin Simulation ----------
+          $('#simLoad')?.addEventListener('input', (e)=>{
+            const inc = Number(e.target.value||0);
+            $('#simLoadVal').textContent = inc;
+            const base = 18;
+            const newRisk = Math.min(99, Math.round(base + inc*0.6));
+            $('#simRiskNew').textContent = newRisk + '%';
+          });
+
+          // ---------- AI Troubleshoot Chat (demo) ----------
+          $('#aiSend')?.addEventListener('click', ()=>{
+            const box = $('#aiChat'); const q = $('#aiPrompt').value.trim(); if(!q) return;
+            box.insertAdjacentHTML('beforeend', `<div class="mb-2"><strong>You:</strong> ${q}</div>`);
+            // demo reply
+            setTimeout(()=>{
+              box.insertAdjacentHTML('beforeend',
+                `<div class="mb-2"><strong>Assistant:</strong> Top causes ranked — 1) Bearing wear (vibration ?), 2) Hydraulic leak (pressure drift), 3) Sensor miscalibration. <br><em>Action:</em> Inspect bearings, run leak-down test, recalibrate sensor A3.</div>`);
+              box.scrollTop = box.scrollHeight;
+            }, 400);
+            $('#aiPrompt').value='';
+          });
+
+          // ---------- Init ----------
+          renderWatchlist();
+          renderIotMenu();
+          renderHeatmap();
+          renderTable();
+          renderScheduler();
+          renderMarket();
+          updatePmChart(assets[0].id);
+          tickIoT();
+          setInterval(tickIoT, 2000);
+
+          // Heatmap period apply (demo refresh)
+          $('#btnApplyHeatmap')?.addEventListener('click', renderHeatmap);
+        })();
+    </script>
+}

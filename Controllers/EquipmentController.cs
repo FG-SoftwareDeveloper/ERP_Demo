@@ -5,7 +5,7 @@ namespace MyApp.Namespace
     public class EquipmentController : Controller
     {
         // GET: EquipmentController
-        public ActionResult Index()
+        public IActionResult ListEquipment()
         {
             return View();
         }

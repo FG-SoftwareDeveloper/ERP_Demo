@@ -5,7 +5,7 @@ namespace MyApp.Namespace
     public class PurchaseOrderLinesController : Controller
     {
         // GET: PurchaseOrderLinesController
-        public ActionResult Index()
+        public IActionResult ListPurchaseOrderLines()
         {
             return View();
         }

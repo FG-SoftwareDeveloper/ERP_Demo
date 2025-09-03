@@ -5,7 +5,7 @@ namespace MyApp.Namespace
     public class MaintenanceRecordsController : Controller
     {
         // GET: MaintenanceRecordsController
-        public ActionResult Index()
+        public IActionResult ListMaintenanceRecords()
         {
             return View();
         }

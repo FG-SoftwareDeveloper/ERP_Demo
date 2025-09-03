@@ -8,169 +8,936 @@
     };
 }
 
-<h2 class="h1 fw-bold themed-heading mb-4 border-bottom pb-2">Documents</h2>
-
-<!-- KPI Cards Row -->
-<div class="row g-4 mb-4">
-    <div class="col-md-3">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-primary"><i class="bi bi-file-earmark-text"></i></span>
-                    <h5 class="card-title mb-0">Total Documents</h5>
-                </div>
-                <div class="display-5 fw-bold text-primary mb-1">@documents.Length</div>
-                <div class="text-muted">Validated: @documents.Count(d => d.Status == "Validated")</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-success"><i class="bi bi-check2-circle"></i></span>
-                    <h5 class="card-title mb-0">Cleaned & Formatted</h5>
-                </div>
-                <div class="display-5 fw-bold text-success mb-1">@documents.Count(d => d.Status == "Cleaned")</div>
-                <div class="text-muted">Auto-aligned: @documents.Count(d => d.AIInsights.Contains("Auto-aligned"))</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-warning"><i class="bi bi-exclamation-triangle"></i></span>
-                    <h5 class="card-title mb-0">Flagged Issues</h5>
-                </div>
-                <div class="display-5 fw-bold text-warning mb-1">@documents.Sum(d => d.Issues)</div>
-                <div class="text-muted">Handwriting: @documents.Count(d => d.Name.Contains("Handwritten"))</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-info"><i class="bi bi-cloud-arrow-up"></i></span>
-                    <h5 class="card-title mb-0">Recent Uploads</h5>
-                </div>
-                <div class="display-5 fw-bold text-info mb-1">@documents.Count(d => d.Uploaded > DateTime.Now.AddDays(-7))</div>
-                <div class="text-muted">Multi-sheet: @documents.Count(d => d.Pages > 1)</div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- AI Forecast Widget (High Contrast) -->
-<div class="row mb-4">
-    <div class="col-12">
-        <div class="card shadow-lg border-0" style="background: linear-gradient(90deg,#e3e6f0 0%,#f8fafc 100%);">
-            <div class="card-body p-4">
-                <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
-                    <div>
-                        <h5 class="mb-2 text-dark"><i class="bi bi-lightbulb me-2"></i>AI Forecast: Next Month Document Accuracy</h5>
-                        <div class="fs-2 fw-bold text-dark">98.7%</div>
-                        <div class="small text-dark">Smart validation, auto-cleaning, and outlier detection expected to reduce manual corrections by 80%.</div>
-                    </div>
-                    <div class="mt-3 mt-md-0">
-                        <span class="badge rounded-pill bg-primary bg-opacity-10 text-primary fs-6 px-4 py-2 shadow-sm">Suggested Headers: 5</span>
+<div class="container-fluid py-4">
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card glass-effect border-0 animate-fade-in-up">
+                <div class="card-body p-4">
+                    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                        <div>
+                            <h1 class="mb-2 text-themed-primary d-flex align-items-center">
+                                <i class="bi bi-folder-symlink me-3 icon-primary fs-2"></i>
+                                Smart Data Scanner
+                            </h1>
+                            <p class="text-themed-secondary mb-0">Scan tables ? clean ? validate ? export to Excel/CSV</p>
+                        </div>
+                        <div class="mt-3 mt-md-0 d-flex gap-2">
+                            <button class="btn btn-themed" data-bs-toggle="modal" data-bs-target="#scanModal">
+                                <i class="bi bi-camera me-2"></i>New Scan
+                            </button>
+                            <button class="btn btn-themed-secondary" data-bs-toggle="modal" data-bs-target="#templateModal">
+                                <i class="bi bi-grid-1x2 me-2"></i>Templates
+                            </button>
+                            <button class="btn btn-outline-secondary focus-ring" id="btnShowHelp">
+                                <i class="bi bi-question-circle"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- BI Chart Placeholder -->
-<div class="row mb-4">
-    <div class="col-12">
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-white">
-                <h5 class="mb-0">Document Processing Trend (BI Chart)</h5>
+    <!-- KPI Cards -->
+    <div class="row g-4 mb-4">
+        <div class="col-lg-3 col-md-6">
+            <div class="card card-2025 hover-3d kpi-card border-0 h-100 animate-fade-in-up animate-delay-1">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-2">
+                        <span class="me-3 fs-2 icon-primary"><i class="bi bi-camera"></i></span>
+                        <h6 class="mb-0 text-themed-primary">Scans Today</h6>
+                    </div>
+                    <div class="display-6 fw-bold text-themed-primary">18</div>
+                    <small class="text-themed-secondary">+5 vs yesterday</small>
+                </div>
             </div>
-            <div class="card-body text-center">
-                <img src="https://via.placeholder.com/600x200?text=Document+Processing+Trend+Chart" alt="Document Processing Trend Chart" class="img-fluid rounded" />
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="card card-2025 hover-3d kpi-card border-0 h-100 animate-fade-in-up animate-delay-2">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-2">
+                        <span class="me-3 fs-2 icon-success"><i class="bi bi-clipboard2-data"></i></span>
+                        <h6 class="mb-0 text-themed-primary">Auto-Parse Accuracy</h6>
+                    </div>
+                    <div class="display-6 fw-bold text-themed-primary">93%</div>
+                    <small class="text-themed-secondary">after smart clean</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="card card-2025 hover-3d kpi-card border-0 h-100 animate-fade-in-up animate-delay-3">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-2">
+                        <span class="me-3 fs-2 icon-info"><i class="bi bi-clock-history"></i></span>
+                        <h6 class="mb-0 text-themed-primary">Avg. Time / Scan</h6>
+                    </div>
+                    <div class="display-6 fw-bold text-themed-primary">22s</div>
+                    <small class="text-themed-secondary">capture ? export</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="card card-2025 hover-3d kpi-card border-0 h-100 animate-fade-in-up animate-delay-4">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-2">
+                        <span class="me-3 fs-2 icon-warning"><i class="bi bi-filetype-xlsx"></i></span>
+                        <h6 class="mb-0 text-themed-primary">Exports</h6>
+                    </div>
+                    <div class="display-6 fw-bold text-themed-primary">1,204</div>
+                    <small class="text-themed-secondary">.xlsx & .csv</small>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Documents Table -->
-<div class="row">
-    <div class="col-12">
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-white">
-                <h5 class="mb-0">Documents List</h5>
+    <!-- Filters -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card glass-effect border-0 animate-fade-in-up">
+                <div class="card-body p-4">
+                    <div class="row g-3 align-items-end">
+                        <div class="col-lg-3 col-md-6">
+                            <label class="form-label text-themed-primary fw-medium">Search Documents</label>
+                            <div class="position-relative">
+                                <input type="text" class="form-control focus-ring" id="qDocs" placeholder="Name, source, owner">
+                                <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-3 text-themed-secondary"></i>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-6">
+                            <label class="form-label text-themed-primary fw-medium">Source</label>
+                            <select id="srcDocs" class="form-select focus-ring">
+                                <option value="">All</option>
+                                <option>Camera</option>
+                                <option>Upload</option>
+                                <option>Drive</option>
+                                <option>OneDrive</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2 col-md-6">
+                            <label class="form-label text-themed-primary fw-medium">Status</label>
+                            <select id="statusDocs" class="form-select focus-ring">
+                                <option value="">Any</option>
+                                <option>Parsed</option>
+                                <option>Needs Review</option>
+                                <option>Error</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2 col-md-6">
+                            <label class="form-label text-themed-primary fw-medium">Type</label>
+                            <select id="typeDocs" class="form-select focus-ring">
+                                <option value="">Any</option>
+                                <option>Invoice</option>
+                                <option>Receipt</option>
+                                <option>Gradebook</option>
+                                <option>Lab Results</option>
+                                <option>Generic Table</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-3 col-md-12">
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-themed flex-fill" id="btnApplyDocs">
+                                    <i class="bi bi-funnel me-2"></i>Apply
+                                </button>
+                                <button class="btn btn-outline-secondary focus-ring" id="btnClearDocs" title="Reset">
+                                    <i class="bi bi-arrow-clockwise"></i>
+                                </button>
+                                <div class="btn-group">
+                                    <button class="btn btn-outline-primary focus-ring dropdown-toggle" data-bs-toggle="dropdown">
+                                        <i class="bi bi-download me-2"></i>Bulk Export
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#" id="bulkCsv"><i class="bi bi-filetype-csv me-2"></i>Export CSV</a></li>
+                                        <li><a class="dropdown-item" href="#" id="bulkXlsx"><i class="bi bi-filetype-xlsx me-2"></i>Export XLSX</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <small class="text-themed-secondary">Tip: Use Templates to auto-format & validate.</small>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle mb-0">
-                        <thead class="table-light">
-                            <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Type</th>
-                                <th>Status</th>
-                                <th>Pages</th>
-                                <th>Uploaded</th>
-                                <th>Issues</th>
-                                <th>AI Insights</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var d in documents)
-                            {
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card ai-forecast-card border-0 animate-fade-in-up">
+                <div class="card-body p-4">
+                    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                        <div>
+                            <h5 class="mb-2 d-flex align-items-center">
+                                <i class="bi bi-lightning-charge me-2"></i>
+                                Quick Actions
+                            </h5>
+                            <p class="mb-0 opacity-90">Scan faster with presets & automated cleanup</p>
+                        </div>
+                        <div class="mt-3 mt-md-0 d-flex flex-wrap gap-2">
+                            <button class="btn btn-light btn-sm bg-opacity-20 text-white" data-bs-toggle="modal" data-bs-target="#scanModal">
+                                <i class="bi bi-camera me-1"></i>Scan from Camera
+                            </button>
+                            <button class="btn btn-light btn-sm bg-opacity-20 text-white" id="btnMockScan">
+                                <i class="bi bi-magic me-1"></i>Demo Scan (Mock)
+                            </button>
+                            <button class="btn btn-light btn-sm bg-opacity-20 text-white" data-bs-toggle="modal" data-bs-target="#templateModal">
+                                <i class="bi bi-grid-1x2 me-1"></i>Domain Templates
+                            </button>
+                            <button class="btn btn-light btn-sm bg-opacity-20 text-white" data-bs-toggle="modal" data-bs-target="#insightsModal">
+                                <i class="bi bi-graph-up-arrow me-1"></i>Quick Charts
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Scans Table -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card themed-table border-0 animate-fade-in-up">
+                <div class="card-header bg-transparent border-0 p-4">
+                    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                        <h5 class="mb-2 mb-md-0 text-themed-primary d-flex align-items-center">
+                            <i class="bi bi-table me-2 icon-primary"></i>
+                            Recent Scans
+                        </h5>
+                        <div class="d-flex gap-2">
+                            <div class="btn-group" role="group" aria-label="Quick filters">
+                                <button class="btn btn-outline-primary btn-sm focus-ring active" id="btnDocsAll">All</button>
+                                <button class="btn btn-outline-primary btn-sm focus-ring" id="btnDocsParsed">Parsed</button>
+                                <button class="btn btn-outline-primary btn-sm focus-ring" id="btnDocsNeeds">Needs Review</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0" id="docsTable">
+                            <thead>
                                 <tr>
-                                    <td>@d.DocumentID</td>
-                                    <td class="fw-semibold">@d.Name</td>
-                                    <td>@d.Type</td>
+                                    <th style="width:36px">
+                                        <div class="form-check">
+                                            <input class="form-check-input focus-ring" type="checkbox" id="selectAllDocs">
+                                            <label class="form-check-label" for="selectAllDocs"></label>
+                                        </div>
+                                    </th>
+                                    <th>Name</th>
+                                    <th>Source</th>
+                                    <th>Pages</th>
+                                    <th>Detected</th>
+                                    <th>Status</th>
+                                    <th>Owner</th>
+                                    <th>Created</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="docsTbody">
+                                <!-- Sample rows -->
+                                <tr data-status="Parsed" data-source="Upload" data-type="Invoice">
+                                    <td><div class="form-check"><input class="form-check-input focus-ring" type="checkbox"></div></td>
                                     <td>
-                                        @if (d.Status == "Validated")
-                                        {
-                                            <span class="badge bg-success">Validated</span>
-                                        }
-                                        else if (d.Status == "Cleaned")
-                                        {
-                                            <span class="badge bg-info">Cleaned</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge bg-warning text-dark">Flagged</span>
-                                        }
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-file-earmark-text me-2 icon-primary"></i>
+                                            <div>
+                                                <strong class="text-themed-primary">Invoice_2025-08-31.png</strong>
+                                                <div class="small text-themed-secondary">Type: Invoice</div>
+                                            </div>
+                                        </div>
                                     </td>
-                                    <td>@d.Pages</td>
-                                    <td>@d.Uploaded.ToString("yyyy-MM-dd")</td>
+                                    <td>Upload</td>
+                                    <td>1</td>
+                                    <td>Rows: 12 • Cols: 6</td>
+                                    <td><span class="badge badge-themed bg-success text-success"><i class="bi bi-check2-circle me-1"></i>Parsed</span></td>
+                                    <td>Anna Lee</td>
+                                    <td class="text-themed-secondary">2025-09-01</td>
                                     <td>
-                                        @if (d.Issues > 0)
-                                        {
-                                            <span class="text-danger fw-bold">@d.Issues</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="text-success">0</span>
-                                        }
-                                    </td>
-                                    <td>
-                                        @if (d.AIInsights.Contains("outlier"))
-                                        {
-                                            <span class="text-warning">@d.AIInsights</span>
-                                        }
-                                        else if (d.AIInsights.Contains("validated"))
-                                        {
-                                            <span class="text-success">@d.AIInsights</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="text-primary">@d.AIInsights</span>
-                                        }
+                                        <div class="d-flex gap-1">
+                                            <button class="btn btn-sm btn-outline-primary focus-ring" data-bs-toggle="modal" data-bs-target="#previewModal" title="Preview"><i class="bi bi-eye"></i></button>
+                                            <button class="btn btn-sm btn-outline-secondary focus-ring" data-bs-toggle="modal" data-bs-target="#validateModal" title="Validate"><i class="bi bi-shield-check"></i></button>
+                                            <div class="btn-group">
+                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle focus-ring" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item" href="#" id="rowExportXlsx"><i class="bi bi-filetype-xlsx me-2"></i>Export XLSX</a></li>
+                                                    <li><a class="dropdown-item" href="#" id="rowExportCsv"><i class="bi bi-filetype-csv me-2"></i>Export CSV</a></li>
+                                                    <li><hr class="dropdown-divider"></li>
+                                                    <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash me-2"></i>Delete</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
-                            }
-                        </tbody>
+
+                                <tr data-status="Needs Review" data-source="Camera" data-type="Generic Table">
+                                    <td><div class="form-check"><input class="form-check-input focus-ring" type="checkbox"></div></td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-camera me-2 icon-warning"></i>
+                                            <div>
+                                                <strong class="text-themed-primary">Scan_Store_Receipt.jpg</strong>
+                                                <div class="small text-themed-secondary">Type: Generic Table</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Camera</td>
+                                    <td>1</td>
+                                    <td>Rows: 8 • Cols: 5</td>
+                                    <td><span class="badge badge-themed bg-warning text-warning"><i class="bi bi-activity me-1"></i>Needs Review</span></td>
+                                    <td>John Smith</td>
+                                    <td class="text-themed-secondary">2025-08-31</td>
+                                    <td>
+                                        <div class="d-flex gap-1">
+                                            <button class="btn btn-sm btn-outline-primary focus-ring" data-bs-toggle="modal" data-bs-target="#previewModal" title="Preview"><i class="bi bi-eye"></i></button>
+                                            <button class="btn btn-sm btn-outline-secondary focus-ring" data-bs-toggle="modal" data-bs-target="#validateModal" title="Validate"><i class="bi bi-bug"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- ...bind more rows from your model... -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card-footer bg-transparent border-0 p-4">
+                    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                        <div class="text-themed-secondary mb-2 mb-md-0">
+                            Showing 1–10 of 124 scans
+                        </div>
+                        <nav>
+                            <ul class="pagination pagination-sm mb-0">
+                                <li class="page-item disabled"><span class="page-link bg-transparent border-0 text-themed-secondary">Previous</span></li>
+                                <li class="page-item active"><span class="page-link bg-primary border-primary">1</span></li>
+                                <li class="page-item"><a class="page-link bg-transparent border-0 text-themed-primary focus-ring" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link bg-transparent border-0 text-themed-primary focus-ring" href="#">Next</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ========== MODALS ========== -->
+<!-- Scan Modal -->
+<div class="modal fade" id="scanModal" tabindex="-1" aria-labelledby="scanModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content glass-effect border-0">
+            <div class="modal-header">
+                <h5 class="modal-title" id="scanModalLabel"><i class="bi bi-camera me-2"></i>Start New Scan</h5>
+                <button type="button" class="btn-close focus-ring" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label text-themed-primary">Source</label>
+                        <div class="d-grid gap-2">
+                            <label class="btn btn-outline-primary focus-ring">
+                                <input type="file" id="cameraInput" accept="image/*" capture="environment" hidden>
+                                <i class="bi bi-camera me-2"></i>Use Camera
+                            </label>
+                            <label class="btn btn-outline-secondary focus-ring">
+                                <input type="file" id="fileInput" accept="image/*,application/pdf" hidden>
+                                <i class="bi bi-upload me-2"></i>Upload Image/PDF
+                            </label>
+                        </div>
+                        <small class="text-themed-secondary d-block mt-2">PDF page selection supported after upload.</small>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-themed-primary">Engine & Options</label>
+                        <div class="row g-2">
+                            <div class="col-12">
+                                <select id="engineSelect" class="form-select focus-ring">
+                                    <option value="tesseract">Tesseract (offline)</option>
+                                    <option value="vision">Google Vision API</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input class="form-check-input focus-ring" type="checkbox" id="tableMode" checked>
+                                    <label class="form-check-label" for="tableMode">Enable table structure detection</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input focus-ring" type="checkbox" id="deskew" checked>
+                                    <label class="form-check-label" for="deskew">Auto-deskew & enhance</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input focus-ring" type="checkbox" id="mergeCells" checked>
+                                    <label class="form-check-label" for="mergeCells">Fix broken/merged cells</label>
+                                </div>
+                            </div>
+                        </div>
+                        <small class="text-themed-secondary d-block mt-2">Switch to Vision API for tough handwriting.</small>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label text-themed-primary">Notes (optional)</label>
+                        <input type="text" class="form-control focus-ring" id="scanNotes" placeholder="e.g., Q3 vendor invoice batch">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-themed" id="btnStartScan"><i class="bi bi-play-circle me-2"></i>Scan</button>
+                <button class="btn btn-outline-secondary focus-ring" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Processing Modal -->
+<div class="modal fade" id="processingModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content glass-effect border-0 text-center p-4">
+            <div class="spinner-border text-primary mb-3" role="status"></div>
+            <h6 class="text-themed-primary mb-1">Scanning…</h6>
+            <p class="text-themed-secondary small mb-0">Extracting table structure and cleaning cells</p>
+            <div class="progress mt-3" style="height:6px;">
+                <div class="progress-bar" id="procBar" style="width:10%"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Preview & Clean Modal -->
+<div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-fullscreen-lg-down">
+        <div class="modal-content glass-effect border-0">
+            <div class="modal-header">
+                <h5 class="modal-title" id="previewModalLabel"><i class="bi bi-eye me-2"></i>Preview & Clean</h5>
+                <button type="button" class="btn-close focus-ring" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="row g-0">
+                    <div class="col-lg-8 p-4">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0" id="ocrPreviewTable">
+                                <!-- dynamically rendered -->
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 p-4 border-start">
+                        <h6 class="text-themed-primary d-flex align-items-center">
+                            <i class="bi bi-wand me-2"></i>Smart Clean
+                        </h6>
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input focus-ring" type="checkbox" id="autoHeaders" checked>
+                                <label class="form-check-label" for="autoHeaders">Auto-add headers if missing</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input focus-ring" type="checkbox" id="detectTypes" checked>
+                                <label class="form-check-label" for="detectTypes">Detect dates, currency, %</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input focus-ring" type="checkbox" id="trimWhitespace" checked>
+                                <label class="form-check-label" for="trimWhitespace">Trim whitespace & artifacts</label>
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2 mb-3">
+                            <button class="btn btn-themed" id="btnRunClean"><i class="bi bi-magic me-2"></i>Run Clean</button>
+                            <button class="btn btn-outline-secondary focus-ring" data-bs-toggle="modal" data-bs-target="#validateModal"><i class="bi bi-shield-check me-2"></i>Validate</button>
+                        </div>
+                        <hr class="my-3">
+                        <h6 class="text-themed-primary d-flex align-items-center">
+                            <i class="bi bi-bug me-2"></i>Issues
+                        </h6>
+                        <ul class="small text-themed-secondary" id="issuesList">
+                            <!-- populated by validation -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="me-auto text-themed-secondary small" id="previewStats">Rows: — • Cols: —</div>
+                <button class="btn btn-outline-secondary focus-ring" data-bs-dismiss="modal">Close</button>
+                <button class="btn btn-themed-secondary" data-bs-toggle="modal" data-bs-target="#exportModal"><i class="bi bi-upload me-2"></i>Export</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Validate Modal -->
+<div class="modal fade" id="validateModal" tabindex="-1" aria-labelledby="validateModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content glass-effect border-0">
+            <div class="modal-header">
+                <h5 class="modal-title" id="validateModalLabel"><i class="bi bi-shield-check me-2"></i>Smart Validation</h5>
+                <button type="button" class="btn-close focus-ring" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-themed-secondary mb-3">We check totals, missing values, and suspicious entries.</p>
+                <div id="validationSummary" class="mb-3"></div>
+                <div class="table-responsive">
+                    <table class="table table-sm align-middle mb-0">
+                        <thead>
+                            <tr><th>Type</th><th>Description</th><th>Suggestion</th></tr>
+                        </thead>
+                        <tbody id="validationRows"></tbody>
                     </table>
                 </div>
             </div>
+            <div class="modal-footer">
+                <button class="btn btn-themed" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#previewModal">Back to Preview</button>
+            </div>
         </div>
     </div>
 </div>
+
+<!-- Export Modal -->
+<div class="modal fade" id="exportModal" tabindex="-1" aria-labelledby="exportModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content glass-effect border-0">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exportModalLabel"><i class="bi bi-box-arrow-down me-2"></i>Export</h5>
+                <button type="button" class="btn-close focus-ring" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label text-themed-primary">File name</label>
+                    <input type="text" class="form-control focus-ring" id="exportName" value="SmartScan_Export">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label text-themed-primary">Format</label>
+                    <div class="d-flex gap-2">
+                        <div class="form-check">
+                            <input class="form-check-input focus-ring" type="radio" name="exportFmt" id="fmtXlsx" checked>
+                            <label class="form-check-label" for="fmtXlsx">.xlsx</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input focus-ring" type="radio" name="exportFmt" id="fmtCsv">
+                            <label class="form-check-label" for="fmtCsv">.csv</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input class="form-check-input focus-ring" type="checkbox" id="includeCharts">
+                        <label class="form-check-label" for="includeCharts">Include quick charts (separate sheet)</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input focus-ring" type="checkbox" id="includeSummary" checked>
+                        <label class="form-check-label" for="includeSummary">Include summary line</label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline-secondary focus-ring" data-bs-dismiss="modal">Close</button>
+                <button class="btn btn-themed" id="btnDoExport"><i class="bi bi-download me-2"></i>Export</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Templates Modal -->
+<div class="modal fade" id="templateModal" tabindex="-1" aria-labelledby="templateModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content glass-effect border-0">
+            <div class="modal-header">
+                <h5 class="modal-title" id="templateModalLabel"><i class="bi bi-grid-1x2 me-2"></i>Domain Templates</h5>
+                <button type="button" class="btn-close focus-ring" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <div class="card hover-3d h-100">
+                            <div class="card-body">
+                                <h6 class="text-themed-primary d-flex align-items-center"><i class="bi bi-journal-check me-2"></i>Teachers – Gradebook</h6>
+                                <p class="text-themed-secondary small mb-3">Auto columns (Student, Assignment, Score, %), averages & highlights.</p>
+                                <button class="btn btn-outline-primary btn-sm focus-ring w-100 template-select" data-template="gradebook">Use Template</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card hover-3d h-100">
+                            <div class="card-body">
+                                <h6 class="text-themed-primary d-flex align-items-center"><i class="bi bi-receipt me-2"></i>Businesses – Receipts</h6>
+                                <p class="text-themed-secondary small mb-3">Date, Vendor, Category, Amount, Tax. Totals & missing receipt check.</p>
+                                <button class="btn btn-outline-primary btn-sm focus-ring w-100 template-select" data-template="receipts">Use Template</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card hover-3d h-100">
+                            <div class="card-body">
+                                <h6 class="text-themed-primary d-flex align-items-center"><i class="bi bi-heart-pulse me-2"></i>Healthcare – Labs</h6>
+                                <p class="text-themed-secondary small mb-3">Test, Value, Units, Reference, Flag. Auto flag out-of-range.</p>
+                                <button class="btn btn-outline-primary btn-sm focus-ring w-100 template-select" data-template="labs">Use Template</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <small class="text-themed-secondary d-block mt-3">Templates pre-configure cleaning, validation and export formatting.</small>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-themed" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#scanModal">Start Scan</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Insights Modal (quick charts preview) -->
+<div class="modal fade" id="insightsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content glass-effect border-0">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-graph-up-arrow me-2"></i>Quick Charts</h5>
+                <button type="button" class="btn-close focus-ring" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="chart-container">
+                    <canvas id="scanChart"></canvas>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-themed" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <!-- SheetJS for .xlsx export -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script>
+            (function () {
+              // ---------- Helpers ----------
+              const $ = (sel, root=document) => root.querySelector(sel);
+              const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+              const bsModal = id => bootstrap.Modal.getOrCreateInstance(document.getElementById(id));
+
+              function parseTableTextToMatrix(text) {
+                if (!text) return [];
+                const sep = text.includes('\t') && (!text.includes(',') || (text.match(/\t/g)||[]).length >= (text.match(/,/g)||[]).length) ? '\t' : ',';
+                return text.split(/\r?\n/).filter(r=>r.trim().length).map(r=>r.split(sep).map(c=>c.trim()));
+              }
+
+              function renderPreviewTable(matrix) {
+                const tbl = $('#ocrPreviewTable');
+                if (!tbl) return;
+                tbl.innerHTML = '';
+                if (!matrix.length) return;
+
+                const thead = document.createElement('thead');
+                const trh = document.createElement('tr');
+                matrix[0].forEach((h,i) => {
+                  const th = document.createElement('th');
+                  th.textContent = h || `Column ${i+1}`;
+                  trh.appendChild(th);
+                });
+                thead.appendChild(trh);
+
+                const tbody = document.createElement('tbody');
+                matrix.slice(1).forEach(row => {
+                  const tr = document.createElement('tr');
+                  row.forEach(cell => {
+                    const td = document.createElement('td');
+                    td.contentEditable = 'true';
+                    td.textContent = cell;
+                    tr.appendChild(td);
+                  });
+                  tbody.appendChild(tr);
+                });
+
+                tbl.appendChild(thead);
+                tbl.appendChild(tbody);
+                $('#previewStats').textContent = `Rows: ${matrix.length-1} • Cols: ${matrix[0].length}`;
+              }
+
+              function tableToMatrix() {
+                const tbl = $('#ocrPreviewTable');
+                if (!tbl) return [];
+                const headers = $$('#ocrPreviewTable thead th').map(th => th.textContent.trim());
+                const rows = $$('#ocrPreviewTable tbody tr').map(tr => $$('td', tr).map(td => td.textContent.trim()));
+                return [headers, ...rows];
+              }
+
+              // Simple type detection for Excel formatting
+              function detectCellType(val) {
+                if (val === null || val === undefined) return { t:'s', v:'' };
+                const v = String(val).trim();
+                if (!v) return { t:'s', v:'' };
+                // percent
+                if (/^-?\d+(\.\d+)?\s*%$/.test(v)) {
+                  const num = parseFloat(v.replace('%',''))/100;
+                  return { t:'n', v:num, z:'0.00%' };
+                }
+                // currency
+                if (/^\$?\s?-?\d{1,3}(,\d{3})*(\.\d+)?$/.test(v) || /^\$\s?-?\d+(\.\d+)?$/.test(v)) {
+                  const num = parseFloat(v.replace(/[^0-9.-]/g,''));
+                  return { t:'n', v:num, z:'$#,##0.00' };
+                }
+                // date (yyyy-mm-dd or mm/dd/yyyy)
+                if (/^\d{4}-\d{2}-\d{2}$/.test(v) || /^\d{1,2}\/\d{1,2}\/\d{2,4}$/.test(v)) {
+                  const d = new Date(v);
+                  if (!isNaN(d)) return { t:'d', v:d, z:'yyyy-mm-dd' };
+                }
+                // number
+                if (/^-?\d+(\.\d+)?$/.test(v)) {
+                  return { t:'n', v:parseFloat(v) };
+                }
+                return { t:'s', v:v };
+              }
+
+              function validateMatrix(matrix) {
+                const issues = [];
+                if (matrix.length < 2) return issues;
+                const headers = matrix[0].map(h => h.toLowerCase());
+                const amtIdx = headers.findIndex(h => /amount|total|price/.test(h));
+                if (amtIdx >= 0) {
+                  let sum = 0;
+                  for (let r=1; r<matrix.length; r++) {
+                    const cell = matrix[r][amtIdx] ?? '';
+                    const n = parseFloat(String(cell).replace(/[^0-9.-]/g,''));
+                    if (!isNaN(n)) sum += n;
+                  }
+                  // try detect a "Total" row
+                  const totalRow = matrix.findIndex(r => (String(r[0]||'').toLowerCase().includes('total')));
+                  if (totalRow > 0) {
+                    const totalVal = parseFloat(String(matrix[totalRow][amtIdx]||'').replace(/[^0-9.-]/g,''));
+                    if (!isNaN(totalVal)) {
+                      const delta = Math.abs(totalVal - sum);
+                      if (delta > 0.01) {
+                        issues.push({
+                          type:'Total mismatch',
+                          desc:`Sum of rows (${sum.toFixed(2)}) != Reported total (${totalVal.toFixed(2)})`,
+                          sug:'Check missing rows or OCR digits.'
+                        });
+                      }
+                    }
+                  }
+                }
+                // missing cells
+                for (let r=1; r<matrix.length; r++) {
+                  matrix[r].forEach((c,ci)=>{
+                    if (c === '' || c === null || c === undefined) {
+                      issues.push({type:'Missing value', desc:`Row ${r}, Column ${ci+1} is empty`, sug:'Fill or delete row.'});
+                    }
+                  });
+                }
+                return issues;
+              }
+
+              function exportCSV(matrix, name) {
+                const rows = matrix.map(r =>
+                  r.map(v => {
+                    const s = String(v ?? '');
+                    return /[",\n]/.test(s) ? `"${s.replace(/"/g,'""')}"` : s;
+                  }).join(',')
+                ).join('\n');
+                const blob = new Blob([rows], {type:'text/csv;charset=utf-8;'});
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = `${name}.csv`;
+                document.body.appendChild(a); a.click(); a.remove();
+              }
+
+              function exportXLSX(matrix, name, includeCharts, includeSummary) {
+                const ws = XLSX.utils.aoa_to_sheet(matrix);
+                // apply type detection cell-by-cell for formatting
+                const range = XLSX.utils.decode_range(ws['!ref']);
+                for (let R = range.s.r+1; R <= range.e.r; ++R) {
+                  for (let C = range.s.c; C <= range.e.c; ++C) {
+                    const addr = XLSX.utils.encode_cell({r:R, c:C});
+                    const raw = ws[addr]?.v ?? '';
+                    const typed = detectCellType(raw);
+                    ws[addr] = { t: typed.t, v: typed.v };
+                    if (typed.z) ws[addr].z = typed.z;
+                  }
+                }
+
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, 'Scan');
+
+                if (includeSummary) {
+                  const headers = matrix[0].map(h=>h.toLowerCase());
+                  const amtIdx = headers.findIndex(h => /amount|total|price/.test(h));
+                  let sum = 0;
+                  if (amtIdx >= 0) {
+                    for (let r=1; r<matrix.length; r++) {
+                      const n = parseFloat(String(matrix[r][amtIdx]||'').replace(/[^0-9.-]/g,''));
+                      if (!isNaN(n)) sum += n;
+                    }
+                  }
+                  const ws2 = XLSX.utils.aoa_to_sheet([
+                    ['Summary'],
+                    ['Rows', matrix.length-1],
+                    ['Columns', matrix[0].length],
+                    ['Amount Sum', sum]
+                  ]);
+                  XLSX.utils.book_append_sheet(wb, ws2, 'Summary');
+                }
+
+                if (includeCharts) {
+                  // note: basic placeholder sheet; real charts can be added server-side or via xlsx widgets
+                  const ws3 = XLSX.utils.aoa_to_sheet([
+                    ['Charts'],
+                    ['(placeholder) Use BI tool or Excel to build charts from Scan sheet']
+                  ]);
+                  XLSX.utils.book_append_sheet(wb, ws3, 'Charts');
+                }
+
+                XLSX.writeFile(wb, `${name}.xlsx`);
+              }
+
+              // ---------- Demo dataset (mock OCR result) ----------
+              const demoCSV = `Date,Vendor,Description,Qty,Unit Price,Amount
+        2025-08-25,ABC Supplies,Paper,10,$3.25,$32.50
+        2025-08-25,ABC Supplies,Pens,5,$1.10,$5.50
+        2025-08-26,XYZ Services,Consulting,2,$450.00,$900.00
+        2025-08-26,Global Corp,Software Licenses,1,$199.00,$199.00
+        Total,,,,,$1,136.99`;
+
+              // ---------- UI Wiring ----------
+              const scanModal = bsModal('scanModal');
+              const processingModal = bsModal('processingModal');
+              const previewModal = bsModal('previewModal');
+              const validateModal = bsModal('validateModal');
+              const insightsModal = bsModal('insightsModal');
+
+              function startProcessingMock() {
+                scanModal.hide();
+                processingModal.show();
+                let p = 10;
+                const bar = $('#procBar');
+                const timer = setInterval(()=>{
+                  p = Math.min(100, p + Math.random()*18);
+                  bar.style.width = p + '%';
+                  if (p >= 100) {
+                    clearInterval(timer);
+                    processingModal.hide();
+                    const matrix = parseTableTextToMatrix(demoCSV);
+                    renderPreviewTable(matrix);
+                    previewModal.show();
+                    drawQuickChart(matrix);
+                    window.__scanMatrix = matrix; // save for export/validate
+                  }
+                }, 250);
+              }
+
+              // Buttons
+              $('#btnStartScan')?.addEventListener('click', startProcessingMock);
+              $('#btnMockScan')?.addEventListener('click', startProcessingMock);
+
+              $('#btnRunClean')?.addEventListener('click', () => {
+                // simple “clean”: trim cells & ensure headers
+                const m = tableToMatrix();
+                if (!m.length) return;
+                // trim
+                for (let r=0; r<m.length; r++) {
+                  for (let c=0; c<m[r].length; c++) m[r][c] = String(m[r][c] ?? '').trim();
+                }
+                // headers
+                if ($('#autoHeaders')?.checked) {
+                  m[0] = m[0].map((h,i)=> h || `Column ${i+1}`);
+                }
+                renderPreviewTable(m);
+                window.__scanMatrix = m;
+              });
+
+              $('#btnDoExport')?.addEventListener('click', () => {
+                const name = ($('#exportName')?.value || 'SmartScan_Export').replace(/\.[a-z0-9]+$/i,'');
+                const includeCharts = $('#includeCharts')?.checked;
+                const includeSummary = $('#includeSummary')?.checked;
+                const matrix = tableToMatrix();
+                if ($('#fmtCsv')?.checked) {
+                  exportCSV(matrix, name);
+                } else {
+                  exportXLSX(matrix, name, includeCharts, includeSummary);
+                }
+              });
+
+              // Row-level export shortcuts (first row demo)
+              $('#rowExportCsv')?.addEventListener('click', e => { e.preventDefault(); exportCSV(window.__scanMatrix || parseTableTextToMatrix(demoCSV), 'Row_Export'); });
+              $('#rowExportXlsx')?.addEventListener('click', e => { e.preventDefault(); exportXLSX(window.__scanMatrix || parseTableTextToMatrix(demoCSV), 'Row_Export', false, true); });
+
+              // Validation flow
+              $('#validateModal')?.addEventListener('show.bs.modal', () => {
+                const m = window.__scanMatrix || parseTableTextToMatrix(demoCSV);
+                const issues = validateMatrix(m);
+                const list = $('#issuesList'); list.innerHTML = '';
+                const rows = $('#validationRows'); rows.innerHTML = '';
+                if (!issues.length) {
+                  $('#validationSummary').innerHTML = '<div class="alert alert-success mb-3"><i class="bi bi-check2-circle me-2"></i>No issues found.</div>';
+                } else {
+                  $('#validationSummary').innerHTML = '<div class="alert alert-warning mb-3"><i class="bi bi-exclamation-triangle me-2"></i>Issues detected. See details below.</div>';
+                  issues.forEach(is => {
+                    const li = document.createElement('li'); li.textContent = `${is.type} – ${is.desc}`;
+                    list.appendChild(li);
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `<td>${is.type}</td><td>${is.desc}</td><td>${is.sug}</td>`;
+                    rows.appendChild(tr);
+                  });
+                }
+              });
+
+              // Templates (just mark selection for now)
+              $$('.template-select').forEach(btn => btn.addEventListener('click', () => {
+                $$('.template-select').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+              }));
+
+              // Quick charts (demo chart of Amount column)
+              function drawQuickChart(matrix) {
+                try {
+                  const headers = matrix[0].map(h=>h.toLowerCase());
+                  const amtIdx = headers.findIndex(h => /amount/.test(h));
+                  const descIdx = headers.findIndex(h => /description|item|name/.test(h));
+                  if (amtIdx < 0 || descIdx < 0) return;
+                  const labels = [], values = [];
+                  for (let r=1; r<matrix.length; r++) {
+                    const label = matrix[r][descIdx];
+                    const v = parseFloat(String(matrix[r][amtIdx]||'').replace(/[^0-9.-]/g,''));
+                    if (!isNaN(v)) { labels.push(label); values.push(v); }
+                  }
+                  const ctx = document.getElementById('scanChart');
+                  if (!ctx) return;
+                  if (window.__scanChart) window.__scanChart.destroy();
+                  window.__scanChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: { labels, datasets: [{ label: 'Amount', data: values }] },
+                    options: { responsive: true, plugins: { legend: { display: false } } }
+                  });
+                } catch {}
+              }
+
+              // Table filters (client-side quick filter)
+              function applyDocsFilter() {
+                const q = ($('#qDocs')?.value || '').toLowerCase();
+                const src = $('#srcDocs')?.value || '';
+                const st  = $('#statusDocs')?.value || '';
+                const typ = $('#typeDocs')?.value || '';
+                $$('#docsTbody tr').forEach(tr => {
+                  const hay = tr.innerText.toLowerCase();
+                  const keep = (!q || hay.includes(q))
+                            && (!src || (tr.dataset.source||'') === src)
+                            && (!st  || (tr.dataset.status||'') === st)
+                            && (!typ || (tr.dataset.type||'') === typ);
+                  tr.style.display = keep ? '' : 'none';
+                });
+              }
+              $('#btnApplyDocs')?.addEventListener('click', applyDocsFilter);
+              $('#btnClearDocs')?.addEventListener('click', () => { $('#qDocs').value=''; $('#srcDocs').value=''; $('#statusDocs').value=''; $('#typeDocs').value=''; applyDocsFilter(); });
+
+              // Quick filter button states
+              const bAll  = $('#btnDocsAll'), bParsed = $('#btnDocsParsed'), bNeeds = $('#btnDocsNeeds');
+              function setActive(btn){ [bAll,bParsed,bNeeds].forEach(x=>x&&x.classList.remove('active')); btn.classList.add('active'); }
+              bAll?.addEventListener('click', ()=>{ setActive(bAll);  $$('#docsTbody tr').forEach(tr=> tr.style.display=''); });
+              bParsed?.addEventListener('click', ()=>{ setActive(bParsed); $$('#docsTbody tr').forEach(tr=> tr.style.display=(tr.dataset.status==='Parsed')?'':'' ); });
+              bNeeds?.addEventListener('click', ()=>{ setActive(bNeeds);  $$('#docsTbody tr').forEach(tr=> tr.style.display=(tr.dataset.status==='Needs Review')?'':'' ); });
+
+              // Bulk export (demo: export current preview matrix)
+              $('#bulkCsv')?.addEventListener('click', e => { e.preventDefault(); exportCSV(window.__scanMatrix || parseTableTextToMatrix(demoCSV), 'Bulk_Export'); });
+              $('#bulkXlsx')?.addEventListener('click', e => { e.preventDefault(); exportXLSX(window.__scanMatrix || parseTableTextToMatrix(demoCSV), 'Bulk_Export', true, true); });
+
+              // Help button ? open insights (just a friendly place)
+              $('#btnShowHelp')?.addEventListener('click', ()=> insightsModal.show());
+
+              // Seed preview with demo when page loads (optional)
+              const matrix = parseTableTextToMatrix(demoCSV);
+              renderPreviewTable(matrix);
+              window.__scanMatrix = matrix;
+            })();
+    </script>
+}

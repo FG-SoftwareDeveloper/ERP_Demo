@@ -8,73 +8,47 @@
     };
 }
 
-<h2 class="h1 fw-bold themed-heading mb-4 border-bottom pb-2">Purchase Orders</h2>
+<div class="container-fluid py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card glass-effect border-0">
+                <div class="card-body p-4 d-flex align-items-start justify-content-between">
+                    <div><h1 class="mb-1 text-themed-primary d-flex align-items-center"><i class="bi bi-cart-check me-3 icon-primary fs-2"></i> Purchase Orders</h1><p class="text-themed-secondary mb-0">Pipeline funnel, aging buckets, and AI renegotiation.</p></div>
+                    <div class="d-flex gap-2"><button class="btn btn-themed-secondary" data-bs-toggle="modal" data-bs-target="#aiRenegotiate"><i class="bi bi-robot me-2"></i>Renegotiate</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<!-- KPI Cards Row -->
-<div class="row g-4 mb-4">
-    <div class="col-md-3">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-primary"><i class="bi bi-file-earmark-spreadsheet"></i></span>
-                    <h5 class="card-title mb-0">Total Orders</h5>
-                </div>
-                <div class="display-5 fw-bold text-primary mb-1">@purchaseOrders.Length</div>
-                <div class="text-muted">Approved: @purchaseOrders.Count(po => po.Status == "Approved")</div>
+    <!-- Signature: Funnel + Aging Donut -->
+    <div class="row g-4 mb-4">
+        <div class="col-xxl-6">
+            <div class="card glass-effect border-0 h-100">
+                <div class="card-header p-4 bg-transparent border-0"><h5 class="mb-0 text-themed-primary"><i class="bi bi-funnel me-2 icon-info"></i>PO Pipeline</h5></div>
+                <div class="card-body p-4"><div class="chart-container"><canvas id="poFunnel"></canvas></div></div>
+            </div>
+        </div>
+        <div class="col-xxl-6">
+            <div class="card glass-effect border-0 h-100">
+                <div class="card-header p-4 bg-transparent border-0"><h5 class="mb-0 text-themed-primary"><i class="bi bi-pie-chart me-2 icon-warning"></i>Aging Buckets</h5></div>
+                <div class="card-body p-4"><div class="chart-container"><canvas id="agingDonut"></canvas></div></div>
             </div>
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-success"><i class="bi bi-currency-dollar"></i></span>
-                    <h5 class="card-title mb-0">Total Value</h5>
-                </div>
-                <div class="display-5 fw-bold text-success mb-1">@purchaseOrders.Sum(po => po.Total).ToString("C")</div>
-                <div class="text-muted">Pending: @purchaseOrders.Count(po => po.Status == "Pending")</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-warning"><i class="bi bi-exclamation-triangle"></i></span>
-                    <h5 class="card-title mb-0">Delayed Orders</h5>
-                </div>
-                <div class="display-5 fw-bold text-warning mb-1">@purchaseOrders.Count(po => po.Status == "Delayed")</div>
-                <div class="text-muted">Avg. Items: @(purchaseOrders.Average(po => po.Items).ToString("F1"))</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-info"><i class="bi bi-truck"></i></span>
-                    <h5 class="card-title mb-0">Upcoming Deliveries</h5>
-                </div>
-                <div class="display-5 fw-bold text-info mb-1">@purchaseOrders.Count(po => po.ExpectedDelivery > DateTime.Now)</div>
-                <div class="text-muted">Vendors: @purchaseOrders.Select(po => po.Vendor).Distinct().Count()</div>
-            </div>
-        </div>
-    </div>
-</div>
 
-<!-- AI Forecast Widget (High Contrast) -->
-<div class="row mb-4">
-    <div class="col-12">
-        <div class="card shadow-lg border-0" style="background: linear-gradient(90deg,#e3e6f0 0%,#f8fafc 100%);">
-            <div class="card-body p-4">
-                <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
-                    <div>
-                        <h5 class="mb-2 text-dark"><i class="bi bi-lightbulb me-2"></i>AI Forecast: Next Month PO Volume</h5>
-                        <div class="fs-2 fw-bold text-dark">+10 orders</div>
-                        <div class="small text-dark">Based on historical order rates, vendor cycles, and seasonal trends.</div>
-                    </div>
-                    <div class="mt-3 mt-md-0">
-                        <span class="badge rounded-pill bg-primary bg-opacity-10 text-primary fs-6 px-4 py-2 shadow-sm">Projected Value: $120,000</span>
+    <!-- Table -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card themed-table border-0">
+                <div class="card-header p-4 bg-transparent border-0"><h5 class="mb-0 text-themed-primary"><i class="bi bi-table me-2 icon-primary"></i>PO List</h5></div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead><tr><th>PO #</th><th>Date</th><th>Supplier</th><th>Lines</th><th>Ordered</th><th>Received</th><th>Amount</th><th>Status</th><th>Actions</th></tr></thead>
+                            <tbody>
+                                <tr><td>PO-30019</td><td>2025-08-20</td><td>Global Metals</td><td>12</td><td>2,000</td><td>1,200</td><td>$5,000</td><td><span class="badge bg-warning text-warning badge-themed">Partial</span></td><td><button class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></button></td></tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -82,103 +56,16 @@
     </div>
 </div>
 
-<!-- BI Chart Placeholder -->
-<div class="row mb-4">
-    <div class="col-12">
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-white">
-                <h5 class="mb-0">Purchase Order Trend (BI Chart)</h5>
+<!-- Modal: AI Renegotiation -->
+<div class="modal fade" id="aiRenegotiate" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content glass-effect border-0">
+            <div class="modal-header"><h5 class="modal-title"><i class="bi bi-robot me-2"></i>AI Renegotiation Draft</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+            <div class="modal-body">
+                <p class="mb-2">Based on volume & lead-time history, target <strong>?3.5%</strong> unit cost and <strong>Net 45</strong> terms with Global Metals.</p>
+                <pre class="small p-3 rounded bg-transparent border">Dear Supplier, based on our monthly volume and delivery performance, we propose ...</pre>
             </div>
-            <div class="card-body text-center">
-                <img src="https://via.placeholder.com/600x200?text=Purchase+Order+Trend+Chart" alt="Purchase Order Trend Chart" class="img-fluid rounded" />
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Purchase Orders Table -->
-<div class="row">
-    <div class="col-12">
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-white">
-                <h5 class="mb-0">Purchase Orders List</h5>
-            </div>
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle mb-0">
-                        <thead class="table-light">
-                            <tr>
-                                <th>#</th>
-                                <th>Vendor</th>
-                                <th>Status</th>
-                                <th>Total</th>
-                                <th>Date</th>
-                                <th>Items</th>
-                                <th>Expected Delivery</th>
-                                <th>AI Insights</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var po in purchaseOrders.OrderByDescending(po => po.Date))
-                            {
-                                <tr>
-                                    <td>@po.PurchaseOrderID</td>
-                                    <td class="fw-semibold">@po.Vendor</td>
-                                    <td>
-                                        @if (po.Status == "Approved")
-                                        {
-                                            <span class="badge bg-success">Approved</span>
-                                        }
-                                        else if (po.Status == "Pending")
-                                        {
-                                            <span class="badge bg-warning text-dark">Pending</span>
-                                        }
-                                        else if (po.Status == "Delayed")
-                                        {
-                                            <span class="badge bg-danger">Delayed</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge bg-secondary">@po.Status</span>
-                                        }
-                                    </td>
-                                    <td>@po.Total.ToString("C")</td>
-                                    <td>@po.Date.ToString("yyyy-MM-dd")</td>
-                                    <td>@po.Items</td>
-                                    <td>
-                                        @if (po.ExpectedDelivery < DateTime.Now)
-                                        {
-                                            <span class="text-danger">@po.ExpectedDelivery.ToString("yyyy-MM-dd")</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="text-primary">@po.ExpectedDelivery.ToString("yyyy-MM-dd")</span>
-                                        }
-                                    </td>
-                                    <td>
-                                        @if (po.AIInsights.Contains("delayed"))
-                                        {
-                                            <span class="text-danger">@po.AIInsights</span>
-                                        }
-                                        else if (po.AIInsights.Contains("flagged"))
-                                        {
-                                            <span class="text-warning">@po.AIInsights</span>
-                                        }
-                                        else if (po.AIInsights.Contains("validated") || po.AIInsights.Contains("on time"))
-                                        {
-                                            <span class="text-success">@po.AIInsights</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="text-primary">@po.AIInsights</span>
-                                        }
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            <div class="modal-footer"><button class="btn btn-themed-secondary"><i class="bi bi-envelope me-1"></i>Send Draft</button></div>
         </div>
     </div>
 </div>

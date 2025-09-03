@@ -2,13 +2,74 @@
     Layout = "_Layout";
 }
 
-<!DOCTYPE html>
+<div class="container-fluid py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card glass-effect border-0">
+                <div class="card-body p-4 d-flex align-items-start justify-content-between">
+                    <div><h1 class="mb-1 text-themed-primary d-flex align-items-center"><i class="bi bi-handshake me-3 icon-primary fs-2"></i> Service Agreements</h1><p class="text-themed-secondary mb-0">Renewals, SLA adherence, and AI clause analyzer.</p></div>
+                    <div class="d-flex gap-2"><button class="btn btn-themed"><i class="bi bi-plus-circle me-2"></i>New Agreement</button><button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#aiClause"><i class="bi bi-robot me-2"></i>Analyze Clauses</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>ListServiceAgreements</title>
-</head>
-<body>
-</body>
-</html>
+    <!-- Signature: Health + SLA heatmap -->
+    <div class="row g-4 mb-4">
+        <div class="col-xxl-4">
+            <div class="card hover-3d kpi-card border-0"><div class="card-body p-4"><div class="small text-themed-secondary">Renewals next 90d</div><div class="display-6 text-themed-primary">27</div><small>11 at-risk</small></div></div>
+        </div>
+        <div class="col-xxl-4">
+            <div class="card hover-3d kpi-card border-0"><div class="card-body p-4"><div class="small text-themed-secondary">SLA On-Time</div><div class="display-6 text-success">96%</div><small>Rolling 30d</small></div></div>
+        </div>
+        <div class="col-xxl-4">
+            <div class="card hover-3d kpi-card border-0"><div class="card-body p-4"><div class="small text-themed-secondary">Churn Risk</div><div class="display-6 text-warning">14%</div><small>Predicted</small></div></div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-xxl-7">
+            <div class="card glass-effect border-0 h-100">
+                <div class="card-header p-4 bg-transparent border-0"><h5 class="mb-0 text-themed-primary"><i class="bi bi-grid-3x3-gap me-2 icon-info"></i>SLA Heatmap</h5></div>
+                <div class="card-body p-4"><div class="chart-container"><canvas id="slaHeat"></canvas></div></div>
+            </div>
+        </div>
+        <div class="col-xxl-5">
+            <div class="card glass-effect border-0 h-100">
+                <div class="card-header p-4 bg-transparent border-0"><h5 class="mb-0 text-themed-primary"><i class="bi bi-graph-up-arrow me-2 icon-success"></i>Renewal Pipeline</h5></div>
+                <div class="card-body p-4"><div class="chart-container"><canvas id="renewalFunnel"></canvas></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card themed-table border-0">
+                <div class="card-header p-4 bg-transparent border-0"><h5 class="mb-0 text-themed-primary"><i class="bi bi-table me-2 icon-primary"></i>Agreements</h5></div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead><tr><th>#</th><th>Customer</th><th>Term</th><th>Renewal</th><th>SLA</th><th>Risk</th><th>Actions</th></tr></thead>
+                            <tbody><tr><td>SA-9011</td><td>Global Corp</td><td>12 mo</td><td>2025-10-01</td><td>98%</td><td><span class="badge bg-warning text-warning badge-themed">Medium</span></td><td><button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#aiClause"><i class="bi bi-robot"></i></button></td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Clause Analyzer -->
+<div class="modal fade" id="aiClause" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content glass-effect border-0">
+            <div class="modal-header"><h5 class="modal-title"><i class="bi bi-robot me-2"></i>AI Clause Analyzer</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+            <div class="modal-body">
+                <div class="alert alert-info"><i class="bi bi-lightbulb me-2"></i>Found indemnity clause favoring vendor; suggest mutual indemnity revision.</div>
+                <button class="btn btn-themed-secondary"><i class="bi bi-pencil-square me-1"></i>Draft Amendment</button>
+            </div>
+        </div>
+    </div>
+</div>
+

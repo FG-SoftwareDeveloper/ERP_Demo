@@ -8,146 +8,456 @@
     };
 }
 
-<h2 class="h1 fw-bold themed-heading mb-4 border-bottom pb-2">AR Invoices</h2>
-
-<!-- KPI Cards Row -->
-<div class="row g-4 mb-4">
-    <div class="col-md-4">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-primary"><i class="bi bi-file-earmark-spreadsheet"></i></span>
-                    <h5 class="card-title mb-0">Total Invoices</h5>
-                </div>
-                <div class="display-5 fw-bold text-primary mb-1">@invoices.Length</div>
-                <div class="text-muted">Open: @invoices.Count(i => i.Status == "Open"), Paid: @invoices.Count(i => i.Status == "Paid")</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-success"><i class="bi bi-currency-dollar"></i></span>
-                    <h5 class="card-title mb-0">Total Amount</h5>
-                </div>
-                <div class="display-5 fw-bold text-success mb-1">@invoices.Sum(i => i.Amount).ToString("C")</div>
-                <div class="text-muted">Overdue: @invoices.Where(i => i.Status == "Overdue").Sum(i => i.Amount).ToString("C")</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-warning"><i class="bi bi-clock-history"></i></span>
-                    <h5 class="card-title mb-0">Avg. Days to Pay</h5>
-                </div>
-                <div class="display-5 fw-bold text-warning mb-1">28</div>
-                <div class="text-muted">Last Month: 26</div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- AI Forecast Widget (High Contrast) -->
-<div class="row mb-4">
-    <div class="col-12">
-        <div class="card shadow-lg border-0" style="background: linear-gradient(90deg,#e3e6f0 0%,#f8fafc 100%);">
-            <div class="card-body p-4">
-                <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
-                    <div>
-                        <h5 class="mb-2 text-dark"><i class="bi bi-graph-up-arrow me-2"></i>AI Forecast: Next Month AR Inflow</h5>
-                        <div class="fs-2 fw-bold text-dark">$41,000</div>
-                        <div class="small text-dark">Based on historical payment patterns and predictive analytics.</div>
-                    </div>
-                    <div class="mt-3 mt-md-0">
-                        <span class="badge rounded-pill bg-primary bg-opacity-10 text-primary fs-6 px-4 py-2 shadow-sm">Expected Overdue: $8,000</span>
+<div class="container-fluid py-4">
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card glass-effect border-0 animate-fade-in-up">
+                <div class="card-body p-4">
+                    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                        <div>
+                            <h1 class="mb-2 text-themed-primary d-flex align-items-center">
+                                <i class="bi bi-receipt me-3 icon-primary fs-2"></i>
+                                AR Invoice Management
+                            </h1>
+                            <p class="text-themed-secondary mb-0">Track receivables, manage collections, and accelerate cash</p>
+                        </div>
+                        <div class="mt-3 mt-md-0">
+                            <button class="btn btn-themed me-2">
+                                <i class="bi bi-plus-circle me-2"></i>New AR Invoice
+                            </button>
+                            <button class="btn btn-themed-secondary">
+                                <i class="bi bi-upload me-2"></i>Import
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- BI Chart Placeholder -->
-<div class="row mb-4">
-    <div class="col-12">
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-white">
-                <h5 class="mb-0">AR Invoice Trend (BI Chart)</h5>
+    <!-- KPI Cards Row -->
+    <div class="row g-4 mb-4">
+        <div class="col-lg-3 col-md-6">
+            <div class="card card-2025 hover-3d kpi-card border-0 h-100 animate-fade-in-up animate-delay-1">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <span class="me-3 fs-2 icon-primary"><i class="bi bi-file-earmark-text"></i></span>
+                        <h6 class="card-title mb-0 text-themed-primary">Total Invoices</h6>
+                    </div>
+                    <div class="display-6 fw-bold text-themed-primary mb-2">2,184</div>
+                    <div class="text-themed-secondary">
+                        <span class="badge badge-themed bg-success bg-opacity-10 text-success me-2">
+                            <i class="bi bi-arrow-up me-1"></i>+8%
+                        </span>
+                        <small>vs last month</small>
+                    </div>
+                </div>
             </div>
-            <div class="card-body text-center">
-                <img src="https://via.placeholder.com/600x200?text=AR+Invoice+Trend+Chart" alt="AR Invoice Trend Chart" class="img-fluid rounded" />
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card card-2025 hover-3d kpi-card border-0 h-100 animate-fade-in-up animate-delay-2">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <span class="me-3 fs-2 icon-info"><i class="bi bi-currency-dollar"></i></span>
+                        <h6 class="card-title mb-0 text-themed-primary">Outstanding</h6>
+                    </div>
+                    <div class="display-6 fw-bold text-themed-primary mb-2">$1.92M</div>
+                    <div class="text-themed-secondary">
+                        <span class="badge badge-themed bg-primary bg-opacity-10 text-primary">Current: $1.31M</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card card-2025 hover-3d kpi-card border-0 h-100 animate-fade-in-up animate-delay-3">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <span class="me-3 fs-2 icon-warning"><i class="bi bi-exclamation-triangle"></i></span>
+                        <h6 class="card-title mb-0 text-themed-primary">Overdue</h6>
+                    </div>
+                    <div class="display-6 fw-bold text-themed-primary mb-2">$284K</div>
+                    <div class="text-themed-secondary">
+                        <span class="badge badge-themed bg-warning bg-opacity-10 text-warning">90+ days: $72K</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card card-2025 hover-3d kpi-card border-0 h-100 animate-fade-in-up animate-delay-4">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <span class="me-3 fs-2 icon-success"><i class="bi bi-speedometer2"></i></span>
+                        <h6 class="card-title mb-0 text-themed-primary">DSO</h6>
+                    </div>
+                    <div class="display-6 fw-bold text-themed-primary mb-2">38</div>
+                    <div class="text-themed-secondary"><small class="text-success">-3 days vs last month</small></div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- AR Invoices Table -->
-<div class="row">
-    <div class="col-12">
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-white">
-                <h5 class="mb-0">AR Invoices List</h5>
+    <!-- Filters and Search -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card glass-effect border-0 animate-fade-in-up">
+                <div class="card-body p-4">
+                    <div class="row g-3 align-items-end">
+                        <div class="col-lg-3 col-md-6">
+                            <label class="form-label text-themed-primary fw-medium">Search AR</label>
+                            <div class="position-relative">
+                                <input type="text" class="form-control focus-ring" id="qAR" placeholder="Invoice #, customer...">
+                                <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-3 text-themed-secondary"></i>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-6">
+                            <label class="form-label text-themed-primary fw-medium">Status</label>
+                            <select id="statusAR" class="form-select focus-ring">
+                                <option value="">All</option>
+                                <option>Open</option>
+                                <option>Paid</option>
+                                <option>Partial</option>
+                                <option>Disputed</option>
+                                <option>Overdue</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2 col-md-6">
+                            <label class="form-label text-themed-primary fw-medium">Aging</label>
+                            <select id="agingAR" class="form-select focus-ring">
+                                <option value="">Any</option>
+                                <option value="current">Current</option>
+                                <option value="30">30</option>
+                                <option value="60">60</option>
+                                <option value="90+">90+</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2 col-md-6">
+                            <label class="form-label text-themed-primary fw-medium">Customer Segment</label>
+                            <select id="segmentAR" class="form-select focus-ring">
+                                <option value="">All</option>
+                                <option>Enterprise</option>
+                                <option>Mid-Market</option>
+                                <option>SMB</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-3 col-md-12">
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-themed flex-fill" id="btnApplyAR">
+                                    <i class="bi bi-funnel me-2"></i>Apply Filters
+                                </button>
+                                <button class="btn btn-outline-secondary focus-ring" id="btnClearAR" title="Reset">
+                                    <i class="bi bi-arrow-clockwise"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle mb-0">
-                        <thead class="table-light">
-                            <tr>
-                                <th>#</th>
-                                <th>Customer</th>
-                                <th>Invoice #</th>
-                                <th>Date</th>
-                                <th class="text-end">Amount</th>
-                                <th>Status</th>
-                                <th>AI Insights</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var i in invoices)
-                            {
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card ai-forecast-card border-0 animate-fade-in-up">
+                <div class="card-body p-4">
+                    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                        <div>
+                            <h5 class="mb-2 d-flex align-items-center">
+                                <i class="bi bi-lightning-charge me-2"></i>
+                                Quick Actions
+                            </h5>
+                            <p class="mb-0 opacity-90">Collect faster and reduce overdue balances</p>
+                        </div>
+                        <div class="mt-3 mt-md-0 d-flex flex-wrap gap-2">
+                            <button class="btn btn-light btn-sm bg-opacity-20 text-white">
+                                <i class="bi bi-envelope-open me-1"></i>Send Reminders
+                            </button>
+                            <button class="btn btn-light btn-sm bg-opacity-20 text-white">
+                                <i class="bi bi-cash-coin me-1"></i>Receive Payments
+                            </button>
+                            <button class="btn btn-light btn-sm bg-opacity-20 text-white">
+                                <i class="bi bi-filetype-pdf me-1"></i>Customer Statements
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AR Invoices Table -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card themed-table border-0 animate-fade-in-up">
+                <div class="card-header bg-transparent border-0 p-4">
+                    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                        <h5 class="mb-2 mb-md-0 text-themed-primary d-flex align-items-center">
+                            <i class="bi bi-table me-2 icon-primary"></i>
+                            AR Invoices List
+                        </h5>
+                        <div class="d-flex gap-2">
+                            <div class="btn-group" role="group" aria-label="Quick filters">
+                                <button class="btn btn-outline-primary btn-sm focus-ring active">All</button>
+                                <button class="btn btn-outline-primary btn-sm focus-ring">Open</button>
+                                <button class="btn btn-outline-primary btn-sm focus-ring">Overdue</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0" id="arTable">
+                            <thead>
                                 <tr>
-                                    <td>@i.ARInvoiceID</td>
-                                    <td class="fw-semibold">@i.Customer</td>
-                                    <td>@i.InvoiceNumber</td>
-                                    <td>@i.InvoiceDate.ToString("yyyy-MM-dd")</td>
-                                    <td class="text-end">@i.Amount.ToString("C")</td>
+                                    <th style="width:36px">
+                                        <div class="form-check">
+                                            <input class="form-check-input focus-ring" type="checkbox" id="selectAllAR">
+                                            <label class="form-check-label" for="selectAllAR"></label>
+                                        </div>
+                                    </th>
+                                    <th>Invoice #</th>
+                                    <th>Customer</th>
+                                    <th>Issue Date</th>
+                                    <th>Due Date</th>
+                                    <th class="text-end">Amount</th>
+                                    <th>Status</th>
+                                    <th>Aging</th>
+                                    <th>Collector</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="arTbody">
+                                <!-- Sample rows (replace with Model data) -->
+                                <tr data-status="Open" data-aging="90+" data-segment="Enterprise" data-amount="15750">
+                                    <td><div class="form-check"><input class="form-check-input focus-ring" type="checkbox"></div></td>
                                     <td>
-                                        @switch (i.Status)
-                                        {
-                                            case "Paid":
-                                                <span class="badge bg-success">Paid</span>
-                                                ; break;
-                                            case "Overdue":
-                                                <span class="badge bg-danger">Overdue</span>
-                                                ; break;
-                                            default:
-                                                <span class="badge bg-warning text-dark">Open</span>
-                                                ; break;
-                                        }
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-file-earmark-text me-2 icon-primary"></i>
+                                            <div>
+                                                <strong class="text-themed-primary">INV-AR-2025-001</strong>
+                                                <div class="small text-themed-secondary">SO: SO-2025-127</div>
+                                            </div>
+                                        </div>
                                     </td>
                                     <td>
-                                        @if (i.Status == "Overdue")
-                                        {
-                                            <span class="text-danger">Escalate Collection</span>
-                                        }
-                                        else if (i.Status == "Paid")
-                                        {
-                                            <span class="text-success">On Time</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="text-warning">Likely Overdue</span>
-                                        }
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-sm bg-danger bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2">
+                                                <i class="bi bi-building text-danger"></i>
+                                            </div>
+                                            <div>
+                                                <strong class="text-themed-primary">ABC Retail Group</strong>
+                                                <div class="small text-themed-secondary">Cust ID: CU-001</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-themed-primary">2025-07-15</td>
+                                    <td>
+                                        <span class="text-danger fw-medium">2025-08-15</span>
+                                        <div class="small text-themed-secondary">Overdue by 17 days</div>
+                                    </td>
+                                    <td class="text-end fw-bold text-themed-primary">$15,750.00</td>
+                                    <td><span class="badge badge-themed bg-warning text-warning"><i class="bi bi-exclamation-triangle me-1"></i>Overdue</span></td>
+                                    <td><span class="badge badge-themed bg-danger bg-opacity-10 text-danger">90+</span></td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-xs bg-info bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2">
+                                                <i class="bi bi-person text-info"></i>
+                                            </div>
+                                            <span class="text-themed-secondary">John Smith</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex gap-1">
+                                            <button class="btn btn-sm btn-outline-primary focus-ring" title="View"><i class="bi bi-eye"></i></button>
+                                            <button class="btn btn-sm btn-outline-success focus-ring" title="Receive Payment"><i class="bi bi-cash-coin"></i></button>
+                                            <button class="btn btn-sm btn-outline-warning focus-ring" title="Send Reminder"><i class="bi bi-envelope-open"></i></button>
+                                            <div class="btn-group">
+                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle focus-ring" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item" href="#"><i class="bi bi-pencil me-2"></i>Edit</a></li>
+                                                    <li><a class="dropdown-item" href="#"><i class="bi bi-download me-2"></i>PDF</a></li>
+                                                    <li><hr class="dropdown-divider"></li>
+                                                    <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-x-circle me-2"></i>Write Off</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+
+                                <tr data-status="Paid" data-aging="current" data-segment="Mid-Market" data-amount="8425.5">
+                                    <td><div class="form-check"><input class="form-check-input focus-ring" type="checkbox"></div></td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-file-earmark-text me-2 icon-primary"></i>
+                                            <div>
+                                                <strong class="text-themed-primary">INV-AR-2025-002</strong>
+                                                <div class="small text-themed-secondary">SO: SO-2025-129</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-sm bg-success bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2">
+                                                <i class="bi bi-gear text-success"></i>
+                                            </div>
+                                            <div>
+                                                <strong class="text-themed-primary">XYZ Services Inc.</strong>
+                                                <div class="small text-themed-secondary">Cust ID: CU-002</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-themed-primary">2025-08-20</td>
+                                    <td class="text-themed-secondary">2025-09-20</td>
+                                    <td class="text-end fw-bold text-themed-primary">$8,425.50</td>
+                                    <td><span class="badge badge-themed bg-primary text-primary"><i class="bi bi-credit-card me-1"></i>Paid</span></td>
+                                    <td><span class="badge badge-themed bg-primary bg-opacity-10 text-primary">Current</span></td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-xs bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2">
+                                                <i class="bi bi-person text-primary"></i>
+                                            </div>
+                                            <span class="text-themed-secondary">Sarah Johnson</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex gap-1">
+                                            <button class="btn btn-sm btn-outline-primary focus-ring" title="View"><i class="bi bi-eye"></i></button>
+                                            <button class="btn btn-sm btn-outline-secondary focus-ring" title="Receipt"><i class="bi bi-receipt"></i></button>
+                                            <div class="btn-group">
+                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle focus-ring" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item" href="#"><i class="bi bi-envelope me-2"></i>Send Email</a></li>
+                                                    <li><a class="dropdown-item" href="#"><i class="bi bi-printer me-2"></i>Print</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr data-status="Partial" data-aging="30" data-segment="SMB" data-amount="32100">
+                                    <td><div class="form-check"><input class="form-check-input focus-ring" type="checkbox"></div></td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-file-earmark-text me-2 icon-primary"></i>
+                                            <div>
+                                                <strong class="text-themed-primary">INV-AR-2025-003</strong>
+                                                <div class="small text-themed-secondary">SO: SO-2025-130</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-sm bg-info bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2">
+                                                <i class="bi bi-globe text-info"></i>
+                                            </div>
+                                            <div>
+                                                <strong class="text-themed-primary">Global Corp</strong>
+                                                <div class="small text-themed-secondary">Cust ID: CU-003</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-themed-primary">2025-08-25</td>
+                                    <td class="text-themed-secondary">2025-09-25</td>
+                                    <td class="text-end fw-bold text-themed-primary">$32,100.00</td>
+                                    <td><span class="badge badge-themed bg-info text-info"><i class="bi bi-percent me-1"></i>Partial</span></td>
+                                    <td><span class="badge badge-themed bg-warning bg-opacity-10 text-warning">30</span></td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-xs bg-success bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2">
+                                                <i class="bi bi-person text-success"></i>
+                                            </div>
+                                            <span class="text-themed-secondary">Mike Davis</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex gap-1">
+                                            <button class="btn btn-sm btn-outline-primary focus-ring" title="View"><i class="bi bi-eye"></i></button>
+                                            <button class="btn btn-sm btn-outline-success focus-ring" title="Receive Payment"><i class="bi bi-cash-coin"></i></button>
+                                            <div class="btn-group">
+                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle focus-ring" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item" href="#"><i class="bi bi-pencil me-2"></i>Edit</a></li>
+                                                    <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-flag me-2"></i>Mark Disputed</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- ... -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+
+                <div class="card-footer bg-transparent border-0 p-4">
+                    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                        <div class="text-themed-secondary mb-2 mb-md-0">Showing 1–10 of 2,184 invoices</div>
+                        <nav>
+                            <ul class="pagination pagination-sm mb-0">
+                                <li class="page-item disabled"><span class="page-link bg-transparent border-0 text-themed-secondary">Previous</span></li>
+                                <li class="page-item active"><span class="page-link bg-primary border-primary">1</span></li>
+                                <li class="page-item"><a class="page-link bg-transparent border-0 text-themed-primary focus-ring" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link bg-transparent border-0 text-themed-primary focus-ring" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link bg-transparent border-0 text-themed-primary focus-ring" href="#">Next</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        (function () {
+          const qEl = document.getElementById('qAR');
+          const statusEl = document.getElementById('statusAR');
+          const agingEl = document.getElementById('agingAR');
+          const segEl = document.getElementById('segmentAR');
+          const tbody = document.getElementById('arTbody');
+
+          function apply() {
+            const q = (qEl.value || '').toLowerCase();
+            const st = statusEl.value;
+            const ag = agingEl.value;    // '', 'current', '30', '60', '90+'
+            const seg = segEl.value;
+
+            tbody.querySelectorAll('tr').forEach(tr => {
+              const hay = (tr.cells[1].innerText + ' ' + tr.cells[2].innerText).toLowerCase(); // inv + customer
+              const status = tr.dataset.status || '';
+              const aging = tr.dataset.aging || '';
+              const segment = tr.dataset.segment || '';
+
+              let keep = hay.includes(q);
+              if (st && status !== st) keep = false;
+              if (seg && segment !== seg) keep = false;
+              if (ag && aging !== ag) keep = false;
+
+              tr.style.display = keep ? '' : 'none';
+            });
+          }
+
+          const btnApply = document.getElementById('btnApplyAR');
+          const btnClear = document.getElementById('btnClearAR');
+          if (btnApply) btnApply.addEventListener('click', apply);
+          if (btnClear) btnClear.addEventListener('click', () => {
+            qEl.value = ''; statusEl.value = ''; agingEl.value = ''; segEl.value = ''; apply();
+          });
+
+          // Select All
+          const selectAll = document.getElementById('selectAllAR');
+          if (selectAll) {
+            selectAll.addEventListener('change', () => {
+              document.querySelectorAll('#arTbody input[type="checkbox"]').forEach(cb => cb.checked = selectAll.checked);
+            });
+          }
+        })();
+    </script>
+}

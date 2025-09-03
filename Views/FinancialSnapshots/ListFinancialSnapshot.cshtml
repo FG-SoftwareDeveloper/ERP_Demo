@@ -8,160 +8,643 @@
     };
 }
 
-<h2 class="h1 fw-bold themed-heading mb-4 border-bottom pb-2">Financial Snapshots</h2>
-
-<!-- KPI Cards Row -->
-<div class="row g-4 mb-4">
-    <div class="col-md-3">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-primary"><i class="bi bi-graph-up"></i></span>
-                    <h5 class="card-title mb-0">Total Snapshots</h5>
-                </div>
-                <div class="display-5 fw-bold text-primary mb-1">@snapshots.Length</div>
-                <div class="text-muted">Healthy: @snapshots.Count(s => s.Status == "Healthy")</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-success"><i class="bi bi-currency-dollar"></i></span>
-                    <h5 class="card-title mb-0">Total Revenue</h5>
-                </div>
-                <div class="display-5 fw-bold text-success mb-1">@snapshots.Sum(s => s.Revenue).ToString("C")</div>
-                <div class="text-muted">Last: @snapshots.MaxBy(s => s.Date).Revenue.ToString("C")</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-danger"><i class="bi bi-cash-stack"></i></span>
-                    <h5 class="card-title mb-0">Total Profit</h5>
-                </div>
-                <div class="display-5 fw-bold text-danger mb-1">@snapshots.Sum(s => s.Profit).ToString("C")</div>
-                <div class="text-muted">Margin: @((int)(snapshots.Sum(s => s.Profit) * 100 / snapshots.Sum(s => s.Revenue)))%</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-info"><i class="bi bi-bank"></i></span>
-                    <h5 class="card-title mb-0">Total Cash Flow</h5>
-                </div>
-                <div class="display-5 fw-bold text-info mb-1">@snapshots.Sum(s => s.CashFlow).ToString("C")</div>
-                <div class="text-muted">Last: @snapshots.MaxBy(s => s.Date).CashFlow.ToString("C")</div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- AI Forecast Widget (High Contrast) -->
-<div class="row mb-4">
-    <div class="col-12">
-        <div class="card shadow-lg border-0" style="background: linear-gradient(90deg,#e3e6f0 0%,#f8fafc 100%);">
-            <div class="card-body p-4">
-                <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
-                    <div>
-                        <h5 class="mb-2 text-dark"><i class="bi bi-lightbulb me-2"></i>AI Forecast: Next Quarter Profit</h5>
-                        <div class="fs-2 fw-bold text-dark">$750,000</div>
-                        <div class="small text-dark">Based on revenue growth, expense trends, and predictive analytics.</div>
-                    </div>
-                    <div class="mt-3 mt-md-0">
-                        <span class="badge rounded-pill bg-primary bg-opacity-10 text-primary fs-6 px-4 py-2 shadow-sm">Projected Margin: 28%</span>
+<div class="container-fluid py-4">
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card glass-effect border-0 animate-fade-in-up">
+                <div class="card-body p-4">
+                    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                        <div>
+                            <h1 class="mb-2 text-themed-primary d-flex align-items-center">
+                                <i class="bi bi-graph-up-arrow me-3 icon-primary fs-2"></i>
+                                Financial Snapshot
+                            </h1>
+                            <p class="text-themed-secondary mb-0">Live P&L pulse, cash runway, AI insights & scenario planning</p>
+                        </div>
+                        <div class="mt-3 mt-md-0 d-flex flex-wrap gap-2">
+                            <button class="btn btn-themed"><i class="bi bi-plus-circle me-2"></i>New Snapshot</button>
+                            <button class="btn btn-themed-secondary"><i class="bi bi-upload me-2"></i>Import</button>
+                            <button class="btn btn-outline-secondary focus-ring" data-bs-toggle="modal" data-bs-target="#aiInsightsModal">
+                                <i class="bi bi-robot me-2"></i>AI Narrative
+                            </button>
+                            <div class="btn-group">
+                                <button class="btn btn-outline-primary dropdown-toggle focus-ring" data-bs-toggle="dropdown">
+                                    <i class="bi bi-download me-2"></i>Export
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#"><i class="bi bi-filetype-pdf me-2"></i>Board Pack (PDF)</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="bi bi-filetype-xlsx me-2"></i>P&L + CF (XLSX)</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="bi bi-filetype-csv me-2"></i>Raw (CSV)</a></li>
+                                </ul>
+                            </div>
+                            <button class="btn btn-outline-secondary focus-ring" data-bs-toggle="modal" data-bs-target="#scenarioModal">
+                                <i class="bi bi-sliders me-2"></i>Scenario Builder
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- BI Chart Placeholder -->
-<div class="row mb-4">
-    <div class="col-12">
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-white">
-                <h5 class="mb-0">Financial Trend (BI Chart)</h5>
+    <!-- KPIs -->
+    <div class="row g-4 mb-4">
+        <div class="col-xxl-2 col-md-4 col-sm-6">
+            <div class="card card-2025 hover-3d kpi-card border-0 h-100 animate-fade-in-up animate-delay-1">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-1">
+                        <span class="me-3 fs-2 icon-primary"><i class="bi bi-cash-stack"></i></span>
+                        <h6 class="mb-0 text-themed-primary">Revenue YTD</h6>
+                    </div>
+                    <div class="display-6 fw-bold text-themed-primary" id="kpiRevenue">$—</div>
+                    <small class="text-themed-secondary"><span id="kpiRevGrowth">—</span> vs LY</small>
+                </div>
             </div>
-            <div class="card-body text-center">
-                <img src="https://via.placeholder.com/600x200?text=Financial+Trend+Chart" alt="Financial Trend Chart" class="img-fluid rounded" />
+        </div>
+        <div class="col-xxl-2 col-md-4 col-sm-6">
+            <div class="card card-2025 hover-3d kpi-card border-0 h-100 animate-fade-in-up animate-delay-2">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-1">
+                        <span class="me-3 fs-2 icon-success"><i class="bi bi-percent"></i></span>
+                        <h6 class="mb-0 text-themed-primary">Gross Margin</h6>
+                    </div>
+                    <div class="display-6 fw-bold text-themed-primary" id="kpiGM">—%</div>
+                    <small class="text-themed-secondary">COGS <span id="kpiCOGS">—%</span></small>
+                </div>
+            </div>
+        </div>
+        <div class="col-xxl-2 col-md-4 col-sm-6">
+            <div class="card card-2025 hover-3d kpi-card border-0 h-100 animate-fade-in-up animate-delay-3">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-1">
+                        <span class="me-3 fs-2 icon-info"><i class="bi bi-diagram-3"></i></span>
+                        <h6 class="mb-0 text-themed-primary">EBITDA</h6>
+                    </div>
+                    <div class="display-6 fw-bold text-themed-primary" id="kpiEBITDA">$—</div>
+                    <small class="text-themed-secondary"><span id="kpiEBITDAMargin">—%</span> margin</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-xxl-2 col-md-4 col-sm-6">
+            <div class="card card-2025 hover-3d kpi-card border-0 h-100 animate-fade-in-up animate-delay-4">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-1">
+                        <span class="me-3 fs-2 icon-warning"><i class="bi bi-hourglass-split"></i></span>
+                        <h6 class="mb-0 text-themed-primary">Cash Runway</h6>
+                    </div>
+                    <div class="display-6 fw-bold text-themed-primary" id="kpiRunway">— mo</div>
+                    <small class="text-themed-secondary">Net burn <span id="kpiBurn">$—/mo</span></small>
+                </div>
+            </div>
+        </div>
+        <div class="col-xxl-2 col-md-4 col-sm-6">
+            <div class="card card-2025 hover-3d kpi-card border-0 h-100 animate-fade-in-up animate-delay-5">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-1">
+                        <span class="me-3 fs-2 icon-primary"><i class="bi bi-journal-richtext"></i></span>
+                        <h6 class="mb-0 text-themed-primary">AR / AP</h6>
+                    </div>
+                    <div class="text-themed-primary fw-bold"><span id="kpiAR">$—</span> / <span id="kpiAP">$—</span></div>
+                    <small class="text-themed-secondary">DSO <span id="kpiDSO">—</span> • DPO <span id="kpiDPO">—</span></small>
+                </div>
+            </div>
+        </div>
+        <div class="col-xxl-2 col-md-4 col-sm-6">
+            <div class="card card-2025 hover-3d kpi-card border-0 h-100 animate-fade-in-up animate-delay-6">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-1">
+                        <span class="me-3 fs-2 icon-info"><i class="bi bi-bullseye"></i></span>
+                        <h6 class="mb-0 text-themed-primary">Forecast Confidence</h6>
+                    </div>
+                    <div class="display-6 fw-bold text-themed-primary" id="kpiConf">—%</div>
+                    <small class="text-themed-secondary">AI probability hitting plan</small>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Financial Snapshots Table -->
-<div class="row">
-    <div class="col-12">
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-white">
-                <h5 class="mb-0">Financial Snapshots List</h5>
+    <!-- Filters + Quick Actions -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card glass-effect border-0 animate-fade-in-up">
+                <div class="card-body p-4">
+                    <div class="row g-3 align-items-end">
+                        <div class="col-lg-3 col-md-6">
+                            <label class="form-label text-themed-primary fw-medium">Date Range</label>
+                            <select id="fsPeriod" class="form-select focus-ring">
+                                <option value="12">Last 12 Months</option>
+                                <option value="24" selected>Last 24 Months</option>
+                                <option value="36">Last 36 Months</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2 col-md-6">
+                            <label class="form-label text-themed-primary fw-medium">View</label>
+                            <select id="fsView" class="form-select focus-ring">
+                                <option value="M" selected>Monthly</option>
+                                <option value="Q">Quarterly</option>
+                                <option value="Y">Yearly</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2 col-md-6">
+                            <label class="form-label text-themed-primary fw-medium">Business Unit</label>
+                            <select id="fsBU" class="form-select focus-ring">
+                                <option value="">All</option>
+                                <option>Enterprise</option>
+                                <option>SMB</option>
+                                <option>Services</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2 col-md-6">
+                            <label class="form-label text-themed-primary fw-medium">Currency</label>
+                            <select id="fsCCY" class="form-select focus-ring">
+                                <option>USD</option>
+                                <option>EUR</option>
+                                <option>GBP</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-3 col-md-12">
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-themed flex-fill" id="btnApplyFS"><i class="bi bi-funnel me-2"></i>Apply</button>
+                                <button class="btn btn-outline-secondary focus-ring" id="btnResetFS" title="Reset"><i class="bi bi-arrow-clockwise"></i></button>
+                                <button class="btn btn-outline-primary focus-ring" data-bs-toggle="modal" data-bs-target="#scenarioModal"><i class="bi bi-sliders"></i></button>
+                            </div>
+                            <small class="text-themed-secondary">Switch view or simulate scenarios.</small>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle mb-0">
-                        <thead class="table-light">
-                            <tr>
-                                <th>#</th>
-                                <th>Date</th>
-                                <th>Revenue</th>
-                                <th>Expenses</th>
-                                <th>Profit</th>
-                                <th>Cash Flow</th>
-                                <th>Status</th>
-                                <th>AI Insights</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var s in snapshots.OrderByDescending(s => s.Date))
-                            {
+        </div>
+    </div>
+
+    <!-- BI Row: Forecast & Cashflow -->
+    <div class="row g-4 mb-4">
+        <div class="col-xxl-8">
+            <div class="card glass-effect border-0 animate-fade-in-up h-100">
+                <div class="card-header bg-transparent border-0 p-4 d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0 text-themed-primary d-flex align-items-center">
+                        <i class="bi bi-graph-up me-2 icon-primary"></i>Revenue & EBITDA Forecast (12 mo)
+                    </h5>
+                    <div class="btn-group btn-group-sm" role="group">
+                        <button class="btn btn-outline-primary focus-ring active" id="modeBase">Base</button>
+                        <button class="btn btn-outline-primary focus-ring" id="modeOpt">Optimistic</button>
+                        <button class="btn btn-outline-primary focus-ring" id="modeCons">Conservative</button>
+                    </div>
+                </div>
+                <div class="card-body p-4">
+                    <div class="chart-container"><canvas id="revEbitdaChart"></canvas></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xxl-4">
+            <div class="card glass-effect border-0 animate-fade-in-up h-100">
+                <div class="card-header bg-transparent border-0 p-4 d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0 text-themed-primary d-flex align-items-center">
+                        <i class="bi bi-cash-coin me-2 icon-info"></i>Cash Flow & Runway
+                    </h5>
+                    <button class="btn btn-outline-secondary btn-sm focus-ring" id="btnRefCash"><i class="bi bi-arrow-repeat"></i></button>
+                </div>
+                <div class="card-body p-4">
+                    <div class="chart-container"><canvas id="cashChart"></canvas></div>
+                    <div class="mt-3 p-3 rounded glass-effect d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <div class="health-ring" style="--deg:0deg;" id="runwayRing"><span id="runwayRingTxt">—</span></div>
+                            <div class="ms-3">
+                                <div class="fw-semibold text-themed-primary">Runway</div>
+                                <div class="small text-themed-secondary">Projected months until cash &lt; 0</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-themed-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#scenarioModal">
+                            <i class="bi bi-lightning-charge me-1"></i>Improve
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BI Row: Mix & Variance -->
+    <div class="row g-4 mb-4">
+        <div class="col-xxl-4">
+            <div class="card glass-effect border-0 animate-fade-in-up h-100">
+                <div class="card-header bg-transparent border-0 p-4">
+                    <h5 class="mb-0 text-themed-primary d-flex align-items-center"><i class="bi bi-pie-chart me-2 icon-success"></i>Revenue Mix</h5>
+                </div>
+                <div class="card-body p-4">
+                    <div class="chart-container"><canvas id="mixChart"></canvas></div>
+                    <small class="text-themed-secondary">AI note: shift toward Enterprise improves GM by ~2.4 pts.</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-xxl-8">
+            <div class="card glass-effect border-0 animate-fade-in-up h-100">
+                <div class="card-header bg-transparent border-0 p-4 d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0 text-themed-primary d-flex align-items-center"><i class="bi bi-water me-2 icon-warning"></i>Variance Analysis (This Month vs Plan)</h5>
+                    <button class="btn btn-outline-secondary btn-sm focus-ring" id="btnExplainVar"><i class="bi bi-magic"></i> Explain</button>
+                </div>
+                <div class="card-body p-4">
+                    <div class="chart-container"><canvas id="varWaterfall"></canvas></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Anomalies & Compliance -->
+    <div class="row g-4">
+        <div class="col-xxl-6">
+            <div class="card themed-table border-0 animate-fade-in-up">
+                <div class="card-header bg-transparent border-0 p-4 d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0 text-themed-primary d-flex align-items-center"><i class="bi bi-activity me-2 icon-warning"></i>AI Anomalies & Alerts</h5>
+                    <span class="badge badge-themed bg-warning text-warning">4 flagged</span>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table align-middle mb-0">
+                            <thead><tr><th>Account</th><th>Detail</th><th>Impact</th><th>Action</th></tr></thead>
+                            <tbody>
                                 <tr>
-                                    <td>@s.SnapshotID</td>
-                                    <td class="fw-semibold">@s.Date.ToString("yyyy-MM-dd")</td>
-                                    <td>@s.Revenue.ToString("C")</td>
-                                    <td>@s.Expenses.ToString("C")</td>
-                                    <td>@s.Profit.ToString("C")</td>
-                                    <td>@s.CashFlow.ToString("C")</td>
-                                    <td>
-                                        @if (s.Status == "Healthy")
-                                        {
-                                            <span class="badge bg-success">Healthy</span>
-                                        }
-                                        else if (s.Status == "Stable")
-                                        {
-                                            <span class="badge bg-info">Stable</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge bg-warning text-dark">Watch</span>
-                                        }
-                                    </td>
-                                    <td>
-                                        @if (s.AIInsights.Contains("Positive"))
-                                        {
-                                            <span class="text-success">@s.AIInsights</span>
-                                        }
-                                        else if (s.AIInsights.Contains("below target"))
-                                        {
-                                            <span class="text-danger">@s.AIInsights</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="text-primary">@s.AIInsights</span>
-                                        }
-                                    </td>
+                                    <td class="fw-medium text-themed-primary">COGS – Materials</td>
+                                    <td class="text-themed-secondary">Spike +18% vs 3-mo avg</td>
+                                    <td><span class="badge badge-themed bg-danger text-danger">-$142K</span></td>
+                                    <td><button class="btn btn-sm btn-outline-secondary focus-ring"><i class="bi bi-search"></i></button></td>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                                <tr>
+                                    <td class="fw-medium text-themed-primary">Revenue – Services</td>
+                                    <td class="text-themed-secondary">Down -6% week-over-week</td>
+                                    <td><span class="badge badge-themed bg-warning text-warning">-$38K</span></td>
+                                    <td><button class="btn btn-sm btn-outline-secondary focus-ring"><i class="bi bi-arrow-repeat"></i></button></td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-medium text-themed-primary">AP – Vendor 302</td>
+                                    <td class="text-themed-secondary">Invoice duplicated</td>
+                                    <td><span class="badge badge-themed bg-info text-info">Neutral</span></td>
+                                    <td><button class="btn btn-sm btn-outline-secondary focus-ring"><i class="bi bi-tools"></i></button></td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-medium text-themed-primary">Payroll Accrual</td>
+                                    <td class="text-themed-secondary">Missing reversal</td>
+                                    <td><span class="badge badge-themed bg-danger text-danger">-$25K</span></td>
+                                    <td><button class="btn btn-sm btn-outline-secondary focus-ring"><i class="bi bi-pencil"></i></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent border-0 p-4">
+                    <button class="btn btn-themed-secondary btn-sm"><i class="bi bi-clipboard2-check me-2"></i>Create Tasks</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-xxl-6">
+            <div class="card glass-effect border-0 animate-fade-in-up h-100">
+                <div class="card-header bg-transparent border-0 p-4">
+                    <h5 class="mb-0 text-themed-primary d-flex align-items-center"><i class="bi bi-shield-check me-2 icon-info"></i>Close & Compliance</h5>
+                </div>
+                <div class="card-body p-4">
+                    <div class="row g-3">
+                        <div class="col-sm-4">
+                            <div class="card hover-3d h-100">
+                                <div class="card-body">
+                                    <div class="small text-themed-secondary">Month Close</div>
+                                    <div class="display-6 text-themed-primary">72%</div>
+                                    <div class="small text-themed-secondary">ETA: 2 days</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="card hover-3d h-100">
+                                <div class="card-body">
+                                    <div class="small text-themed-secondary">Reconciliations</div>
+                                    <div class="display-6 text-themed-primary">5/7</div>
+                                    <div class="small text-themed-secondary">2 accounts pending</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="card hover-3d h-100">
+                                <div class="card-body">
+                                    <div class="small text-themed-secondary">Audit Checks</div>
+                                    <div class="display-6 text-themed-primary">?</div>
+                                    <div class="small text-themed-secondary">0 critical issues</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3 d-flex gap-2">
+                        <button class="btn btn-themed"><i class="bi bi-check2-circle me-2"></i>Close Month</button>
+                        <button class="btn btn-outline-secondary focus-ring"><i class="bi bi-bank me-2"></i>Bank Recs</button>
+                        <button class="btn btn-outline-secondary focus-ring"><i class="bi bi-cloud-arrow-down me-2"></i>Sync Accounting</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- AI Narrative -->
+<div class="modal fade" id="aiInsightsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content glass-effect border-0">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-robot me-2"></i>AI Narrative Insights</h5>
+                <button type="button" class="btn-close focus-ring" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="aiNarrative" class="text-themed-primary"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline-secondary focus-ring" data-bs-dismiss="modal">Close</button>
+                <button class="btn btn-themed"><i class="bi bi-file-earmark-text me-2"></i>Add to Board Pack</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scenario Builder -->
+<div class="modal fade" id="scenarioModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content glass-effect border-0">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-sliders me-2"></i>Scenario Builder</h5>
+                <button type="button" class="btn-close focus-ring" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label text-themed-primary fw-medium">Revenue Growth (MoM)</label>
+                        <div class="d-flex align-items-center gap-2">
+                            <input type="range" class="form-range" id="scnGrowth" min="-5" max="10" value="3">
+                            <span class="small text-themed-secondary"><span id="scnGrowthVal">3</span>%</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-themed-primary fw-medium">COGS % of Revenue</label>
+                        <div class="d-flex align-items-center gap-2">
+                            <input type="range" class="form-range" id="scnCogs" min="35" max="80" value="58">
+                            <span class="small text-themed-secondary"><span id="scnCogsVal">58</span>%</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-themed-primary fw-medium">OpEx (Monthly, $k)</label>
+                        <div class="d-flex align-items-center gap-2">
+                            <input type="range" class="form-range" id="scnOpex" min="-200" max="200" value="0">
+                            <span class="small text-themed-secondary"><span id="scnOpexVal">0</span> ?</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-themed-primary fw-medium">AR / AP Days</label>
+                        <div class="d-flex gap-2">
+                            <div class="input-group">
+                                <span class="input-group-text">DSO</span>
+                                <input type="number" class="form-control focus-ring" id="scnDSO" value="42">
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-text">DPO</span>
+                                <input type="number" class="form-control focus-ring" id="scnDPO" value="38">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3 p-3 rounded glass-effect">
+                    <div class="fw-semibold text-themed-primary">AI Summary</div>
+                    <div id="scnSummary" class="text-themed-secondary small">Adjust sliders to see impact on EBITDA and runway.</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-themed" id="applyScenario"><i class="bi bi-check2 me-2"></i>Apply</button>
+                <button class="btn btn-outline-secondary focus-ring" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <style>
+        .health-ring {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: inline-grid;
+            place-items: center;
+            background: conic-gradient(var(--ring-color, #16a34a) var(--deg, 0deg), rgba(0,0,0,.06) 0);
+        }
+
+            .health-ring span {
+                font-size: .8rem;
+                color: var(--text-primary);
+            }
+    </style>
+    <script>
+        (function(){
+          const $  = (s,r=document)=>r.querySelector(s);
+          const $$ = (s,r=document)=>Array.from(r.querySelectorAll(s));
+
+          // -------- Demo base model --------
+          let cfg = {
+            months: 12,
+            startRevenue: 850_000,  // current month
+            growthMoM: 0.03,        // 3%
+            cogsPct: 0.58,          // 58% of revenue
+            opex: 420_000,          // monthly OpEx
+            cash: 5_200_000,        // current cash
+            dso: 42, dpo: 38,       // AR/AP days
+            mix: { Enterprise: 0.54, SMB: 0.31, Services: 0.15 }
+          };
+
+          // -------- Utilities --------
+          const fmt = n => n.toLocaleString(undefined,{maximumFractionDigits:0});
+          const money = n => '$' + fmt(Math.round(n));
+          const pct = v => (Math.round(v*10)/10) + '%';
+
+          function project(model){
+            const m = model;
+            const rev=[], gp=[], ebitda=[], cash=[], months=[];
+            let r = m.startRevenue, c = m.cash;
+            for(let i=0;i<m.months;i++){
+              if(i>0) r *= (1 + m.growthMoM);
+              const cogs = r * m.cogsPct;
+              const gross = r - cogs;
+              const e = gross - m.opex;
+              // simplistic cash: +EBITDA minus WC effect
+              const arChange = r * (m.dso/30 - 1) * 0.02; // crude proxy
+              const apChange = r * (1 - m.dpo/30) * 0.015;
+              c += e - arChange - apChange;
+              rev.push(r); gp.push(gross); ebitda.push(e); cash.push(Math.max(c,0));
+              const now = new Date(); now.setMonth(now.getMonth()+i);
+              months.push(now.toLocaleString(undefined,{month:'short'}));
+            }
+            const gmPct = gp.reduce((a,b)=>a+b,0)/rev.reduce((a,b)=>a+b,0);
+            const eMargin = ebitda.reduce((a,b)=>a+b,0)/rev.reduce((a,b)=>a+b,0);
+            const runwayMonths = cash.findIndex(v=>v<=0);
+            return {rev,gp,ebitda,cash,months, gmPct, eMargin, runway: runwayMonths<0? (cash.length) : runwayMonths };
+          }
+
+          // -------- Charts --------
+          let revChart, cashChart, mixChart, varChart;
+
+          function drawRevEbitda(p){
+            const ctx = document.getElementById('revEbitdaChart');
+            if(revChart) revChart.destroy();
+            revChart = new Chart(ctx, {
+              type: 'bar',
+              data: {
+                labels: p.months,
+                datasets: [
+                  { type:'bar', label:'Revenue', data: p.rev, yAxisID:'y', borderWidth:0 },
+                  { type:'line', label:'EBITDA', data: p.ebitda, yAxisID:'y', tension:.35 }
+                ]
+              },
+              options: {
+                responsive: true,
+                plugins: { legend: { display:false } },
+                scales: {
+                  y: { beginAtZero:true, ticks: { callback: v=>'$'+fmt(v) } }
+                }
+              }
+            });
+          }
+
+          function drawCash(p){
+            const ctx = document.getElementById('cashChart');
+            if(cashChart) cashChart.destroy();
+            cashChart = new Chart(ctx, {
+              type:'line',
+              data:{ labels:p.months, datasets:[{ label:'Cash', data:p.cash, fill:true, tension:.35 }]},
+              options:{ responsive:true, plugins:{ legend:{ display:false } }, scales:{ y:{ ticks:{ callback:v=>'$'+fmt(v) } } } }
+            });
+            // runway ring
+            const pctDeg = Math.min(1, p.runway/12)*360;
+            const ring = document.getElementById('runwayRing');
+            ring.style.setProperty('--deg', pctDeg+'deg');
+            ring.style.setProperty('--ring-color', p.runway>=9 ? '#16a34a' : (p.runway>=6 ? '#f59e0b' : '#ef4444'));
+            document.getElementById('runwayRingTxt').textContent = p.runway + 'm';
+          }
+
+          function drawMix(){
+            const ctx = document.getElementById('mixChart');
+            if(mixChart) mixChart.destroy();
+            const labels = Object.keys(cfg.mix);
+            const data = Object.values(cfg.mix).map(v=> Math.round(v*100));
+            mixChart = new Chart(ctx, { type:'doughnut',
+              data:{ labels, datasets:[{ data }]},
+              options:{ plugins:{ legend:{ position:'bottom' } } }
+            });
+          }
+
+          function drawVariance(){
+            const ctx = document.getElementById('varWaterfall');
+            if(varChart) varChart.destroy();
+            // Simple pseudo-waterfall: Plan base -> +Price -> -Volume -> +Mix -> -COGS -> -OpEx -> Actual
+            const labels = ['Plan','Price','Volume','Mix','COGS','OpEx','Actual'];
+            const steps  = [1200, 60, -90, 35, -40, -15, 1150]; // $k
+            varChart = new Chart(ctx, {
+              type:'bar',
+              data:{ labels, datasets:[{ data: steps, borderWidth:0 }]},
+              options:{
+                plugins:{ legend:{ display:false }, tooltip:{ callbacks:{ label: ctx => '$'+fmt(ctx.parsed.y*1000) } } },
+                scales:{ y:{ ticks:{ callback:v=>'$'+fmt(v*1000) } } }
+              }
+            });
+          }
+
+          // -------- KPIs & Narrative --------
+          function refreshKPIs(p){
+            const revYTD = p.rev.slice(0, Math.min(12, p.rev.length)).reduce((a,b)=>a+b,0);
+            const eYTD   = p.ebitda.slice(0, Math.min(12, p.ebitda.length)).reduce((a,b)=>a+b,0);
+            const gm = p.gmPct, em = p.eMargin;
+
+            $('#kpiRevenue').textContent = money(revYTD);
+            $('#kpiGM').textContent = pct(gm*100);
+            $('#kpiCOGS').textContent = pct((1-gm)*100);
+            $('#kpiEBITDA').textContent = money(eYTD);
+            $('#kpiEBITDAMargin').textContent = pct(em*100);
+
+            const burn = Math.max(0, Math.round((revYTD*0 - eYTD)/12)); // if negative EBITDA -> burn
+            $('#kpiBurn').textContent = burn ? ('$'+fmt(burn)+'/mo') : '$0/mo';
+            $('#kpiRunway').textContent = p.runway + ' mo';
+
+            // simple AR/AP/DSO/DPO demo
+            const ar = Math.round(cfg.startRevenue * cfg.dso/30);
+            const ap = Math.round(cfg.startRevenue * 0.4 * cfg.dpo/30);
+            $('#kpiAR').textContent = money(ar); $('#kpiAP').textContent = money(ap);
+            $('#kpiDSO').textContent = cfg.dso;  $('#kpiDPO').textContent = cfg.dpo;
+
+            // forecast confidence (toy): higher growth with lower COGS & positive ebitda -> higher
+            const conf = Math.max(55, Math.min(95, 70 + (cfg.growthMoM*100 - (cfg.cogsPct*100-55)) / 4 + (em*100)/6 ));
+            $('#kpiConf').textContent = Math.round(conf) + '%';
+
+            // Rev growth vs LY (toy)
+            $('#kpiRevGrowth').textContent = '+12%';
+          }
+
+          function refreshNarrative(p){
+            const gmPts = (p.gmPct*100).toFixed(1);
+            const ePts  = (p.eMargin*100).toFixed(1);
+            const runwayTxt = p.runway >= 12 ? '12+ months' : p.runway + ' months';
+            const risk = p.runway < 6 ? 'High' : (p.runway < 9 ? 'Medium' : 'Low');
+            $('#aiNarrative').innerHTML = `
+              <p><strong>Summary:</strong> Revenue trending upward with EBITDA margin at <strong>${ePts}%</strong>. Gross margin sits at <strong>${gmPts}%</strong>, with COGS pressure improving slightly.</p>
+              <p><strong>Cash:</strong> Runway estimated at <strong>${runwayTxt}</strong> (${risk} risk). AR of <strong id="aiAR">${$('#kpiAR').textContent}</strong> and AP of <strong id="aiAP">${$('#kpiAP').textContent}</strong> imply DSO <strong>${cfg.dso}</strong> / DPO <strong>${cfg.dpo}</strong>.</p>
+              <p><strong>Variance:</strong> Price +$60k and Mix +$35k offset Volume -$90k; COGS and OpEx headwinds total -$55k.</p>
+              <p><strong>Actions:</strong> Trim OpEx by 3–5%, negotiate COGS -1.5 pts, and pull SMB upsell to Enterprise (+2.4 pts GM). Switching DSO 42?38 days extends runway by ~1.2 months.</p>
+            `;
+          }
+
+          // -------- Scenarios --------
+          function applyScenario(kind){
+            if(kind==='base'){ cfg.growthMoM=0.03; cfg.cogsPct=0.58; }
+            if(kind==='opt'){  cfg.growthMoM=0.045; cfg.cogsPct=0.55; }
+            if(kind==='cons'){ cfg.growthMoM=0.015; cfg.cogsPct=0.61; }
+            renderAll();
+          }
+
+          function renderAll(){
+            const proj = project(cfg);
+            drawRevEbitda(proj);
+            drawCash(proj);
+            drawMix();
+            drawVariance();
+            refreshKPIs(proj);
+            refreshNarrative(proj);
+          }
+
+          // -------- Events --------
+          $('#btnApplyFS')?.addEventListener('click', renderAll);
+          $('#btnResetFS')?.addEventListener('click', ()=>{ cfg.growthMoM=0.03; cfg.cogsPct=0.58; cfg.opex=420_000; cfg.dso=42; cfg.dpo=38; renderAll(); });
+
+          const setActive = (btn, group)=>{ group.forEach(b=>b&&b.classList.remove('active')); btn.classList.add('active'); };
+          const g=[ $('#modeBase'), $('#modeOpt'), $('#modeCons') ];
+          $('#modeBase')?.addEventListener('click', ()=>{ setActive(g[0],g); applyScenario('base'); });
+          $('#modeOpt') ?.addEventListener('click', ()=>{ setActive(g[1],g); applyScenario('opt');  });
+          $('#modeCons')?.addEventListener('click', ()=>{ setActive(g[2],g); applyScenario('cons'); });
+
+          // Scenario modal sliders
+          const sGrowth=$('#scnGrowth'), sCogs=$('#scnCogs'), sOpex=$('#scnOpex');
+          const vGrowth=$('#scnGrowthVal'), vCogs=$('#scnCogsVal'), vOpex=$('#scnOpexVal');
+          [sGrowth,sCogs,sOpex].forEach(el=> el.addEventListener('input', ()=>{
+            vGrowth.textContent = sGrowth.value;
+            vCogs.textContent   = sCogs.value;
+            vOpex.textContent   = sOpex.value;
+          }));
+          $('#applyScenario')?.addEventListener('click', ()=>{
+            cfg.growthMoM = Number(sGrowth.value)/100;
+            cfg.cogsPct   = Number(sCogs.value)/100;
+            cfg.opex      = 420_000 + Number(sOpex.value)*1000;
+            cfg.dso       = Number($('#scnDSO').value)||cfg.dso;
+            cfg.dpo       = Number($('#scnDPO').value)||cfg.dpo;
+            $('#scenarioModal')?.querySelector('.btn-close')?.click();
+            renderAll();
+            $('#scnSummary').textContent = `Applied: growth ${sGrowth.value}% • COGS ${sCogs.value}% • OpEx ? ${sOpex.value}k • DSO ${cfg.dso} • DPO ${cfg.dpo}.`;
+          });
+
+          $('#btnRefCash')?.addEventListener('click', renderAll);
+          $('#btnExplainVar')?.addEventListener('click', ()=>{
+            const el = document.getElementById('aiNarrative');
+            if(el) { const m = bootstrap.Modal.getOrCreateInstance(document.getElementById('aiInsightsModal')); m.show(); }
+          });
+
+          // -------- Init --------
+          renderAll();
+        })();
+    </script>
+}

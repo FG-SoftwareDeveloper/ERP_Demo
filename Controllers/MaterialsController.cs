@@ -5,7 +5,7 @@ namespace MyApp.Namespace
     public class MaterialsController : Controller
     {
         // GET: MaterialsController
-        public ActionResult Index()
+        public IActionResult ListMaterials()
         {
             return View();
         }

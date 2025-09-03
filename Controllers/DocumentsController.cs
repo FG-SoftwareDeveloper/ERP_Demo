@@ -5,7 +5,7 @@ namespace MyApp.Namespace
     public class DocumentsController : Controller
     {
         // GET: DocumentsController
-        public ActionResult Index()
+        public IActionResult ListDocuments()
         {
             return View();
         }

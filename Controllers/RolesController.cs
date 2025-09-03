@@ -5,7 +5,7 @@ namespace MyApp.Namespace
     public class RolesController : Controller
     {
         // GET: RolesController
-        public ActionResult Index()
+        public IActionResult ListRoles()
         {
             return View();
         }

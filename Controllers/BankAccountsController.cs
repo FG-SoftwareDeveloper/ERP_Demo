@@ -5,7 +5,7 @@ namespace MyApp.Namespace
     public class BankAccountsController : Controller
     {
         // GET: BankAccountsController
-        public ActionResult Index()
+        public IActionResult ListBankAccounts()
         {
             return View();
         }

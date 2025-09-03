@@ -5,7 +5,7 @@ namespace MyApp.Namespace
     public class ServiceAgreementsController : Controller
     {
         // GET: ServiceAgreementsController
-        public ActionResult Index()
+        public IActionResult ListServiceAgreements()
         {
             return View();
         }

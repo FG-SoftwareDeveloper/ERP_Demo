@@ -8,148 +8,512 @@
     };
 }
 
-<h2 class="h1 fw-bold themed-heading mb-4 border-bottom pb-2">Customers</h2>
-
-<!-- KPI Cards Row -->
-<div class="row g-4 mb-4">
-    <div class="col-md-4">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-primary"><i class="bi bi-people"></i></span>
-                    <h5 class="card-title mb-0">Total Customers</h5>
-                </div>
-                <div class="display-5 fw-bold text-primary mb-1">@customers.Length</div>
-                <div class="text-muted">Active: @customers.Count(c => c.Status == "Active"), Inactive: @customers.Count(c => c.Status == "Inactive")</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-success"><i class="bi bi-currency-dollar"></i></span>
-                    <h5 class="card-title mb-0">Total Revenue</h5>
-                </div>
-                <div class="display-5 fw-bold text-success mb-1">@customers.Sum(c => c.Revenue).ToString("C")</div>
-                <div class="text-muted">Top Industry: @customers.GroupBy(c => c.Industry).OrderByDescending(g => g.Sum(c => c.Revenue)).First().Key</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-2 fs-3 text-info"><i class="bi bi-bar-chart-line"></i></span>
-                    <h5 class="card-title mb-0">Avg. Engagement Score</h5>
-                </div>
-                <div class="display-5 fw-bold text-info mb-1">@((int)customers.Average(c => c.EngagementScore))</div>
-                <div class="text-muted">High: @customers.Max(c => c.EngagementScore), Low: @customers.Min(c => c.EngagementScore)</div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- AI Forecast Widget (High Contrast) -->
-<div class="row mb-4">
-    <div class="col-12">
-        <div class="card shadow-lg border-0" style="background: linear-gradient(90deg,#e3e6f0 0%,#f8fafc 100%);">
-            <div class="card-body p-4">
-                <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
-                    <div>
-                        <h5 class="mb-2 text-dark"><i class="bi bi-graph-up-arrow me-2"></i>AI Forecast: Next Quarter Customer Revenue</h5>
-                        <div class="fs-2 fw-bold text-dark">$2,900,000</div>
-                        <div class="small text-dark">Based on historical customer activity and predictive analytics.</div>
-                    </div>
-                    <div class="mt-3 mt-md-0">
-                        <span class="badge rounded-pill bg-primary bg-opacity-10 text-primary fs-6 px-4 py-2 shadow-sm">Projected Active Customers: 5</span>
+<div class="container-fluid py-4">
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card glass-effect border-0 animate-fade-in-up">
+                <div class="card-body p-4">
+                    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                        <div>
+                            <h1 class="mb-2 text-themed-primary d-flex align-items-center">
+                                <i class="bi bi-people me-3 icon-primary fs-2"></i>
+                                Customers
+                            </h1>
+                            <p class="text-themed-secondary mb-0">Manage relationships, health, and revenue across your customer base</p>
+                        </div>
+                        <div class="mt-3 mt-md-0">
+                            <button class="btn btn-themed me-2">
+                                <i class="bi bi-person-plus me-2"></i>New Customer
+                            </button>
+                            <button class="btn btn-themed-secondary">
+                                <i class="bi bi-upload me-2"></i>Import
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- BI Chart Placeholder -->
-<div class="row mb-4">
-    <div class="col-12">
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-white">
-                <h5 class="mb-0">Customer Revenue Trend (BI Chart)</h5>
+    <!-- KPI Cards Row -->
+    <div class="row g-4 mb-4">
+        <div class="col-lg-3 col-md-6">
+            <div class="card card-2025 hover-3d kpi-card border-0 h-100 animate-fade-in-up animate-delay-1">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <span class="me-3 fs-2 icon-primary"><i class="bi bi-person-lines-fill"></i></span>
+                        <h6 class="card-title mb-0 text-themed-primary">Total Customers</h6>
+                    </div>
+                    <div class="display-6 fw-bold text-themed-primary mb-2">3,482</div>
+                    <div class="text-themed-secondary"><small>+112 this month</small></div>
+                </div>
             </div>
-            <div class="card-body text-center">
-                <img src="https://via.placeholder.com/600x200?text=Customer+Revenue+Trend+Chart" alt="Customer Revenue Trend Chart" class="img-fluid rounded" />
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card card-2025 hover-3d kpi-card border-0 h-100 animate-fade-in-up animate-delay-2">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <span class="me-3 fs-2 icon-success"><i class="bi bi-check2-circle"></i></span>
+                        <h6 class="card-title mb-0 text-themed-primary">Active</h6>
+                    </div>
+                    <div class="display-6 fw-bold text-themed-primary mb-2">2,914</div>
+                    <div class="text-themed-secondary"><small>84% of total</small></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card card-2025 hover-3d kpi-card border-0 h-100 animate-fade-in-up animate-delay-3">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <span class="me-3 fs-2 icon-info"><i class="bi bi-currency-dollar"></i></span>
+                        <h6 class="card-title mb-0 text-themed-primary">Avg. LTV</h6>
+                    </div>
+                    <div class="display-6 fw-bold text-themed-primary mb-2">$13.2K</div>
+                    <div class="text-themed-secondary"><small>+6% vs last quarter</small></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card card-2025 hover-3d kpi-card border-0 h-100 animate-fade-in-up animate-delay-4">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <span class="me-3 fs-2 icon-warning"><i class="bi bi-activity"></i></span>
+                        <h6 class="card-title mb-0 text-themed-primary">At Risk</h6>
+                    </div>
+                    <div class="display-6 fw-bold text-themed-primary mb-2">126</div>
+                    <div class="text-themed-secondary">
+                        <span class="badge badge-themed bg-warning bg-opacity-10 text-warning">Watchlist</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Customers Table -->
-<div class="row">
-    <div class="col-12">
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-white">
-                <h5 class="mb-0">Customers List</h5>
+    <!-- Filters -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card glass-effect border-0 animate-fade-in-up">
+                <div class="card-body p-4">
+                    <div class="row g-3 align-items-end">
+                        <div class="col-lg-3 col-md-6">
+                            <label class="form-label text-themed-primary fw-medium">Search Customers</label>
+                            <div class="position-relative">
+                                <input type="text" class="form-control focus-ring" id="qCustomers" placeholder="Name, email, company">
+                                <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-3 text-themed-secondary"></i>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-6">
+                            <label class="form-label text-themed-primary fw-medium">Status</label>
+                            <select id="statusCustomers" class="form-select focus-ring">
+                                <option value="">All</option>
+                                <option>Active</option>
+                                <option>At Risk</option>
+                                <option>Churned</option>
+                                <option>Prospect</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2 col-md-6">
+                            <label class="form-label text-themed-primary fw-medium">Segment</label>
+                            <select id="segmentCustomers" class="form-select focus-ring">
+                                <option value="">All</option>
+                                <option>Enterprise</option>
+                                <option>Mid-Market</option>
+                                <option>SMB</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2 col-md-6">
+                            <label class="form-label text-themed-primary fw-medium">Region</label>
+                            <select id="regionCustomers" class="form-select focus-ring">
+                                <option value="">All</option>
+                                <option>North America</option>
+                                <option>EMEA</option>
+                                <option>APAC</option>
+                                <option>LATAM</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-3 col-md-12">
+                            <label class="form-label text-themed-primary fw-medium">LTV & Activity</label>
+                            <div class="d-flex gap-2">
+                                <select id="ltvCustomers" class="form-select focus-ring">
+                                    <option value="">Any LTV</option>
+                                    <option value="<1k">&lt;$1k</option>
+                                    <option value="1k-10k">$1k–$10k</option>
+                                    <option value="10k-50k">$10k–$50k</option>
+                                    <option value="50k+">$50k+</option>
+                                </select>
+                                <select id="activityCustomers" class="form-select focus-ring">
+                                    <option value="">Any time</option>
+                                    <option value="30">Active in 30d</option>
+                                    <option value="90">Active in 90d</option>
+                                    <option value="365">Active in 365d</option>
+                                </select>
+                                <button class="btn btn-themed flex-fill" id="btnApplyCustomers">
+                                    <i class="bi bi-funnel me-2"></i>Apply
+                                </button>
+                                <button class="btn btn-outline-secondary focus-ring" id="btnClearCustomers" title="Reset">
+                                    <i class="bi bi-arrow-clockwise"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle mb-0">
-                        <thead class="table-light">
-                            <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Industry</th>
-                                <th>Status</th>
-                                <th>Revenue</th>
-                                <th>Last Purchase</th>
-                                <th>Engagement Score</th>
-                                <th>AI Insights</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var c in customers)
-                            {
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card ai-forecast-card border-0 animate-fade-in-up">
+                <div class="card-body p-4">
+                    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                        <div>
+                            <h5 class="mb-2 d-flex align-items-center">
+                                <i class="bi bi-lightning-charge me-2"></i>
+                                Quick Actions
+                            </h5>
+                            <p class="mb-0 opacity-90">Engage customers and prevent churn</p>
+                        </div>
+                        <div class="mt-3 mt-md-0 d-flex flex-wrap gap-2">
+                            <button class="btn btn-light btn-sm bg-opacity-20 text-white">
+                                <i class="bi bi-envelope-open me-1"></i>Launch Campaign
+                            </button>
+                            <button class="btn btn-light btn-sm bg-opacity-20 text-white">
+                                <i class="bi bi-person-gear me-1"></i>Assign CSM
+                            </button>
+                            <button class="btn btn-light btn-sm bg-opacity-20 text-white">
+                                <i class="bi bi-filetype-csv me-1"></i>Export CSV
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Customers Table -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card themed-table border-0 animate-fade-in-up">
+                <div class="card-header bg-transparent border-0 p-4">
+                    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                        <h5 class="mb-2 mb-md-0 text-themed-primary d-flex align-items-center">
+                            <i class="bi bi-table me-2 icon-primary"></i>
+                            Customers List
+                        </h5>
+                        <div class="d-flex gap-2">
+                            <div class="btn-group" role="group" aria-label="Quick filters">
+                                <button class="btn btn-outline-primary btn-sm focus-ring active" id="btnCustAll">All</button>
+                                <button class="btn btn-outline-primary btn-sm focus-ring" id="btnCustActive">Active</button>
+                                <button class="btn btn-outline-primary btn-sm focus-ring" id="btnCustRisk">At Risk</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0" id="customersTable">
+                            <thead>
                                 <tr>
-                                    <td>@c.CustomerID</td>
-                                    <td class="fw-semibold">@c.Name</td>
-                                    <td>@c.Industry</td>
+                                    <th style="width:36px">
+                                        <div class="form-check">
+                                            <input class="form-check-input focus-ring" type="checkbox" id="selectAllCustomers">
+                                            <label class="form-check-label" for="selectAllCustomers"></label>
+                                        </div>
+                                    </th>
+                                    <th>Customer</th>
+                                    <th>Company</th>
+                                    <th>Email</th>
+                                    <th>Segment</th>
+                                    <th>Region</th>
+                                    <th class="text-end">LTV</th>
+                                    <th>Status</th>
+                                    <th>Last Activity</th>
+                                    <th>Owner</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="customersTbody">
+                                <!-- Sample rows (replace with Model data) -->
+                                <tr data-status="Active" data-segment="Enterprise" data-region="North America" data-ltv="25750" data-last="2025-08-30">
+                                    <td><div class="form-check"><input class="form-check-input focus-ring" type="checkbox"></div></td>
                                     <td>
-                                        @if (c.Status == "Active")
-                                        {
-                                            <span class="badge bg-success">Active</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge bg-secondary">Inactive</span>
-                                        }
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-sm bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2">
+                                                <i class="bi bi-person text-primary"></i>
+                                            </div>
+                                            <div>
+                                                <strong class="text-themed-primary">Emma Wilson</strong>
+                                                <div class="small text-themed-secondary">Cust ID: U-1001</div>
+                                            </div>
+                                        </div>
                                     </td>
-                                    <td>@c.Revenue.ToString("C")</td>
-                                    <td>@c.LastPurchase.ToString("yyyy-MM-dd")</td>
-                                    <td>@c.EngagementScore</td>
+                                    <td>Acme Corporation</td>
+                                    <td>emma.wilson@acme.com</td>
+                                    <td><span class="badge badge-themed bg-primary bg-opacity-10 text-primary">Enterprise</span></td>
+                                    <td>North America</td>
+                                    <td class="text-end fw-bold text-themed-primary">$25,750</td>
+                                    <td><span class="badge badge-themed bg-success text-success"><i class="bi bi-check-circle me-1"></i>Active</span></td>
+                                    <td class="text-themed-secondary">2025-08-30</td>
                                     <td>
-                                        @if (c.Status == "Inactive")
-                                        {
-                                            <span class="text-danger">Low Engagement</span>
-                                        }
-                                        else if (c.EngagementScore > 90)
-                                        {
-                                            <span class="text-success">VIP</span>
-                                        }
-                                        else if (c.EngagementScore < 60)
-                                        {
-                                            <span class="text-warning">At Risk</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="text-primary">Stable</span>
-                                        }
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-xs bg-info bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2">
+                                                <i class="bi bi-person text-info"></i>
+                                            </div>
+                                            <span class="text-themed-secondary">John Smith</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex gap-1">
+                                            <button class="btn btn-sm btn-outline-primary focus-ring" title="View"><i class="bi bi-eye"></i></button>
+                                            <button class="btn btn-sm btn-outline-secondary focus-ring" title="Task"><i class="bi bi-check2-square"></i></button>
+                                            <div class="btn-group">
+                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle focus-ring" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item" href="#"><i class="bi bi-envelope me-2"></i>Email</a></li>
+                                                    <li><a class="dropdown-item" href="#"><i class="bi bi-clipboard2-data me-2"></i>View Timeline</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+
+                                <tr data-status="At Risk" data-segment="Mid-Market" data-region="EMEA" data-ltv="6200" data-last="2025-07-22">
+                                    <td><div class="form-check"><input class="form-check-input focus-ring" type="checkbox"></div></td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-sm bg-warning bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2">
+                                                <i class="bi bi-person-exclamation text-warning"></i>
+                                            </div>
+                                            <div>
+                                                <strong class="text-themed-primary">Liam Carter</strong>
+                                                <div class="small text-themed-secondary">Cust ID: U-1122</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Globex LLC</td>
+                                    <td>liam.carter@globex.com</td>
+                                    <td><span class="badge badge-themed bg-info text-info">Mid-Market</span></td>
+                                    <td>EMEA</td>
+                                    <td class="text-end fw-bold text-themed-primary">$6,200</td>
+                                    <td><span class="badge badge-themed bg-warning text-warning"><i class="bi bi-activity me-1"></i>At Risk</span></td>
+                                    <td class="text-themed-secondary">2025-07-22</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-xs bg-success bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2">
+                                                <i class="bi bi-person text-success"></i>
+                                            </div>
+                                            <span class="text-themed-secondary">Sarah Johnson</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex gap-1">
+                                            <button class="btn btn-sm btn-outline-primary focus-ring" title="View"><i class="bi bi-eye"></i></button>
+                                            <button class="btn btn-sm btn-outline-warning focus-ring" title="Reach Out"><i class="bi bi-envelope-open"></i></button>
+                                            <div class="btn-group">
+                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle focus-ring" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item" href="#"><i class="bi bi-telephone me-2"></i>Schedule Call</a></li>
+                                                    <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-flag me-2"></i>Flag Risk</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr data-status="Churned" data-segment="SMB" data-region="APAC" data-ltv="900" data-last="2025-05-02">
+                                    <td><div class="form-check"><input class="form-check-input focus-ring" type="checkbox"></div></td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-sm bg-danger bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2">
+                                                <i class="bi bi-person-x text-danger"></i>
+                                            </div>
+                                            <div>
+                                                <strong class="text-themed-primary">Noah Zhang</strong>
+                                                <div class="small text-themed-secondary">Cust ID: U-1288</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Pacific Traders</td>
+                                    <td>noah.zhang@pactraders.co</td>
+                                    <td><span class="badge badge-themed bg-secondary bg-opacity-10 text-secondary">SMB</span></td>
+                                    <td>APAC</td>
+                                    <td class="text-end fw-bold text-themed-primary">$900</td>
+                                    <td><span class="badge badge-themed bg-danger text-danger"><i class="bi bi-x-circle me-1"></i>Churned</span></td>
+                                    <td class="text-themed-secondary">2025-05-02</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-xs bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2">
+                                                <i class="bi bi-person text-primary"></i>
+                                            </div>
+                                            <span class="text-themed-secondary">Mike Davis</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex gap-1">
+                                            <button class="btn btn-sm btn-outline-primary focus-ring" title="View"><i class="bi bi-eye"></i></button>
+                                            <div class="btn-group">
+                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle focus-ring" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item" href="#"><i class="bi bi-arrow-repeat me-2"></i>Win-back</a></li>
+                                                    <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-pdf me-2"></i>Export Profile</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr data-status="Prospect" data-segment="SMB" data-region="LATAM" data-ltv="0" data-last="2025-08-29">
+                                    <td><div class="form-check"><input class="form-check-input focus-ring" type="checkbox"></div></td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-sm bg-info bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2">
+                                                <i class="bi bi-stars text-info"></i>
+                                            </div>
+                                            <div>
+                                                <strong class="text-themed-primary">Sofia Alvarez</strong>
+                                                <div class="small text-themed-secondary">Cust ID: U-1402</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Mercado Plus</td>
+                                    <td>sofia.alvarez@mercadoplus.mx</td>
+                                    <td><span class="badge badge-themed bg-info text-info">SMB</span></td>
+                                    <td>LATAM</td>
+                                    <td class="text-end fw-bold text-themed-primary">$0</td>
+                                    <td><span class="badge badge-themed bg-info text-info"><i class="bi bi-stars me-1"></i>Prospect</span></td>
+                                    <td class="text-themed-secondary">2025-08-29</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-xs bg-info bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2">
+                                                <i class="bi bi-person text-info"></i>
+                                            </div>
+                                            <span class="text-themed-secondary">Anna Lee</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex gap-1">
+                                            <button class="btn btn-sm btn-outline-primary focus-ring" title="View"><i class="bi bi-eye"></i></button>
+                                            <button class="btn btn-sm btn-outline-success focus-ring" title="Convert"><i class="bi bi-arrow-right-circle"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- ... more rows from your model ... -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+
+                <div class="card-footer bg-transparent border-0 p-4">
+                    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                        <div class="text-themed-secondary mb-2 mb-md-0">Showing 1–10 of 3,482 customers</div>
+                        <nav>
+                            <ul class="pagination pagination-sm mb-0">
+                                <li class="page-item disabled"><span class="page-link bg-transparent border-0 text-themed-secondary">Previous</span></li>
+                                <li class="page-item active"><span class="page-link bg-primary border-primary">1</span></li>
+                                <li class="page-item"><a class="page-link bg-transparent border-0 text-themed-primary focus-ring" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link bg-transparent border-0 text-themed-primary focus-ring" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link bg-transparent border-0 text-themed-primary focus-ring" href="#">Next</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        (function () {
+          const qEl   = document.getElementById('qCustomers');
+          const stEl  = document.getElementById('statusCustomers');
+          const segEl = document.getElementById('segmentCustomers');
+          const regEl = document.getElementById('regionCustomers');
+          const ltvEl = document.getElementById('ltvCustomers');
+          const actEl = document.getElementById('activityCustomers');
+          const tbody = document.getElementById('customersTbody');
+
+          function withinLtv(filter, value) {
+            const n = Number(value) || 0;
+            switch (filter) {
+              case '<1k':      return n < 1000;
+              case '1k-10k':   return n >= 1000 && n < 10000;
+              case '10k-50k':  return n >= 10000 && n < 50000;
+              case '50k+':     return n >= 50000;
+              default:         return true;
+            }
+          }
+
+          function withinActivity(daysFilter, lastISO) {
+            if (!daysFilter) return true;
+            const last = Date.parse(lastISO);
+            if (isNaN(last)) return false;
+            const now = Date.now();
+            const diffDays = (now - last) / (1000 * 60 * 60 * 24);
+            return diffDays <= Number(daysFilter);
+          }
+
+          function apply() {
+            const q   = (qEl.value || '').toLowerCase();
+            const st  = stEl.value;
+            const seg = segEl.value;
+            const reg = regEl.value;
+            const ltv = ltvEl.value;
+            const act = actEl.value;
+
+            tbody.querySelectorAll('tr').forEach(tr => {
+              const cells = tr.cells;
+              const hay = (cells[1].innerText + ' ' + cells[2].innerText + ' ' + cells[3].innerText).toLowerCase(); // name + company + email
+              const status  = tr.dataset.status || '';
+              const segment = tr.dataset.segment || '';
+              const region  = tr.dataset.region || '';
+              const ltvNum  = tr.dataset.ltv || '0';
+              const lastISO = tr.dataset.last || '';
+
+              let keep = hay.includes(q);
+              if (st  && status !== st) keep = false;
+              if (seg && segment !== seg) keep = false;
+              if (reg && region  !== reg) keep = false;
+              if (!withinLtv(ltv, ltvNum)) keep = false;
+              if (!withinActivity(act, lastISO)) keep = false;
+
+              tr.style.display = keep ? '' : 'none';
+            });
+          }
+
+          // Buttons
+          const btnApply = document.getElementById('btnApplyCustomers');
+          const btnClear = document.getElementById('btnClearCustomers');
+          if (btnApply) btnApply.addEventListener('click', apply);
+          if (btnClear) btnClear.addEventListener('click', () => {
+            qEl.value=''; stEl.value=''; segEl.value=''; regEl.value=''; ltvEl.value=''; actEl.value=''; apply();
+          });
+          // Enter to apply
+          if (qEl) qEl.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); apply(); } });
+
+          // Quick filter buttons
+          const bAll = document.getElementById('btnCustAll');
+          const bAct = document.getElementById('btnCustActive');
+          const bRisk= document.getElementById('btnCustRisk');
+          function setActive(btn){ [bAll,bAct,bRisk].forEach(x=>x&&x.classList.remove('active')); btn.classList.add('active'); }
+          if (bAll)  bAll.addEventListener('click', ()=>{ setActive(bAll);  tbody.querySelectorAll('tr').forEach(tr=> tr.style.display=''); });
+          if (bAct)  bAct.addEventListener('click', ()=>{ setActive(bAct);  tbody.querySelectorAll('tr').forEach(tr=> tr.style.display = (tr.dataset.status==='Active')?'':'' ); });
+          if (bRisk) bRisk.addEventListener('click',()=>{ setActive(bRisk); tbody.querySelectorAll('tr').forEach(tr=> tr.style.display = (tr.dataset.status==='At Risk')?'':'' ); });
+
+          // Select All
+          const selectAll = document.getElementById('selectAllCustomers');
+          if (selectAll) {
+            selectAll.addEventListener('change', () => {
+              document.querySelectorAll('#customersTbody input[type="checkbox"]').forEach(cb => cb.checked = selectAll.checked);
+            });
+          }
+        })();
+    </script>
+}
