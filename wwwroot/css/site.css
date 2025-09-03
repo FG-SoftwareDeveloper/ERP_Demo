@@ -119,6 +119,24 @@ body {
     z-index: 1020;
 }
 
+    .top-nav .nav-link {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 16px;
+        margin: 10px 0;
+        border-radius: 16px;
+        text-decoration: none;
+        cursor: pointer;
+        color: var(--text-secondary);
+        font-weight: 500;
+        font-size: 15px;
+        /* Glass tokens */  
+        -webkit-backdrop-filter: blur(var(--glass-blur));
+        transition: all .2s ease-in-out;
+    }
+
 /* =========================
    SIDEBAR (logo fixed, menu scrolls)
    ========================= */
@@ -259,7 +277,7 @@ body {
     /* =========================
    LINK STYLES (hover/active + theme)
    ========================= */
-    #sidebarMenu .nav-link {
+   #sidebarMenu .nav-link {
         position: relative;
         display: flex;
         align-items: center;
