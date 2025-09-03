@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#0E4E94"/>
+      <stop offset="100%" stop-color="#1160B1"/>
+    </linearGradient>
+    <linearGradient id="g2" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#23BFBF"/>
+      <stop offset="100%" stop-color="#1160B1"/>
+    </linearGradient>
+  </defs>
+  <!-- Curly braces -->
+  <path d="M136,120c-24,0-44,20-44,44v12c0,20-12,36-28,44c16,8,28,24,28,44v12c0,24,20,44,44,44h12v-36h-12c-4,0-8-4-8-8v-12
+           c0-28-10-48-30-60c20-12,30-32,30-60v-12c0-4,4-8,8-8h12v-36h-12z"
+        fill="#1160B1" opacity="0.95"/>
+  <path d="M376,120h-12v36h12c4,0,8,4,8,8v12c0,28,10,48,30,60c-20,12-30,32-30,60v12c0,4-4,8-8,8h-12v36h12
+           c24,0,44-20,44-44v-12c0-20,12-36,28-44c-16-8-28-24-28-44v-12c0-24-20-44-44-44z"
+        fill="#23BFBF" opacity="0.95"/>
+  <!-- Data bars -->
+  <rect x="188" y="280" width="36" height="84" rx="8" fill="url(#g1)"/>
+  <rect x="240" y="236" width="36" height="128" rx="8" fill="url(#g2)"/>
+  <rect x="292" y="196" width="36" height="168" rx="8" fill="url(#g1)"/>
+  <!-- Spark accent -->
+  <circle cx="340" cy="172" r="6" fill="#F59E0B"/>
+</svg>

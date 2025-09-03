@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Stepped E (bars/KPIs) -->
+  <rect x="128" y="136" width="256" height="32" rx="8" fill="#1160B1"/>
+  <rect x="128" y="240" width="200" height="32" rx="8" fill="#1160B1"/>
+  <rect x="128" y="344" width="144" height="32" rx="8" fill="#1160B1"/>
+  <!-- Ascending dot (insight accent) -->
+  <circle cx="352" cy="224" r="10" fill="#F59E0B"/>
+  <!-- Frame corner brace motif -->
+  <path d="M104 112h40v20h-20v20h-20zM368 112h40v40h-20v-20h-20zM104 360h20v20h20v20h-40zM388 360h20v40h-40v-20h20z"
+        fill="#23BFBF"/>
+</svg>

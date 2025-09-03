@@ -119,121 +119,237 @@ body {
     z-index: 1020;
 }
 
-/* Sidebar — fixed-in-place via sticky; keeps your glass + tokens */
+/* =========================
+   SIDEBAR (logo fixed, menu scrolls)
+   ========================= */
 .sidebar-full {
-    position: sticky; /* pin within the app shell */
+    /* Pin the whole sidebar within the viewport */
+    position: sticky;
     top: 0;
-    flex: 0 0 260px; /* match your desired width in the flex row */
+    z-index: 1020;
+    /* Sizing / layout */
+    flex: 0 0 260px;
     width: 260px;
     max-width: 260px;
     min-width: 220px;
-    height: 100vh; /* fill viewport height */
-    overflow-y: auto;
-    overflow-x: hidden;
-    /* Light/Dark theming */
+    height: 100dvh; /* use dynamic viewport height for mobile-safe 100% */
+    /* Make it a column: header (fixed) + scrollable nav */
+    display: flex;
+    flex-direction: column;
+    /* IMPORTANT: stop the entire sidebar from scrolling */
+    overflow: hidden;
+    /* Theme + glass */
     background-color: var(--bg-surface);
     color: var(--text-primary);
-    border-right: 1px solid var(--border-primary); /* was --border-color */
-    /* Glass look (use defined variables) */
-    background: var(--bg-surface); /* keep solid; if you want glass, swap to var(--glass-bg) */
+    border-right: 1px solid var(--border-primary);
     backdrop-filter: blur(var(--glass-blur));
     -webkit-backdrop-filter: blur(var(--glass-blur));
     box-shadow: var(--glass-shadow);
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE 10+ */
 }
 
-    .sidebar-full::-webkit-scrollbar {
-        display: none;
-    }
-/* Chrome/Safari/Edge */
-
-/* Heading */
+/* Sidebar header (logo area) stays pinned */
 .sidebar-heading {
-    color: var(--text-primary);
+    flex: 0 0 auto;
+    position: sticky;
+    top: 0;
+    z-index: 2; 
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border-primary);
 }
 
-/* Sidebar menu links */
-#sidebarMenu .nav-link {
-    position: relative;
-    border-radius: 16px;
-    padding: 10px 16px;
-    margin: 10px 0;
-    /* Glass tokenized */
-    background: var(--glass-bg); /* was rgba(var(--glass-bg-base), ...) */
-    border: 1px solid var(--glass-border); /* was rgba(var(--glass-border-base), ...) */
+    .sidebar-heading img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        /* Optional: constrain tall logos */
+        max-height: 600px;
+  
+    }
+
+/* Only the menu scrolls */
+#sidebarMenu {
+    flex: 1 1 auto;
+    min-height: 0; /* critical so flex child can shrink and allow scrolling */
+    overflow-y: auto; /* scrollable region */
+    overflow-x: hidden;
+    padding: 0.5rem 1rem 1rem;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    scrollbar-width: thin; /* Firefox */
+}
+
+    /* Optional: subtle top/bottom fades to hint overflow */
+    #sidebarMenu::before,
+    #sidebarMenu::after {
+        content: "";
+        position: sticky;
+        display: block;
+        height: 10px;
+        z-index: 1;
+    }
+
+    #sidebarMenu::before {
+        top: 0;
+        background: linear-gradient(to bottom, rgba(0,0,0,.06), transparent);
+    }
+
+    #sidebarMenu::after {
+        bottom: 0;
+        background: linear-gradient(to top, rgba(0,0,0,.06), transparent);
+    }
+
+    /* Hide WebKit scrollbars if you prefer a cleaner look */
+/* Keep logo fixed; only menu scrolls (already set) */
+.sidebar-full {
+    position: sticky;
+    top: 0;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* sidebar itself does NOT scroll */
+}
+
+/* Scrollable menu area */
+#sidebarMenu {
+    flex: 1 1 auto;
+    min-height: 0; /* lets the flex child actually scroll */
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0.5rem 1rem 1rem;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    /* HIDE SCROLLBARS (but keep scrolling) */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge legacy */
+}
+
+    /* WebKit (Chrome/Safari/Edge) */
+    #sidebarMenu::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+    }
+
+    #sidebarMenu::-webkit-scrollbar-thumb,
+    #sidebarMenu::-webkit-scrollbar-track {
+        background: transparent;
+        border: none;
+    }
+
+    /* Optional: fade hints so users know there’s more content */
+    #sidebarMenu::before,
+    #sidebarMenu::after {
+        content: "";
+        position: sticky;
+        display: block;
+        height: 10px;
+        z-index: 1;
+    }
+
+    #sidebarMenu::before {
+        top: 0;
+        background: linear-gradient(to bottom, rgba(0,0,0,.06), transparent);
+    }
+
+    #sidebarMenu::after {
+        bottom: 0;
+        background: linear-gradient(to top, rgba(0,0,0,.06), transparent);
+    }
+
+
+    /* =========================
+   LINK STYLES (hover/active + theme)
+   ========================= */
+    #sidebarMenu .nav-link {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 16px;
+        margin: 10px 0;
+        border-radius: 16px;
+        text-decoration: none;
+        cursor: pointer;
+        color: var(--text-secondary);
+        font-weight: 500;
+        font-size: 15px;
+        /* Glass tokens */
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        backdrop-filter: blur(var(--glass-blur));
+        -webkit-backdrop-filter: blur(var(--glass-blur));
+        box-shadow: 0 4px 10px rgba(0,0,0,.08), inset 1px 1px 3px rgba(255,255,255,.35), inset -1px -1px 2px rgba(0,0,0,.05);
+        transition: all .2s ease-in-out;
+    }
+
+        #sidebarMenu .nav-link i {
+            font-size: 18px;
+            color: var(--text-secondary);
+            transition: all .2s ease-in-out;
+        }
+
+        #sidebarMenu .nav-link:hover {
+            background: rgba(var(--primary-rgb), .06);
+            border-color: rgba(var(--primary-rgb), .20);
+            box-shadow: var(--glass-shadow), 0 0 8px rgba(255,255,255,.25) inset;
+            color: var(--primary-500);
+        }
+
+            #sidebarMenu .nav-link:hover i {
+                color: var(--primary-600);
+                filter: drop-shadow(0 0 4px rgba(0, 86, 179, .5));
+            }
+
+        /* Active / current route */
+        #sidebarMenu .nav-link.active,
+        #sidebarMenu .nav-link[aria-current="page"] {
+            color: var(--text-on-primary);
+            background: var(--primary-500);
+            border: 1px solid rgba(var(--primary-rgb), .25);
+            border-radius: 20px;
+            box-shadow: 0 6px 14px rgba(0,0,0,.14), inset 0 0 6px rgba(255,255,255,.24);
+        }
+
+            #sidebarMenu .nav-link.active i,
+            #sidebarMenu .nav-link[aria-current="page"] i {
+                color: var(--text-on-primary);
+            }
+
+            /* Left accent bar for the active item */
+            #sidebarMenu .nav-link.active::after,
+            #sidebarMenu .nav-link[aria-current="page"]::after {
+                content: "";
+                position: absolute;
+                left: -1px;
+                top: 8px;
+                bottom: 8px;
+                width: 4px;
+                border-radius: 4px;
+                background: linear-gradient(180deg, var(--primary-600), var(--secondary-500));
+                box-shadow: 0 0 0 2px rgba(255,255,255,.18) inset, 0 6px 12px rgba(0,0,0,.12);
+            }
+
+/* =========================
+   DARK MODE POLISH (inherits your tokens)
+   ========================= */
+[data-theme="dark"] .sidebar-full {
+    box-shadow: 0 12px 30px rgba(0,0,0,.4);
+}
+
+[data-theme="dark"] #sidebarMenu::before,
+[data-theme="dark"] #sidebarMenu::after {
+    background: none; /* fades look heavier on dark; disable or adjust */
+}
+
+
+footer {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
     backdrop-filter: blur(var(--glass-blur));
     -webkit-backdrop-filter: blur(var(--glass-blur));
-    box-shadow: 0 4px 10px rgba(0,0,0,.08), inset 1px 1px 3px rgba(255,255,255,.35), inset -1px -1px 2px rgba(0,0,0,.05);
-    transition: all .2s ease-in-out;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-    color: var(--text-secondary);
-    font-weight: 500;
-    font-size: 15px;
+    box-shadow: var(--glass-shadow);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1020;
 }
-
-    #sidebarMenu .nav-link:hover {
-        background: rgba(var(--primary-rgb), .06);
-        border-color: rgba(var(--primary-rgb), .20);
-        box-shadow: var(--glass-shadow), 0 0 8px rgba(255,255,255,.25) inset;
-        color: var(--primary-500);
-    }
-
-    #sidebarMenu .nav-link i {
-        transition: all .2s ease-in-out;
-        font-size: 18px;
-        color: var(--text-secondary);
-    }
-
-    #sidebarMenu .nav-link:hover i {
-        color: var(--primary-600);
-        filter: drop-shadow(0 0 4px rgba(0, 86, 179, .5));
-    }
-
-    /* Active item */
-    #sidebarMenu .nav-link.active {
-        color: var(--text-on-primary);
-        background: var(--primary-500);
-        border-radius: 20px;
-        padding: 10px 16px;
-        backdrop-filter: none;
-        box-shadow: 0 4px 10px rgba(0,0,0,.12), inset 0 0 5px rgba(255,255,255,.3);
-    }
-
-        #sidebarMenu .nav-link.active i {
-            color: var(--text-on-primary);
-        }
-
-    #sidebarMenu .nav-link.active,
-    #sidebarMenu .nav-link[aria-current="page"] {
-        color: var(--text-on-primary);
-        background: var(--primary-500);
-        border: 1px solid rgba(var(--primary-rgb), .25);
-        box-shadow: 0 6px 14px rgba(0,0,0,.14), inset 0 0 6px rgba(255,255,255,.24);
-    }
-
-        #sidebarMenu .nav-link.active i,
-        #sidebarMenu .nav-link[aria-current="page"] i {
-            color: var(--text-on-primary);
-        }
-
-        /* Left accent bar for active */
-        #sidebarMenu .nav-link.active::after,
-        #sidebarMenu .nav-link[aria-current="page"]::after {
-            content: "";
-            position: absolute;
-            left: -1px;
-            top: 8px;
-            bottom: 8px;
-            width: 4px;
-            border-radius: 4px;
-            background: linear-gradient(180deg, var(--primary-600), var(--secondary-500));
-            box-shadow: 0 0 0 2px rgba(255,255,255,.18) inset, 0 6px 12px rgba(0,0,0,.12);
-        }
 /* ==============================================
    LAYOUT: SIDEBAR + CONTENT (FIXES RIGHT GAP)
    ============================================== */

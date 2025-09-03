@@ -73,6 +73,32 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+const body = document.body;
+const logos = document.querySelectorAll('.sidebar-logo, #brandLogo');
+const toggle = document.getElementById('themeToggle');
+
+function applyLogo() {
+    const isDark = body.getAttribute('data-theme') === 'dark';
+    logos.forEach(img => {
+        if (!img) return;
+        const lightSrc = img.getAttribute('data-logo-light');
+        const darkSrc = img.getAttribute('data-logo-dark');
+        if (lightSrc && darkSrc) {
+            img.src = isDark ? darkSrc : lightSrc;
+        }
+        img.classList.toggle('logo-dark', isDark);
+        img.classList.toggle('logo-light', !isDark);
+    });
+}
+
+applyLogo();
+
+// React to theme changes (wherever they happen)
+new MutationObserver(applyLogo)
+    .observe(body, { attributes: true, attributeFilter: ['data-theme'] });
+
+// If you also flip the toggle directly
+if (toggle) toggle.addEventListener('change', applyLogo);
 // Add animation classes when elements come into view
 const observerOptions = {
     threshold: 0.1,
